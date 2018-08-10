@@ -9,6 +9,12 @@ export class LayersComponent implements OnInit {
 
   constructor() { }
 
+  layers = [
+    "Farm land",
+    "Home land",
+    "Work land"
+  ]
+
   ngOnInit() {
   }
 
