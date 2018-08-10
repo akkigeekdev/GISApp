@@ -7,3 +7,8 @@ body{
 .mat-expansion-panel {
     background-color: white;
 }
+
+.mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:not([aria-disabled=true]).cdk-keyboard-focused,
+.mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:not([aria-disabled=true]).cdk-program-focused{
+    background: white !important;
+}

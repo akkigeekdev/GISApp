@@ -54,60 +54,60 @@ export class MapComponent implements OnInit {
 
 
     // adding server layers 
-    layers.push(new LayerGroup({
-      layers: [
-        new Tile({
-          source: new TileWMS({
-            url: 'http://192.168.1.11:6600/geoserver/wms',
-            params: { 'LAYERS': 'Farming:farm' },
-            serverType: 'geoserver',
-            isBaseLayer: false,
-            crossOrigin: 'anonymous'
-          }),
-          opacity: 0.5
+    // layers.push(new LayerGroup({
+    //   layers: [
+    //     new Tile({
+    //       source: new TileWMS({
+    //         url: 'http://192.168.1.11:6600/geoserver/wms',
+    //         params: { 'LAYERS': 'Farming:farm' },
+    //         serverType: 'geoserver',
+    //         isBaseLayer: false,
+    //         crossOrigin: 'anonymous'
+    //       }),
+    //       opacity: 0.5
 
-        }),
-        new Tile({
-          source: new TileWMS({
-            url: 'http://192.168.1.11:6600/geoserver/wms',
-            params: { 'LAYERS': 'Farming:plotdata' },
-            serverType: 'geoserver',
-            isBaseLayer: false,
-            crossOrigin: 'anonymous'
-          }),
-          opacity: 0.5
-        }),
-        new Tile({
-          source: new TileWMS({
-            url: 'http://192.168.1.11:6600/geoserver/wms',
-            params: { 'LAYERS': 'Farming:waterpipeline' },
-            serverType: 'geoserver',
-            isBaseLayer: false,
-            crossOrigin: 'anonymous'
-          }),
-          opacity: 0.5
-        }),
-        new Tile({
-          source: new TileWMS({
-            url: 'http://192.168.1.11:6600/geoserver/wms',
-            params: { 'LAYERS': 'Farming:irigationpoint' },
-            serverType: 'geoserver',
-            isBaseLayer: false,
-            crossOrigin: 'anonymous'
-          })
-        }),
-        new Tile({
-          source: new TileWMS({
-            url: 'http://192.168.1.11:6600/geoserver/wms',
-            params: { 'LAYERS': 'Farming:waterpumpcontroller' },
-            serverType: 'geoserver',
-            isBaseLayer: false,
-            crossOrigin: 'anonymous'
-          }),
-          opacity: 0.5
-        })
-      ]
-    }));
+    //     }),
+    //     new Tile({
+    //       source: new TileWMS({
+    //         url: 'http://192.168.1.11:6600/geoserver/wms',
+    //         params: { 'LAYERS': 'Farming:plotdata' },
+    //         serverType: 'geoserver',
+    //         isBaseLayer: false,
+    //         crossOrigin: 'anonymous'
+    //       }),
+    //       opacity: 0.5
+    //     }),
+    //     new Tile({
+    //       source: new TileWMS({
+    //         url: 'http://192.168.1.11:6600/geoserver/wms',
+    //         params: { 'LAYERS': 'Farming:waterpipeline' },
+    //         serverType: 'geoserver',
+    //         isBaseLayer: false,
+    //         crossOrigin: 'anonymous'
+    //       }),
+    //       opacity: 0.5
+    //     }),
+    //     new Tile({
+    //       source: new TileWMS({
+    //         url: 'http://192.168.1.11:6600/geoserver/wms',
+    //         params: { 'LAYERS': 'Farming:irigationpoint' },
+    //         serverType: 'geoserver',
+    //         isBaseLayer: false,
+    //         crossOrigin: 'anonymous'
+    //       })
+    //     }),
+    //     new Tile({
+    //       source: new TileWMS({
+    //         url: 'http://192.168.1.11:6600/geoserver/wms',
+    //         params: { 'LAYERS': 'Farming:waterpumpcontroller' },
+    //         serverType: 'geoserver',
+    //         isBaseLayer: false,
+    //         crossOrigin: 'anonymous'
+    //       }),
+    //       opacity: 0.5
+    //     })
+    //   ]
+    // }));
 
 
 

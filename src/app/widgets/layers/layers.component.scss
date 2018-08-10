@@ -1,3 +1,9 @@
 .list{
     padding-top:10px;
+    position: relative;
+    > .mat-icon-button{
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
 }
