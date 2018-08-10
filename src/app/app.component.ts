@@ -6,5 +6,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'GISApp';
+
+  drawerOpenStatus:boolean = true;
+
+  toggleDrawer():void{
+    this.drawerOpenStatus = !this.drawerOpenStatus;
+  }
+
 }
