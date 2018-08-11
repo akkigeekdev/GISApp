@@ -1,0 +1,22 @@
+<mat-expansion-panel [expanded]="true">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      Bookmarks
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+
+  <mat-form-field class="example-chip-list">
+    <mat-chip-list #bookmarkList >
+      <mat-chip *ngFor="let b of bookmarks" [selectable]="selectable" (click)="chipClicked(b.extent)" [removable]="removable" (removed)="remove(b)" (MatChipSelectionChange)="ch()">
+        {{b.name}}
+        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+      </mat-chip>
+      <input placeholder="Type name and press enter"
+             [matChipInputFor]="bookmarkList"
+             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+             [matChipInputAddOnBlur]="addOnBlur"
+             (matChipInputTokenEnd)="add($event)">
+    </mat-chip-list>
+  </mat-form-field>
+  
+</mat-expansion-panel>
