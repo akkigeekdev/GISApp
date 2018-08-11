@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {Globals} from '../../globals'
+import LayerGroup from 'ol/layer/group';
 
 @Component({
   selector: 'app-layers',
@@ -7,15 +9,54 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LayersComponent implements OnInit {
 
-  constructor() { }
+  map:any;
+  
+  constructor(private globals :Globals) { this.map = this.globals.map}
 
-  layers = [
-    "Farm land",
-    "Home land",
-    "Work land"
-  ]
+  layers = [ ];
 
-  ngOnInit() {
+  checkboxall = true;
+
+  ngOnInit(){ }
+  
+  ngAfterViewInit() {
+
+    let layers = this.map.getLayers().getArray();
+
+    for (let i = 0; i < layers.length; i++) {
+      const layer = layers[i];
+
+      let id = layer.get('id');
+
+      if(id){
+        this.layers.push( {name:layer.get('title'), id: id, selected:true} )
+      }
+
+    }
+
+    // .reduce((a, l)=>{
+    //   if (l instanceof LayerGroup) l.getLayers().forEach( c => a.push(c));
+    //   return a;
+    // }, [])
+    
   }
 
+  chkselectAll_changed():void{
+    this.layers.forEach(a=> {a.selected = this.checkboxall});
+    this.map.getLayers().getArray().forEach(l=> { 
+      if(l.get('id')){
+        l.setVisible(this.checkboxall) 
+      }
+    })
+  }
+
+  chkLayer_changed():void{
+    this.checkboxall = this.layers.every(a=> a.selected == true);
+    // this.checkboxall = this.layers.some(a=> a.selected == false) ? this.checkboxall=false: this.checkboxall=true;
+    // this.map.getLayers().getArray().forEach(l=> { 
+    //   if(l.get('id')){
+    //     l.setVisible(this.checkboxall) 
+    //   }
+    // })
+  }
 }

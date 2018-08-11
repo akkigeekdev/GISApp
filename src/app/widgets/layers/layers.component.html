@@ -1,20 +1,24 @@
-<mat-expansion-panel>
+<mat-expansion-panel [expanded]="true" >
   <mat-expansion-panel-header>
     <mat-panel-title>
       Layers
     </mat-panel-title>
   </mat-expansion-panel-header>
   
-  <!-- <div class="list" *ngFor="let layer of layers" >  -->
-  <div class="list" *ngFor="let layer of layers"> 
-    <mat-checkbox>{{layer}}</mat-checkbox> 
+  <div class="list"> 
+    <mat-checkbox [(ngModel)]="checkboxall" (change)="chkselectAll_changed()">Select All</mat-checkbox> 
+    <mat-divider></mat-divider>
+  </div>
+
+  <div class="list" *ngFor="let layer of layers; let i = index"> 
+    <mat-checkbox [(ngModel)]="layer.selected" (change)="chkLayer_changed()">{{layer.name}}</mat-checkbox> 
     <button mat-icon-button [matMenuTriggerFor]="menu">
       <mat-icon>more_vert</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
       <button mat-menu-item>
         <mat-icon>dialpad</mat-icon>
-        <span>{{layer}}</span>
+        <span>{{layer.name}}</span>
       </button>
       <button mat-menu-item disabled>
         <mat-icon>voicemail</mat-icon>
@@ -25,5 +29,7 @@
         <span>Disable alerts</span>
       </button>
     </mat-menu>
+    <mat-divider *ngIf="i != (layers.length-1)"></mat-divider>
   </div>
+
 </mat-expansion-panel>

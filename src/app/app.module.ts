@@ -1,12 +1,16 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
-import { AppComponent } from './app.component';
-
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { MapComponent } from './map/map.component';
+
+// components
+import { AppComponent } from './app.component';
 import { LayersComponent } from './widgets/layers/layers.component';
 import { MeasureComponent } from './widgets/measure/measure.component';
+
+// services
+import { Globals } from './globals';
+import { WidgetService } from './widget.service'
+
 
 import { 
   MatSidenavModule, 
@@ -15,21 +19,23 @@ import {
   MatFormFieldModule,
   MatMenuModule,
   MatIconModule,
-  MatButtonModule
+  MatButtonModule,
+  MatDividerModule
 } from '@angular/material';
 
 import {
   FormsModule,
   ReactiveFormsModule
-} from '@angular/forms'
+} from '@angular/forms';
+import { WidgetDirective } from './widget.directive'
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    MapComponent,
     LayersComponent,
-    MeasureComponent
+    MeasureComponent,
+    WidgetDirective
   ],
   imports: [
     BrowserModule,
@@ -42,9 +48,14 @@ import {
     MatFormFieldModule,
     MatMenuModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    MatDividerModule
   ],
-  providers: [],
+  entryComponents: [  
+    LayersComponent,
+    MeasureComponent 
+  ],
+  providers: [Globals, WidgetService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
