@@ -58,95 +58,96 @@ export class AppComponent {
 
   addLayers(){
 
-    let promises = [];
-    let layers = [
-      {
-        sourceinfo: {
-          url: 'http://192.168.1.11:6600/geoserver/wms',
-          params: { 'LAYERS': 'Farming:farm' },
-          serverType: 'geoserver',
-          isBaseLayer: false,
-          crossOrigin: 'anonymous'
-        },
-        title: "Farm",
-        id: 1
-      },
-      {
-        sourceinfo: {
-          url: 'http://192.168.1.11:6600/geoserver/wms',
-          params: { 'LAYERS': 'Farming:plotdata' },
-          serverType: 'geoserver',
-          isBaseLayer: false,
-          crossOrigin: 'anonymous'
-        },
-        title: "Plot",
-        id: 2
-      },
-      {
-        sourceinfo: {
-          url: 'http://192.168.1.11:6600/geoserver/wms',
-          params: { 'LAYERS': 'Farming:waterpipeline' },
-          serverType: 'geoserver',
-          isBaseLayer: false,
-          crossOrigin: 'anonymous'
-        },
-        title: "Water Pipeline",
-        id: 3
-      },
-      {
-        sourceinfo: {
-          url: 'http://192.168.1.11:6600/geoserver/wms',
-          params: { 'LAYERS': 'Farming:irigationpoint' },
-          serverType: 'geoserver',
-          isBaseLayer: false,
-          crossOrigin: 'anonymous'
-        },
-        title: "Irigation Point",
-        id: 4
-      },
-      {
-        sourceinfo: {
-          url: 'http://192.168.1.11:6600/geoserver/wms',
-          params: { 'LAYERS': 'Farming:waterpumpcontroller' },
-          serverType: 'geoserver',
-          isBaseLayer: false,
-          crossOrigin: 'anonymous'
-        },
-        title: "Water Pump Controller",
-        id: 5
-      }
-    ]
+    // let promises = [];
+    // let layers = [
+    //   {
+    //     sourceinfo: {
+    //       url: 'http://192.168.1.11:6600/geoserver/wms',
+    //       params: { 'LAYERS': 'Farming:farm' },
+    //       serverType: 'geoserver',
+    //       isBaseLayer: false,
+    //       crossOrigin: 'anonymous'
+    //     },
+    //     title: "Farm",
+    //     id: 1
+    //   },
+    //   {
+    //     sourceinfo: {
+    //       url: 'http://192.168.1.11:6600/geoserver/wms',
+    //       params: { 'LAYERS': 'Farming:plotdata' },
+    //       serverType: 'geoserver',
+    //       isBaseLayer: false,
+    //       crossOrigin: 'anonymous'
+    //     },
+    //     title: "Plot",
+    //     id: 2
+    //   },
+    //   {
+    //     sourceinfo: {
+    //       url: 'http://192.168.1.11:6600/geoserver/wms',
+    //       params: { 'LAYERS': 'Farming:waterpipeline' },
+    //       serverType: 'geoserver',
+    //       isBaseLayer: false,
+    //       crossOrigin: 'anonymous'
+    //     },
+    //     title: "Water Pipeline",
+    //     id: 3
+    //   },
+    //   {
+    //     sourceinfo: {
+    //       url: 'http://192.168.1.11:6600/geoserver/wms',
+    //       params: { 'LAYERS': 'Farming:irigationpoint' },
+    //       serverType: 'geoserver',
+    //       isBaseLayer: false,
+    //       crossOrigin: 'anonymous'
+    //     },
+    //     title: "Irigation Point",
+    //     id: 4
+    //   },
+    //   {
+    //     sourceinfo: {
+    //       url: 'http://192.168.1.11:6600/geoserver/wms',
+    //       params: { 'LAYERS': 'Farming:waterpumpcontroller' },
+    //       serverType: 'geoserver',
+    //       isBaseLayer: false,
+    //       crossOrigin: 'anonymous'
+    //     },
+    //     title: "Water Pump Controller",
+    //     id: 5
+    //   }
+    // ]
 
-    // convert to tile layers
-    let tilelayers = layers.map(l=>{
-      return new Tile({
-        source: new TileWMS(l.sourceinfo),
-        title: l.title,
-        id: l.id
-      });
-    });
+    // // convert to tile layers
+    // let tilelayers = layers.map(l=>{
+    //   return new Tile({
+    //     source: new TileWMS(l.sourceinfo),
+    //     title: l.title,
+    //     id: l.id
+    //   });
+    // });
 
-    // create layer grp
-    // new LayerGroup({ layers: tilelayers })
+    // // create layer grp
+    // // new LayerGroup({ layers: tilelayers })
 
-    for (let i = 0; i < tilelayers.length; i++) {
-      const tlayer = tilelayers[i];
-      this.map.addLayer(tlayer);
+    // for (let i = 0; i < tilelayers.length; i++) {
+    //   const tlayer = tilelayers[i];
+    //   this.map.addLayer(tlayer);
 
-      let source = tilelayers[i].getSource()
-      let promise = new Promise((resolve,reject)=>{ 
-        source.on("tileloadend", function(){
-          resolve();
-        });
-        source.on('tileloaderror', function() {
-          reject();
-        });
-      });
+    //   let source = tilelayers[i].getSource()
+    //   let promise = new Promise((resolve,reject)=>{ 
+    //     source.on("tileloadend", function(){
+    //       resolve();
+    //     });
+    //     source.on('tileloaderror', function() {
+    //       reject();
+    //     });
+    //   });
 
-      promises.push(promise);
-    }
+    //   promises.push(promise);
+    // }
 
-    Promise.all(promises).then( this.loadWidgets.bind(this) );
+    // Promise.all(promises).then( this.loadWidgets.bind(this) );
+    this.loadWidgets()
   }
 
 
@@ -163,7 +164,7 @@ export class AppComponent {
 
   loadWidgets():void{
 
-    debugger;
+  
 
     for (let i = 0; i < this.widgets.length; i++) {
       const widgetItem = this.widgets[i];

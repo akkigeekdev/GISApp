@@ -20,14 +20,17 @@ import {
   MatMenuModule,
   MatIconModule,
   MatButtonModule,
-  MatDividerModule
+  MatDividerModule,
+  MatChipsModule,
+  MatDialogModule
 } from '@angular/material';
 
 import {
   FormsModule,
   ReactiveFormsModule
 } from '@angular/forms';
-import { WidgetDirective } from './widget.directive'
+import { WidgetDirective } from './widget.directive';
+import { BookmarkComponent } from './widgets/bookmark/bookmark.component'
 
 
 @NgModule({
@@ -35,7 +38,8 @@ import { WidgetDirective } from './widget.directive'
     AppComponent,
     LayersComponent,
     MeasureComponent,
-    WidgetDirective
+    WidgetDirective,
+    BookmarkComponent
   ],
   imports: [
     BrowserModule,
@@ -49,11 +53,14 @@ import { WidgetDirective } from './widget.directive'
     MatMenuModule,
     MatIconModule,
     MatButtonModule,
-    MatDividerModule
+    MatDividerModule,
+    MatChipsModule,
+    MatDialogModule
   ],
   entryComponents: [  
     LayersComponent,
-    MeasureComponent 
+    MeasureComponent,
+    BookmarkComponent
   ],
   providers: [Globals, WidgetService],
   bootstrap: [AppComponent]
