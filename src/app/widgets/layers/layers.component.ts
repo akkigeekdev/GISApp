@@ -50,13 +50,15 @@ export class LayersComponent implements OnInit {
     })
   }
 
-  chkLayer_changed():void{
+  chkLayer_changed(e):void{
+
+    debugger;
     this.checkboxall = this.layers.every(a=> a.selected == true);
-    // this.checkboxall = this.layers.some(a=> a.selected == false) ? this.checkboxall=false: this.checkboxall=true;
-    // this.map.getLayers().getArray().forEach(l=> { 
-    //   if(l.get('id')){
-    //     l.setVisible(this.checkboxall) 
-    //   }
-    // })
+
+    this.map.getLayers().getArray().forEach(l=> { 
+      if(l.get('title')== e.source.name){
+        l.setVisible( this.layers.find(a=> a.name == e.source.name).selected ) 
+      }
+    })
   }
 }
