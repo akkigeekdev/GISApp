@@ -65,6 +65,7 @@ export class BookmarkComponent implements OnInit {
 
     if (index >= 0) {
       this.bookmarks.splice(index, 1);
+      localStorage.setItem("bookmarks", JSON.stringify(this.bookmarks));
     }
   }
 
