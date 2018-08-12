@@ -1,15 +1,13 @@
-import { Component, ViewChild, ComponentFactoryResolver } from '@angular/core';
-import View from 'ol/view';
-import Map from 'ol/map';
-import proj from 'ol/proj';
-import TileLayer from 'ol/layer/Tile'
-import OSM from 'ol/source/OSM';
-import Tile from 'ol/layer/tile';
-import TileWMS from 'ol/source/tilewms';
-import LayerGroup from 'ol/layer/group';
+import { Component, ViewChild, ComponentFactoryResolver } from '@angular/core'
+import View from 'ol/view'
+import Map from 'ol/map'
+import proj from 'ol/proj'
+import OSM from 'ol/source/OSM'
+import Tile from 'ol/layer/tile'
+import ScaleLine from 'ol/control/scaleline';
+import TileWMS from 'ol/source/tilewms'
 import {Globals} from './globals'
-
-import { WidgetService } from './widget.service';
+import { WidgetService } from './widget.service'
 import { WidgetDirective } from './widget.directive'
 
 @Component({
@@ -24,6 +22,7 @@ export class AppComponent {
   map:any;
   drawerOpenStatus:boolean = true;
   widgets = [];
+  scaleLineControl = new ScaleLine();
 
   constructor(
     private globals:Globals,
@@ -40,6 +39,13 @@ export class AppComponent {
   ngAfterViewInit() {
     this.map = new Map({
       target: 'map',
+      // controls: defaultControls({
+      //   attributionOptions: {
+      //     collapsible: false
+      //   }
+      // }).extend([
+      //   this.scaleLineControl
+      // ]),
       layers: [
         new Tile({ source: new OSM() })
       ],
@@ -163,9 +169,6 @@ export class AppComponent {
   // }
 
   loadWidgets():void{
-
-  
-
     for (let i = 0; i < this.widgets.length; i++) {
       const widgetItem = this.widgets[i];
       let componentFactory = this.componentFactoryResolver.resolveComponentFactory(widgetItem.component);
