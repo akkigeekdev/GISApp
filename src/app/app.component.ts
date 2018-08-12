@@ -4,7 +4,6 @@ import Map from 'ol/map'
 import proj from 'ol/proj'
 import OSM from 'ol/source/OSM'
 import Tile from 'ol/layer/tile'
-import ScaleLine from 'ol/control/scaleline';
 import TileWMS from 'ol/source/tilewms'
 import {Globals} from './globals'
 import { WidgetService } from './widget.service'
@@ -22,7 +21,6 @@ export class AppComponent {
   map:any;
   drawerOpenStatus:boolean = true;
   widgets = [];
-  scaleLineControl = new ScaleLine();
 
   constructor(
     private globals:Globals,
@@ -39,13 +37,6 @@ export class AppComponent {
   ngAfterViewInit() {
     this.map = new Map({
       target: 'map',
-      // controls: defaultControls({
-      //   attributionOptions: {
-      //     collapsible: false
-      //   }
-      // }).extend([
-      //   this.scaleLineControl
-      // ]),
       layers: [
         new Tile({ source: new OSM() })
       ],
