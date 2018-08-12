@@ -7,7 +7,7 @@
 
   <mat-form-field class="example-chip-list">
     <mat-chip-list #bookmarkList >
-      <mat-chip *ngFor="let b of bookmarks" [selectable]="selectable" (click)="chipClicked(b.extent)" [removable]="removable" (removed)="remove(b)" (MatChipSelectionChange)="ch()">
+      <mat-chip *ngFor="let b of bookmarks" [selectable]="selectable" (click)="chipClicked(b.extent)" [removable]="removable" (removed)="remove(b)" >
         {{b.name}}
         <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
       </mat-chip>

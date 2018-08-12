@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {MatChipInputEvent} from '@angular/material';
+import {MatChipInputEvent, MatChipSelectionChange} from '@angular/material';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import { Globals } from "../../globals";
 
