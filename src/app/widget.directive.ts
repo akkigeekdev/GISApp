@@ -4,7 +4,5 @@ import { Directive, ViewContainerRef } from '@angular/core';
   selector: '[appWidget]'
 })
 export class WidgetDirective {
-
   constructor(public viewContainerRef: ViewContainerRef) { }
-
 }

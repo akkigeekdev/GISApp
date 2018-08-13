@@ -5,7 +5,6 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 // components
 import { AppComponent } from './app.component';
 import { LayersComponent } from './widgets/layers/layers.component';
-import { MeasureComponent } from './widgets/measure/measure.component';
 import { BookmarkComponent } from './widgets/bookmark/bookmark.component';
 import { BasemapsComponent } from './widgets/basemaps/basemaps.component';
 
@@ -38,7 +37,6 @@ import {
   declarations: [
     AppComponent,
     LayersComponent,
-    MeasureComponent,
     WidgetDirective,
     BookmarkComponent,
     BasemapsComponent
@@ -61,7 +59,6 @@ import {
   ],
   entryComponents: [  
     LayersComponent,
-    MeasureComponent,
     BookmarkComponent,
     BasemapsComponent
   ],

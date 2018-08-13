@@ -8,7 +8,7 @@ import TileWMS from 'ol/source/tilewms'
 import {Globals} from './globals'
 import { WidgetService } from './widget.service'
 import { WidgetDirective } from './widget.directive'
-import {defaults as defaultControls, ScaleLine} from 'ol/control.js';
+import {defaults as defaultControls, ScaleLine, FullScreen} from 'ol/control.js';
 
 @Component({
   selector: 'app-root',
@@ -42,12 +42,9 @@ export class AppComponent {
     
     this.map = new Map({
       target: 'map',
-      controls: defaultControls({
-        attributionOptions: {
-          collapsible: false
-        }
-      }).extend([
-        this.scaleLineControl
+      controls: defaultControls({attribution: false}).extend([
+        this.scaleLineControl,
+        new FullScreen()
       ]),
       layers: [
         new Tile({ source: new OSM(), title: "Basemap", id:"b_1" })
