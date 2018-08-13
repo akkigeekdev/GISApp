@@ -6,12 +6,15 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { LayersComponent } from './widgets/layers/layers.component';
 import { MeasureComponent } from './widgets/measure/measure.component';
+import { BookmarkComponent } from './widgets/bookmark/bookmark.component';
+import { BasemapsComponent } from './widgets/basemaps/basemaps.component';
 
 // services
 import { Globals } from './globals';
-import { WidgetService } from './widget.service'
+import { WidgetService } from './widget.service';
+import { WidgetDirective } from './widget.directive';
 
-
+// Material components
 import { 
   MatSidenavModule, 
   MatExpansionModule, 
@@ -29,8 +32,6 @@ import {
   FormsModule,
   ReactiveFormsModule
 } from '@angular/forms';
-import { WidgetDirective } from './widget.directive';
-import { BookmarkComponent } from './widgets/bookmark/bookmark.component'
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { BookmarkComponent } from './widgets/bookmark/bookmark.component'
     LayersComponent,
     MeasureComponent,
     WidgetDirective,
-    BookmarkComponent
+    BookmarkComponent,
+    BasemapsComponent
   ],
   imports: [
     BrowserModule,
@@ -60,7 +62,8 @@ import { BookmarkComponent } from './widgets/bookmark/bookmark.component'
   entryComponents: [  
     LayersComponent,
     MeasureComponent,
-    BookmarkComponent
+    BookmarkComponent,
+    BasemapsComponent
   ],
   providers: [Globals, WidgetService],
   bootstrap: [AppComponent]
