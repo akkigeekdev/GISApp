@@ -1,0 +1,18 @@
+<mat-expansion-panel [expanded]="true">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      Basemaps
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+
+
+  <div class="container">
+    <div class="layer" *ngFor="let l of baselayers; let i = index">
+      <img src="assets/images/{{l.img}}" alt="" [class.selected]="l.selected" (click)="setBaseMap(i)">
+      <div class="title">{{l.name}}</div>
+    </div>
+  </div>
+
+  
+
+</mat-expansion-panel>

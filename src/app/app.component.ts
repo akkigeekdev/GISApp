@@ -1,13 +1,14 @@
 import { Component, ViewChild, ComponentFactoryResolver } from '@angular/core'
 import View from 'ol/view'
 import Map from 'ol/map'
-import proj from 'ol/proj'
+import {transform} from 'ol/proj'
 import OSM from 'ol/source/OSM'
 import Tile from 'ol/layer/tile'
 import TileWMS from 'ol/source/tilewms'
 import {Globals} from './globals'
 import { WidgetService } from './widget.service'
 import { WidgetDirective } from './widget.directive'
+import {defaults as defaultControls, ScaleLine} from 'ol/control.js';
 
 @Component({
   selector: 'app-root',
@@ -22,6 +23,8 @@ export class AppComponent {
   drawerOpenStatus:boolean = true;
   widgets = [];
 
+  scaleLineControl = new ScaleLine();
+  
   constructor(
     private globals:Globals,
     private widgetservice: WidgetService,
@@ -35,13 +38,22 @@ export class AppComponent {
   }
 
   ngAfterViewInit() {
+    this.scaleLineControl.setUnits("metric");
+    
     this.map = new Map({
       target: 'map',
+      controls: defaultControls({
+        attributionOptions: {
+          collapsible: false
+        }
+      }).extend([
+        this.scaleLineControl
+      ]),
       layers: [
-        new Tile({ source: new OSM() })
+        new Tile({ source: new OSM(), title: "Basemap", id:"b_1" })
       ],
       view: new View({
-        center: proj.transform(
+        center: transform(
           [72.821807, 18.974611], 'EPSG:4326', 'EPSG:3857'),
         zoom: 5,
         minZoom: 4,
@@ -50,7 +62,7 @@ export class AppComponent {
     });
     this.globals.map = this.map;
     
-    this.addLayers();
+    this.loadWidgets()
   }
 
   addLayers(){
@@ -144,20 +156,8 @@ export class AppComponent {
     // }
 
     // Promise.all(promises).then( this.loadWidgets.bind(this) );
-    this.loadWidgets()
+    // this.loadWidgets()
   }
-
-
-
-  // public setVisibilityWMSLayer(layerId) {
-  //   let allWMSLAyers = this.getAllWMsLayers();
-  //   allWMSLAyers.forEach(function (layer) {
-  //     if (layer.get('id') === layerId) {
-  //       layer.setVisible(layer.getVisible() ? false : true);
-  //     }
-
-  //   });
-  // }
 
   loadWidgets():void{
     for (let i = 0; i < this.widgets.length; i++) {
@@ -167,7 +167,6 @@ export class AppComponent {
       try {
         viewContainerRef.createComponent(componentFactory);
       } catch (error) {
-        
       }
     }
     
