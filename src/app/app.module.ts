@@ -4,9 +4,10 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 // components
 import { AppComponent } from './app.component';
-import { LayersComponent } from './widgets/layers/layers.component';
 import { BookmarkComponent } from './widgets/bookmark/bookmark.component';
 import { BasemapsComponent } from './widgets/basemaps/basemaps.component';
+import { LayersComponent } from './widgets/layers/layers.component';
+import { QueryComponent } from './widgets/query/query.component';
 
 // services
 import { Globals } from './globals';
@@ -24,7 +25,9 @@ import {
   MatButtonModule,
   MatDividerModule,
   MatChipsModule,
-  MatDialogModule
+  MatDialogModule,
+  MatSelectModule,
+  MatInputModule
 } from '@angular/material';
 
 import {
@@ -33,13 +36,15 @@ import {
 } from '@angular/forms';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
     LayersComponent,
     WidgetDirective,
     BookmarkComponent,
-    BasemapsComponent
+    BasemapsComponent,
+    QueryComponent
   ],
   imports: [
     BrowserModule,
@@ -55,12 +60,15 @@ import {
     MatButtonModule,
     MatDividerModule,
     MatChipsModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSelectModule,
+    MatInputModule
   ],
   entryComponents: [  
-    LayersComponent,
     BookmarkComponent,
-    BasemapsComponent
+    BasemapsComponent,
+    LayersComponent,
+    QueryComponent
   ],
   providers: [Globals, WidgetService],
   bootstrap: [AppComponent]
