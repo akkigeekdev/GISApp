@@ -6,6 +6,10 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 Links below are used to collect all basemaps
 http://leaflet-extras.github.io/leaflet-providers/preview/index.html
 
+## Request layer legend
+http://localhost:6600/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=50&HEIGHT=50&LAYER=PrecesionFarming:watersupply&legend_options=fontName:Times New Roman&bgColor=0xff12ff&fontColor=0x000033&dpi=180
+
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.

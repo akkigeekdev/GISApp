@@ -13,6 +13,8 @@ import { QueryComponent } from './widgets/query/query.component';
 import { Globals } from './globals';
 import { WidgetService } from './widget.service';
 import { WidgetDirective } from './widget.directive';
+import { LegendsService } from "./legends.service";
+import { HttpClientModule } from "@angular/common/http";
 
 // Material components
 import { 
@@ -62,7 +64,9 @@ import {
     MatChipsModule,
     MatDialogModule,
     MatSelectModule,
-    MatInputModule
+    MatInputModule,
+
+    HttpClientModule
   ],
   entryComponents: [  
     BookmarkComponent,
@@ -70,7 +74,7 @@ import {
     LayersComponent,
     QueryComponent
   ],
-  providers: [Globals, WidgetService],
+  providers: [Globals, WidgetService, LegendsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

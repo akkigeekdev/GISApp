@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import {Globals} from '../../globals'
+import { LegendsService } from "../../legends.service";
 
 @Component({
   selector: 'app-layers',
@@ -7,7 +8,13 @@ import {Globals} from '../../globals'
   styleUrls: ['./layers.component.scss']
 })
 export class LayersComponent implements OnInit {
-  constructor(private globals :Globals) { this.map = this.globals.map}
+
+  constructor(
+    private globals :Globals,
+    private legendsService:LegendsService
+  ) { 
+    this.map = this.globals.map
+  }
 
   map:any;
   layers = [ ];
@@ -21,7 +28,14 @@ export class LayersComponent implements OnInit {
       const layer = layers[i];
       let id = layer.get('id');
       if(id){
-        this.layers.push( {name:layer.get('title'), id: id, selected:true} )
+        
+        this.legendsService.getLegend("PrecesionFarming:watersupply").subscribe(
+          (response) => console.log(response), 
+          (error) => console.log(error), 
+          () => console.log("complt")
+        )
+
+        this.layers.push( { name:layer.get('title'), id: id, legend: "", selected:true} );
       }
     }
   }
@@ -43,4 +57,6 @@ export class LayersComponent implements OnInit {
       }
     })
   }
+
+
 }
