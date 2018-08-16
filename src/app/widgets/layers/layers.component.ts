@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core'
 import {Globals} from '../../globals'
-import { LegendsService } from "../../legends.service";
 
 @Component({
   selector: 'app-layers',
@@ -10,8 +9,7 @@ import { LegendsService } from "../../legends.service";
 export class LayersComponent implements OnInit {
 
   constructor(
-    private globals :Globals,
-    private legendsService:LegendsService
+    private globals :Globals
   ) { 
     this.map = this.globals.map
   }
@@ -28,14 +26,13 @@ export class LayersComponent implements OnInit {
       const layer = layers[i];
       let id = layer.get('id');
       if(id){
-        
-        this.legendsService.getLegend("PrecesionFarming:watersupply").subscribe(
-          (response) => console.log(response), 
-          (error) => console.log(error), 
-          () => console.log("complt")
-        )
 
-        this.layers.push( { name:layer.get('title'), id: id, legend: "", selected:true} );
+        let img;
+        if(layer.getSource().getParams){
+          img = this.getLegend(layer.getSource().getParams().LAYERS) ;
+        }
+        debugger;
+        this.layers.push( { name:layer.get('title'), id: id, legend: img, selected:true} );
       }
     }
   }
@@ -58,5 +55,10 @@ export class LayersComponent implements OnInit {
     })
   }
 
+  getLegend(name:string): string{
+    // name = name.replace("PrecesionFarming:","")
+    return "http://192.168.1.11:6600/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=50&HEIGHT=50&LAYER="+name+"&legend_options=fontName:Times%20New%20Roman&bgColor=0xff12ff&fontColor=0x000033&dpi=180"
+    
+  }
 
 }

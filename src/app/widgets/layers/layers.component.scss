@@ -1,12 +1,16 @@
 .list{
     padding-top:10px;
     position: relative;
-    > .mat-icon-button{
+    & > .mat-icon-button{
         position: absolute;
         top: 0;
         right: 0;
     }
-    > .mat-divider{
+    & > .mat-divider{
         margin-top: 10px;
+    }
+    img{
+        vertical-align: middle;
+        width: 25px;
     }
 }

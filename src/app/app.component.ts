@@ -9,6 +9,7 @@ import {Globals} from './globals'
 import { WidgetService } from './widget.service'
 import { WidgetDirective } from './widget.directive'
 import {defaults as defaultControls, ScaleLine, FullScreen} from 'ol/control.js';
+import { HttpClient } from "@angular/common/http";
 
 @Component({
   selector: 'app-root',
@@ -20,7 +21,7 @@ export class AppComponent {
   @ViewChild(WidgetDirective) appWidget: WidgetDirective;
 
   map:any;
-  drawerOpenStatus:boolean = true;
+  drawerOpenStatus:boolean = false;
   widgets = [];
 
   scaleLineControl = new ScaleLine();
@@ -28,7 +29,8 @@ export class AppComponent {
   constructor(
     private globals:Globals,
     private widgetservice: WidgetService,
-    private componentFactoryResolver:ComponentFactoryResolver
+    private componentFactoryResolver:ComponentFactoryResolver,
+    private http: HttpClient
   ){
     this.widgets = this.widgetservice.getWidgets();
   }
@@ -47,14 +49,18 @@ export class AppComponent {
         new FullScreen()
       ]),
       layers: [
-        new Tile({ source: new OSM(), title: "Basemap", id:"b_1" })
+        new Tile({ source: new OSM(), title: "Basemap", id:"0" })
       ],
       view: new View({
         center: transform(
-          [72.821807, 18.974611], 'EPSG:4326', 'EPSG:3857'),
-        zoom: 5,
-        minZoom: 4,
-        maxZoom: 25
+          [73.999070, 17.617549], 'EPSG:4326', 'EPSG:3857'),
+          // [72.821807, 18.974611], 'EPSG:4326', 'EPSG:3857'),
+          zoom: 18,
+          minZoom: 4,
+          maxZoom: 20
+        // zoom: 5,
+        // minZoom: 4,
+        // maxZoom: 25
       })
     });
     this.globals.map = this.map;
@@ -69,58 +75,165 @@ export class AppComponent {
       {
         sourceinfo: {
           url: 'http://192.168.1.11:6600/geoserver/wms',
-          params: { 'LAYERS': 'Farming:farm' },
+          params: { 'LAYERS': 'PrecesionFarming:farm' },
           serverType: 'geoserver',
           isBaseLayer: false,
           crossOrigin: 'anonymous'
         },
-        title: "Farm",
+        title: 'Farm',
         id: 1
-      },
-      {
+      }, {
         sourceinfo: {
           url: 'http://192.168.1.11:6600/geoserver/wms',
-          params: { 'LAYERS': 'Farming:plotdata' },
+          params: { 'LAYERS': 'PrecesionFarming:site' },
           serverType: 'geoserver',
           isBaseLayer: false,
           crossOrigin: 'anonymous'
         },
-        title: "Plot",
+        title: 'Site',
         id: 2
-      },
-      {
+      }, {
         sourceinfo: {
           url: 'http://192.168.1.11:6600/geoserver/wms',
-          params: { 'LAYERS': 'Farming:waterpipeline' },
+          params: { 'LAYERS': 'PrecesionFarming:plot' },
           serverType: 'geoserver',
           isBaseLayer: false,
           crossOrigin: 'anonymous'
         },
-        title: "Water Pipeline",
+        title: 'Plot',
         id: 3
-      },
-      {
+      }, {
         sourceinfo: {
           url: 'http://192.168.1.11:6600/geoserver/wms',
-          params: { 'LAYERS': 'Farming:irigationpoint' },
+          params: { 'LAYERS': 'PrecesionFarming:soil_S' },
           serverType: 'geoserver',
           isBaseLayer: false,
           crossOrigin: 'anonymous'
         },
-        title: "Irigation Point",
+        title: 'Soil',
         id: 4
-      },
-      {
+      }, {
         sourceinfo: {
           url: 'http://192.168.1.11:6600/geoserver/wms',
-          params: { 'LAYERS': 'Farming:waterpumpcontroller' },
+          params: { 'LAYERS': 'PrecesionFarming:waterpump' },
           serverType: 'geoserver',
           isBaseLayer: false,
           crossOrigin: 'anonymous'
         },
-        title: "Water Pump Controller",
+        title: 'Waterpump',
         id: 5
+      }, {
+        sourceinfo: {
+          url: 'http://192.168.1.11:6600/geoserver/wms',
+          params: { 'LAYERS': 'PrecesionFarming:watersupply' },
+          serverType: 'geoserver',
+          isBaseLayer: false,
+          crossOrigin: 'anonymous'
+        },
+        title: 'Watersupply',
+        id: 6
+      }, {
+        sourceinfo: {
+          url: 'http://192.168.1.11:6600/geoserver/wms',
+          params: { 'LAYERS': 'PrecesionFarming:watertank' },
+          serverType: 'geoserver',
+          isBaseLayer: false,
+          crossOrigin: 'anonymous'
+        },
+        title: 'Watertank',
+        id: 7
+      }, {
+        sourceinfo: {
+          url: 'http://192.168.1.11:6600/geoserver/wms',
+          params: { 'LAYERS': 'PrecesionFarming:valves' },
+          serverType: 'geoserver',
+          isBaseLayer: false,
+          crossOrigin: 'anonymous'
+        },
+        title: 'Valves',
+        id: 8
+      }, {
+        sourceinfo: {
+          url: 'http://192.168.1.11:6600/geoserver/wms',
+          params: { 'LAYERS': 'PrecesionFarming:AmbientTemperature_AT' },
+          serverType: 'geoserver',
+          isBaseLayer: false,
+          crossOrigin: 'anonymous'
+        },
+        title: 'Ambient Temperature',
+        id: 9
+      }, {
+        sourceinfo: {
+          url: 'http://192.168.1.11:6600/geoserver/wms',
+          params: { 'LAYERS': 'PrecesionFarming:PressureTransducer_PT' },
+          serverType: 'geoserver',
+          isBaseLayer: false,
+          crossOrigin: 'anonymous'
+        },
+        title: 'Pressure Transducer',
+        id: 10
+      }, {
+        sourceinfo: {
+          url: 'http://192.168.1.11:6600/geoserver/wms',
+          params: { 'LAYERS': 'PrecesionFarming:humidity_H' },
+          serverType: 'geoserver',
+          isBaseLayer: false,
+          crossOrigin: 'anonymous'
+        },
+        title: 'Humidity',
+        id: 11
+      }, {
+        sourceinfo: {
+          url: 'http://192.168.1.11:6600/geoserver/wms',
+          params: { 'LAYERS': 'PrecesionFarming:optical' },
+          serverType: 'geoserver',
+          isBaseLayer: false,
+          crossOrigin: 'anonymous'
+        },
+        title: 'Optical',
+        id: 12
+      }, {
+        sourceinfo: {
+          url: 'http://192.168.1.11:6600/geoserver/wms',
+          params: { 'LAYERS': 'PrecesionFarming:rate_R' },
+          serverType: 'geoserver',
+          isBaseLayer: false,
+          crossOrigin: 'anonymous'
+        },
+        title: 'Rate',
+        id: 13
+      }, {
+        sourceinfo: {
+          url: 'http://192.168.1.11:6600/geoserver/wms',
+          params: { 'LAYERS': 'PrecesionFarming:waterlevel_WL_in_field' },
+          serverType: 'geoserver',
+          isBaseLayer: false,
+          crossOrigin: 'anonymous'
+        },
+        title: 'Waterlevel(Wl)In_Field',
+        id: 14
+      }, {
+        sourceinfo: {
+          url: 'http://192.168.1.11:6600/geoserver/wms',
+          params: { 'LAYERS': 'PrecesionFarming:waterlevel_WL_in_tank' },
+          serverType: 'geoserver',
+          isBaseLayer: false,
+          crossOrigin: 'anonymous'
+        },
+        title: 'Waterlevel(Wl)In_Tank',
+        id: 15
+      }, {
+        sourceinfo: {
+          url: 'http://192.168.1.11:6600/geoserver/wms',
+          params: { 'LAYERS': 'PrecesionFarming:weather_W' },
+          serverType: 'geoserver',
+          isBaseLayer: false,
+          crossOrigin: 'anonymous'
+        },
+        title: 'Weather(W)',
+        id: 16
       }
+
     ]
 
     // convert to tile layers
@@ -169,4 +282,39 @@ export class AppComponent {
     
   }
   
+
+  StartIdentify(){
+    this.map.on('singleclick', showResult.bind(this))
+    function showResult(evt){
+      console.log(evt.coordinate);
+      console.log(transform([evt.coordinate[0], evt.coordinate[1]],  'EPSG:3857','EPSG:4326'));
+
+      let coord = evt.coordinate;
+      coord = transform([coord[0], coord[1]],  'EPSG:3857','EPSG:4326')
+
+      coord.push(
+        (coord[0] + 0.005),
+        (coord[1] + 0.005)
+      )
+
+      coord=coord.join(",")+"";
+
+      console.log(coord);
+      
+      
+      
+      let url = "http://192.168.1.11:6600/geoserver/PrecesionFarming/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image:png&TRANSPARENT=true&QUERY_LAYERS=PrecesionFarming:farm&LAYERS=PrecesionFarming:farm&INFO_FORMAT=application/json&FEATURE_COUNT=300&X=50&Y=50&SRS=EPSG:4326&WIDTH=101&HEIGHT=101&BBOX="+coord;
+   
+
+      this.http.get(url)
+        .subscribe(
+          (res)=>{console.log(res)},
+          (error)=>{ console.log(error)}
+        )
+    }
+    
+  }
 }
+
+
+//http://localhost:6600/geoserver/PrecesionFarming/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image:png&TRANSPARENT=true&QUERY_LAYERS=PrecesionFarming:plot&LAYERS=PrecesionFarming:plot&INFO_FORMAT=application/json&FEATURE_COUNT=300&X=50&Y=50&SRS=EPSG:4326&WIDTH=101&HEIGHT=101&BBOX=73.9953256362152, 17.615813190566428, 74.00281436378478, 17.619284792734277

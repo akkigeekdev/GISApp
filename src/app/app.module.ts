@@ -7,13 +7,13 @@ import { AppComponent } from './app.component';
 import { BookmarkComponent } from './widgets/bookmark/bookmark.component';
 import { BasemapsComponent } from './widgets/basemaps/basemaps.component';
 import { LayersComponent } from './widgets/layers/layers.component';
+import { PrintComponent } from './widgets/print/print.component';
 import { QueryComponent } from './widgets/query/query.component';
 
 // services
 import { Globals } from './globals';
 import { WidgetService } from './widget.service';
 import { WidgetDirective } from './widget.directive';
-import { LegendsService } from "./legends.service";
 import { HttpClientModule } from "@angular/common/http";
 
 // Material components
@@ -39,6 +39,7 @@ import {
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,7 +47,8 @@ import {
     WidgetDirective,
     BookmarkComponent,
     BasemapsComponent,
-    QueryComponent
+    QueryComponent,
+    PrintComponent
   ],
   imports: [
     BrowserModule,
@@ -72,9 +74,10 @@ import {
     BookmarkComponent,
     BasemapsComponent,
     LayersComponent,
+    PrintComponent,
     QueryComponent
   ],
-  providers: [Globals, WidgetService, LegendsService],
+  providers: [Globals, WidgetService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
