@@ -10,7 +10,7 @@
       <mat-option *ngFor="let l of pageSize; let i=index" [value]="l.value"> {{l.label}} </mat-option>
     </mat-select>
   </mat-form-field>
-    
+  
   <mat-form-field>
     <mat-select placeholder="Resolution" [(ngModel)]="selectedRes">
       <mat-option *ngFor="let l of resolution; let i=index" [value]="l.value"> {{l.label}} </mat-option>

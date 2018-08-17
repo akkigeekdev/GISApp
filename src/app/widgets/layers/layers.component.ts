@@ -56,9 +56,7 @@ export class LayersComponent implements OnInit {
   }
 
   getLegend(name:string): string{
-    // name = name.replace("PrecesionFarming:","")
-    return "http://192.168.1.11:6600/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=50&HEIGHT=50&LAYER="+name+"&legend_options=fontName:Times%20New%20Roman&bgColor=0xff12ff&fontColor=0x000033&dpi=180"
-    
+    return "http://192.168.1.14:6600/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=50&HEIGHT=50&LAYER="+name+"&legend_options=fontName:Times%20New%20Roman&bgColor=0xff12ff&fontColor=0x000033&dpi=180"
   }
 
 }

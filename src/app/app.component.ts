@@ -1,4 +1,4 @@
-import { Component, ViewChild, ComponentFactoryResolver } from '@angular/core'
+import { Component, ViewChild, ComponentFactoryResolver  } from '@angular/core'
 import View from 'ol/view'
 import Map from 'ol/map'
 import {transform} from 'ol/proj'
@@ -17,7 +17,7 @@ import { HttpClient } from "@angular/common/http";
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-
+ 
   @ViewChild(WidgetDirective) appWidget: WidgetDirective;
 
   map:any;
@@ -35,10 +35,7 @@ export class AppComponent {
     this.widgets = this.widgetservice.getWidgets();
   }
 
-  toggleDrawer():void{
-    this.drawerOpenStatus = !this.drawerOpenStatus;
-  }
-
+  
   ngAfterViewInit() {
     this.scaleLineControl.setUnits("metric");
     
@@ -54,28 +51,24 @@ export class AppComponent {
       view: new View({
         center: transform(
           [73.999070, 17.617549], 'EPSG:4326', 'EPSG:3857'),
-          // [72.821807, 18.974611], 'EPSG:4326', 'EPSG:3857'),
           zoom: 18,
           minZoom: 4,
           maxZoom: 20
-        // zoom: 5,
-        // minZoom: 4,
-        // maxZoom: 25
       })
     });
     this.globals.map = this.map;
     
     this.addLayers()
+    // this.loadWidgets()
   }
 
   addLayers(){
 
-    let promises = [];
     let layers = [
       {
         sourceinfo: {
-          url: 'http://192.168.1.11:6600/geoserver/wms',
-          params: { 'LAYERS': 'PrecesionFarming:farm' },
+          url: 'http://192.168.1.14:6600/geoserver/wms',
+          params: { 'LAYERS': 'PrecisionFarming:farm' },
           serverType: 'geoserver',
           isBaseLayer: false,
           crossOrigin: 'anonymous'
@@ -84,8 +77,8 @@ export class AppComponent {
         id: 1
       }, {
         sourceinfo: {
-          url: 'http://192.168.1.11:6600/geoserver/wms',
-          params: { 'LAYERS': 'PrecesionFarming:site' },
+          url: 'http://192.168.1.14:6600/geoserver/wms',
+          params: { 'LAYERS': 'PrecisionFarming:site' },
           serverType: 'geoserver',
           isBaseLayer: false,
           crossOrigin: 'anonymous'
@@ -94,8 +87,8 @@ export class AppComponent {
         id: 2
       }, {
         sourceinfo: {
-          url: 'http://192.168.1.11:6600/geoserver/wms',
-          params: { 'LAYERS': 'PrecesionFarming:plot' },
+          url: 'http://192.168.1.14:6600/geoserver/wms',
+          params: { 'LAYERS': 'PrecisionFarming:plot' },
           serverType: 'geoserver',
           isBaseLayer: false,
           crossOrigin: 'anonymous'
@@ -104,8 +97,8 @@ export class AppComponent {
         id: 3
       }, {
         sourceinfo: {
-          url: 'http://192.168.1.11:6600/geoserver/wms',
-          params: { 'LAYERS': 'PrecesionFarming:soil_S' },
+          url: 'http://192.168.1.14:6600/geoserver/wms',
+          params: { 'LAYERS': 'PrecisionFarming:soil_S' },
           serverType: 'geoserver',
           isBaseLayer: false,
           crossOrigin: 'anonymous'
@@ -114,8 +107,8 @@ export class AppComponent {
         id: 4
       }, {
         sourceinfo: {
-          url: 'http://192.168.1.11:6600/geoserver/wms',
-          params: { 'LAYERS': 'PrecesionFarming:waterpump' },
+          url: 'http://192.168.1.14:6600/geoserver/wms',
+          params: { 'LAYERS': 'PrecisionFarming:waterpump' },
           serverType: 'geoserver',
           isBaseLayer: false,
           crossOrigin: 'anonymous'
@@ -124,8 +117,8 @@ export class AppComponent {
         id: 5
       }, {
         sourceinfo: {
-          url: 'http://192.168.1.11:6600/geoserver/wms',
-          params: { 'LAYERS': 'PrecesionFarming:watersupply' },
+          url: 'http://192.168.1.14:6600/geoserver/wms',
+          params: { 'LAYERS': 'PrecisionFarming:watersupply' },
           serverType: 'geoserver',
           isBaseLayer: false,
           crossOrigin: 'anonymous'
@@ -134,8 +127,8 @@ export class AppComponent {
         id: 6
       }, {
         sourceinfo: {
-          url: 'http://192.168.1.11:6600/geoserver/wms',
-          params: { 'LAYERS': 'PrecesionFarming:watertank' },
+          url: 'http://192.168.1.14:6600/geoserver/wms',
+          params: { 'LAYERS': 'PrecisionFarming:watertank' },
           serverType: 'geoserver',
           isBaseLayer: false,
           crossOrigin: 'anonymous'
@@ -144,8 +137,8 @@ export class AppComponent {
         id: 7
       }, {
         sourceinfo: {
-          url: 'http://192.168.1.11:6600/geoserver/wms',
-          params: { 'LAYERS': 'PrecesionFarming:valves' },
+          url: 'http://192.168.1.14:6600/geoserver/wms',
+          params: { 'LAYERS': 'PrecisionFarming:valves' },
           serverType: 'geoserver',
           isBaseLayer: false,
           crossOrigin: 'anonymous'
@@ -154,8 +147,8 @@ export class AppComponent {
         id: 8
       }, {
         sourceinfo: {
-          url: 'http://192.168.1.11:6600/geoserver/wms',
-          params: { 'LAYERS': 'PrecesionFarming:AmbientTemperature_AT' },
+          url: 'http://192.168.1.14:6600/geoserver/wms',
+          params: { 'LAYERS': 'PrecisionFarming:AmbientTemperature_AT' },
           serverType: 'geoserver',
           isBaseLayer: false,
           crossOrigin: 'anonymous'
@@ -164,8 +157,8 @@ export class AppComponent {
         id: 9
       }, {
         sourceinfo: {
-          url: 'http://192.168.1.11:6600/geoserver/wms',
-          params: { 'LAYERS': 'PrecesionFarming:PressureTransducer_PT' },
+          url: 'http://192.168.1.14:6600/geoserver/wms',
+          params: { 'LAYERS': 'PrecisionFarming:PressureTransducer_PT' },
           serverType: 'geoserver',
           isBaseLayer: false,
           crossOrigin: 'anonymous'
@@ -174,8 +167,8 @@ export class AppComponent {
         id: 10
       }, {
         sourceinfo: {
-          url: 'http://192.168.1.11:6600/geoserver/wms',
-          params: { 'LAYERS': 'PrecesionFarming:humidity_H' },
+          url: 'http://192.168.1.14:6600/geoserver/wms',
+          params: { 'LAYERS': 'PrecisionFarming:humidity_H' },
           serverType: 'geoserver',
           isBaseLayer: false,
           crossOrigin: 'anonymous'
@@ -184,8 +177,8 @@ export class AppComponent {
         id: 11
       }, {
         sourceinfo: {
-          url: 'http://192.168.1.11:6600/geoserver/wms',
-          params: { 'LAYERS': 'PrecesionFarming:optical' },
+          url: 'http://192.168.1.14:6600/geoserver/wms',
+          params: { 'LAYERS': 'PrecisionFarming:optical' },
           serverType: 'geoserver',
           isBaseLayer: false,
           crossOrigin: 'anonymous'
@@ -194,8 +187,8 @@ export class AppComponent {
         id: 12
       }, {
         sourceinfo: {
-          url: 'http://192.168.1.11:6600/geoserver/wms',
-          params: { 'LAYERS': 'PrecesionFarming:rate_R' },
+          url: 'http://192.168.1.14:6600/geoserver/wms',
+          params: { 'LAYERS': 'PrecisionFarming:rate_R' },
           serverType: 'geoserver',
           isBaseLayer: false,
           crossOrigin: 'anonymous'
@@ -204,8 +197,8 @@ export class AppComponent {
         id: 13
       }, {
         sourceinfo: {
-          url: 'http://192.168.1.11:6600/geoserver/wms',
-          params: { 'LAYERS': 'PrecesionFarming:waterlevel_WL_in_field' },
+          url: 'http://192.168.1.14:6600/geoserver/wms',
+          params: { 'LAYERS': 'PrecisionFarming:waterlevel_WL_in_field' },
           serverType: 'geoserver',
           isBaseLayer: false,
           crossOrigin: 'anonymous'
@@ -214,8 +207,8 @@ export class AppComponent {
         id: 14
       }, {
         sourceinfo: {
-          url: 'http://192.168.1.11:6600/geoserver/wms',
-          params: { 'LAYERS': 'PrecesionFarming:waterlevel_WL_in_tank' },
+          url: 'http://192.168.1.14:6600/geoserver/wms',
+          params: { 'LAYERS': 'PrecisionFarming:waterlevel_WL_in_tank' },
           serverType: 'geoserver',
           isBaseLayer: false,
           crossOrigin: 'anonymous'
@@ -224,8 +217,8 @@ export class AppComponent {
         id: 15
       }, {
         sourceinfo: {
-          url: 'http://192.168.1.11:6600/geoserver/wms',
-          params: { 'LAYERS': 'PrecesionFarming:weather_W' },
+          url: 'http://192.168.1.14:6600/geoserver/wms',
+          params: { 'LAYERS': 'PrecisionFarming:weather_W' },
           serverType: 'geoserver',
           isBaseLayer: false,
           crossOrigin: 'anonymous'
@@ -236,7 +229,6 @@ export class AppComponent {
 
     ]
 
-    // convert to tile layers
     let tilelayers = layers.map(l=>{
       return new Tile({
         source: new TileWMS(l.sourceinfo),
@@ -245,28 +237,13 @@ export class AppComponent {
       });
     });
 
-    // create layer grp
-    // new LayerGroup({ layers: tilelayers })
-
     for (let i = 0; i < tilelayers.length; i++) {
       const tlayer = tilelayers[i];
       this.map.addLayer(tlayer);
-
-      let source = tilelayers[i].getSource()
-      let promise = new Promise((resolve,reject)=>{ 
-        source.on("tileloadend", function(){
-          resolve();
-        });
-        source.on('tileloaderror', function() {
-          reject();
-        });
-      });
-
-      promises.push(promise);
     }
 
-    Promise.all(promises).then( this.loadWidgets.bind(this) );
-    // this.loadWidgets()
+    this.loadWidgets();
+
   }
 
   loadWidgets():void{
@@ -275,46 +252,80 @@ export class AppComponent {
       let componentFactory = this.componentFactoryResolver.resolveComponentFactory(widgetItem.component);
       let viewContainerRef = this.appWidget.viewContainerRef;
       try {
-        viewContainerRef.createComponent(componentFactory);
+        setTimeout(function(){viewContainerRef.createComponent(componentFactory);},100)
       } catch (error) {
       }
     }
-    
   }
   
-
   StartIdentify(){
-    this.map.on('singleclick', showResult.bind(this))
-    function showResult(evt){
-      console.log(evt.coordinate);
-      console.log(transform([evt.coordinate[0], evt.coordinate[1]],  'EPSG:3857','EPSG:4326'));
 
-      let coord = evt.coordinate;
-      coord = transform([coord[0], coord[1]],  'EPSG:3857','EPSG:4326')
+    let promises = [], 
+    global = this.globals , 
+    http = this.http;
 
-      coord.push(
-        (coord[0] + 0.005),
-        (coord[1] + 0.005)
-      )
 
-      coord=coord.join(",")+"";
 
-      console.log(coord);
+    this.map.on('singleclick', function(evt){
+
+      let coord = transform([ evt.coordinate[0],  evt.coordinate[1]],  'EPSG:3857','EPSG:4326');
+      let box:any = [
+        (coord[0] - 0.0001),
+        (coord[1] - 0.0001),
+        (coord[0] + 0.0001),
+        (coord[1] + 0.0001)
+      ]
+      box = box.join(",")+"";
+
+      debugger;
+      let visibleLayers = global.getVisibleLayers(); console.log(visibleLayers);
       
-      
-      
-      let url = "http://192.168.1.11:6600/geoserver/PrecesionFarming/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image:png&TRANSPARENT=true&QUERY_LAYERS=PrecesionFarming:farm&LAYERS=PrecesionFarming:farm&INFO_FORMAT=application/json&FEATURE_COUNT=300&X=50&Y=50&SRS=EPSG:4326&WIDTH=101&HEIGHT=101&BBOX="+coord;
-   
 
-      this.http.get(url)
-        .subscribe(
-          (res)=>{console.log(res)},
-          (error)=>{ console.log(error)}
-        )
-    }
+      for (let i = 1; i < visibleLayers.length; i++) {
+
+        const layer = visibleLayers[i].getSource().getParams().LAYERS;
+        
+        let url = `http://192.168.1.14:6600/geoserver/PrecisionFarming/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image:png&TRANSPARENT=true&QUERY_LAYERS=${layer}&LAYERS=${layer}&INFO_FORMAT=application/json&FEATURE_COUNT=300&X=50&Y=50&SRS=EPSG:4326&WIDTH=101&HEIGHT=101&BBOX=${box}`;
+        // console.log(url);
+        
+        if(layer != "Basemap"){
+          promises.push(
+            new Promise((resolve, reject)=>{
+              http.get(url).subscribe(
+                (res)=>{ resolve(res) },
+                (error)=>{ reject(error) }
+              )
+            })
+          )
+        }
+      }
+
+      Promise.all(promises).then(function(result){
+        console.log(result);
+      }, function(error){
+        console.log(error);
+      })
+
+      // let url = "http://192.168.1.14:6600/geoserver/PrecisionFarming/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image:png&TRANSPARENT=true&QUERY_LAYERS=PrecisionFarming:farm&LAYERS=PrecisionFarming:farm&INFO_FORMAT=application/json&FEATURE_COUNT=300&X=50&Y=50&SRS=EPSG:4326&WIDTH=101&HEIGHT=101&BBOX="+box;
+      
+      // this.http.get(url)
+      //   .subscribe(
+      //     (res)=>{console.log(res)},
+      //     (error)=>{ console.log(error)}
+      // )
+
+    });
     
+
   }
+
+
+  toggleDrawer():void{
+    this.drawerOpenStatus = !this.drawerOpenStatus;
+  }
+
 }
 
 
-//http://localhost:6600/geoserver/PrecesionFarming/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image:png&TRANSPARENT=true&QUERY_LAYERS=PrecesionFarming:plot&LAYERS=PrecesionFarming:plot&INFO_FORMAT=application/json&FEATURE_COUNT=300&X=50&Y=50&SRS=EPSG:4326&WIDTH=101&HEIGHT=101&BBOX=73.9953256362152, 17.615813190566428, 74.00281436378478, 17.619284792734277
+//http://localhost:6600/geoserver/PrecisionFarming/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image:png&TRANSPARENT=true&QUERY_LAYERS=PrecisionFarming:plot&LAYERS=PrecisionFarming:plot&INFO_FORMAT=application/json&FEATURE_COUNT=300&X=50&Y=50&SRS=EPSG:4326&WIDTH=101&HEIGHT=101&BBOX=73.9953256362152, 17.615813190566428, 74.00281436378478, 17.619284792734277
+"http://192.168.1.14:6600/geoserver/PrecisionFarming/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image:png&TRANSPARENT=true&QUERY_LAYERS=PrecisionFarming:Farm&LAYERS=PrecisionFarming:Farm&INFO_FORMAT=application/json&FEATURE_COUNT=300&X=50&Y=50&SRS=EPSG:4326&WIDTH=101&HEIGHT=101&BBOX=73.99901291534422,17.617502684561632,73.99921291534423,17.617702684561632"
