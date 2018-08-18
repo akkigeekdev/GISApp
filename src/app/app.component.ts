@@ -70,7 +70,7 @@ export class AppComponent {
     let layers = [
       {
         sourceinfo: {
-          url: 'http://192.168.1.14:6600/geoserver/wms',
+          url: 'http://192.168.0.104:6600/geoserver/wms',
           params: { 'LAYERS': 'PrecisionFarming:farm' },
           serverType: 'geoserver',
           isBaseLayer: false,
@@ -80,7 +80,7 @@ export class AppComponent {
         id: 1
       }, {
         sourceinfo: {
-          url: 'http://192.168.1.14:6600/geoserver/wms',
+          url: 'http://192.168.0.104:6600/geoserver/wms',
           params: { 'LAYERS': 'PrecisionFarming:site' },
           serverType: 'geoserver',
           isBaseLayer: false,
@@ -90,7 +90,7 @@ export class AppComponent {
         id: 2
       }, {
         sourceinfo: {
-          url: 'http://192.168.1.14:6600/geoserver/wms',
+          url: 'http://192.168.0.104:6600/geoserver/wms',
           params: { 'LAYERS': 'PrecisionFarming:plot' },
           serverType: 'geoserver',
           isBaseLayer: false,
@@ -100,7 +100,7 @@ export class AppComponent {
         id: 3
       }, {
         sourceinfo: {
-          url: 'http://192.168.1.14:6600/geoserver/wms',
+          url: 'http://192.168.0.104:6600/geoserver/wms',
           params: { 'LAYERS': 'PrecisionFarming:soil_S' },
           serverType: 'geoserver',
           isBaseLayer: false,
@@ -110,7 +110,7 @@ export class AppComponent {
         id: 4
       }, {
         sourceinfo: {
-          url: 'http://192.168.1.14:6600/geoserver/wms',
+          url: 'http://192.168.0.104:6600/geoserver/wms',
           params: { 'LAYERS': 'PrecisionFarming:waterpump' },
           serverType: 'geoserver',
           isBaseLayer: false,
@@ -120,7 +120,7 @@ export class AppComponent {
         id: 5
       }, {
         sourceinfo: {
-          url: 'http://192.168.1.14:6600/geoserver/wms',
+          url: 'http://192.168.0.104:6600/geoserver/wms',
           params: { 'LAYERS': 'PrecisionFarming:watersupply' },
           serverType: 'geoserver',
           isBaseLayer: false,
@@ -130,7 +130,7 @@ export class AppComponent {
         id: 6
       }, {
         sourceinfo: {
-          url: 'http://192.168.1.14:6600/geoserver/wms',
+          url: 'http://192.168.0.104:6600/geoserver/wms',
           params: { 'LAYERS': 'PrecisionFarming:watertank' },
           serverType: 'geoserver',
           isBaseLayer: false,
@@ -140,7 +140,7 @@ export class AppComponent {
         id: 7
       }, {
         sourceinfo: {
-          url: 'http://192.168.1.14:6600/geoserver/wms',
+          url: 'http://192.168.0.104:6600/geoserver/wms',
           params: { 'LAYERS': 'PrecisionFarming:valves' },
           serverType: 'geoserver',
           isBaseLayer: false,
@@ -150,7 +150,7 @@ export class AppComponent {
         id: 8
       }, {
         sourceinfo: {
-          url: 'http://192.168.1.14:6600/geoserver/wms',
+          url: 'http://192.168.0.104:6600/geoserver/wms',
           params: { 'LAYERS': 'PrecisionFarming:AmbientTemperature_AT' },
           serverType: 'geoserver',
           isBaseLayer: false,
@@ -160,7 +160,7 @@ export class AppComponent {
         id: 9
       }, {
         sourceinfo: {
-          url: 'http://192.168.1.14:6600/geoserver/wms',
+          url: 'http://192.168.0.104:6600/geoserver/wms',
           params: { 'LAYERS': 'PrecisionFarming:PressureTransducer_PT' },
           serverType: 'geoserver',
           isBaseLayer: false,
@@ -170,7 +170,7 @@ export class AppComponent {
         id: 10
       }, {
         sourceinfo: {
-          url: 'http://192.168.1.14:6600/geoserver/wms',
+          url: 'http://192.168.0.104:6600/geoserver/wms',
           params: { 'LAYERS': 'PrecisionFarming:humidity_H' },
           serverType: 'geoserver',
           isBaseLayer: false,
@@ -180,7 +180,7 @@ export class AppComponent {
         id: 11
       }, {
         sourceinfo: {
-          url: 'http://192.168.1.14:6600/geoserver/wms',
+          url: 'http://192.168.0.104:6600/geoserver/wms',
           params: { 'LAYERS': 'PrecisionFarming:optical' },
           serverType: 'geoserver',
           isBaseLayer: false,
@@ -190,7 +190,7 @@ export class AppComponent {
         id: 12
       }, {
         sourceinfo: {
-          url: 'http://192.168.1.14:6600/geoserver/wms',
+          url: 'http://192.168.0.104:6600/geoserver/wms',
           params: { 'LAYERS': 'PrecisionFarming:rate_R' },
           serverType: 'geoserver',
           isBaseLayer: false,
@@ -200,7 +200,7 @@ export class AppComponent {
         id: 13
       }, {
         sourceinfo: {
-          url: 'http://192.168.1.14:6600/geoserver/wms',
+          url: 'http://192.168.0.104:6600/geoserver/wms',
           params: { 'LAYERS': 'PrecisionFarming:waterlevel_WL_in_field' },
           serverType: 'geoserver',
           isBaseLayer: false,
@@ -210,7 +210,7 @@ export class AppComponent {
         id: 14
       }, {
         sourceinfo: {
-          url: 'http://192.168.1.14:6600/geoserver/wms',
+          url: 'http://192.168.0.104:6600/geoserver/wms',
           params: { 'LAYERS': 'PrecisionFarming:waterlevel_WL_in_tank' },
           serverType: 'geoserver',
           isBaseLayer: false,
@@ -220,7 +220,7 @@ export class AppComponent {
         id: 15
       }, {
         sourceinfo: {
-          url: 'http://192.168.1.14:6600/geoserver/wms',
+          url: 'http://192.168.0.104:6600/geoserver/wms',
           params: { 'LAYERS': 'PrecisionFarming:weather_W' },
           serverType: 'geoserver',
           isBaseLayer: false,
@@ -289,7 +289,7 @@ export class AppComponent {
 
         const layer = visibleLayers[i].getSource().getParams().LAYERS;
         
-        let url = `http://192.168.1.14:6600/geoserver/PrecisionFarming/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image:png&TRANSPARENT=true&QUERY_LAYERS=${layer}&LAYERS=${layer}&INFO_FORMAT=application/json&FEATURE_COUNT=300&X=50&Y=50&SRS=EPSG:4326&WIDTH=101&HEIGHT=101&BBOX=${box}`;
+        let url = `http://192.168.0.104:6600/geoserver/PrecisionFarming/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image:png&TRANSPARENT=true&QUERY_LAYERS=${layer}&LAYERS=${layer}&INFO_FORMAT=application/json&FEATURE_COUNT=300&X=50&Y=50&SRS=EPSG:4326&WIDTH=101&HEIGHT=101&BBOX=${box}`;
         // console.log(url);
         
         if(layer != "Basemap"){
