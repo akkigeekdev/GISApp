@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Globals } from "../../globals";
 import * as jsPDF from 'jspdf'
 import {unByKey} from 'ol/Observable.js';
-import { resetApplicationState } from '../../../../node_modules/@angular/core/src/render3/instructions';
 
 @Component({
   selector: 'app-print',
