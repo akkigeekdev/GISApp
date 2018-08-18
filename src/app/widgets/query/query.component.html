@@ -6,7 +6,7 @@
   </mat-expansion-panel-header>
 
   <mat-form-field>
-    <mat-select placeholder="Select Layers">
+    <mat-select placeholder="Select Layers" (selectionChange)="onLayerChange($event)">
       <mat-option *ngFor="let l of layers; let i=index" [value]="l.value"> {{l.label}} </mat-option>
     </mat-select>
   </mat-form-field>
