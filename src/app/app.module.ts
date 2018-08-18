@@ -15,7 +15,7 @@ import { ResultWindowComponent } from './widgets/result-window/result-window.com
 import { Globals } from './globals';
 import { WidgetService } from './widget.service';
 import { WidgetDirective } from './widget.directive';
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule} from "@angular/common/http";
 
 // Material components
 import { 
@@ -37,10 +37,6 @@ import {
   FormsModule,
   ReactiveFormsModule
 } from '@angular/forms';
-import { ResultWindowComponent } from './widgets/result-window/result-window.component';
-
-
-
 
 
 @NgModule({
@@ -53,6 +49,7 @@ import { ResultWindowComponent } from './widgets/result-window/result-window.com
     QueryComponent,
     PrintComponent,
     ResultWindowComponent
+    
   ],
   imports: [
     BrowserModule,
@@ -71,8 +68,8 @@ import { ResultWindowComponent } from './widgets/result-window/result-window.com
     MatDialogModule,
     MatSelectModule,
     MatInputModule,
-
     HttpClientModule
+    
   ],
   entryComponents: [  
     BookmarkComponent,

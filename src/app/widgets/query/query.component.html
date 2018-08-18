@@ -6,19 +6,25 @@
   </mat-expansion-panel-header>
 
   <mat-form-field>
-    <mat-select placeholder="Select Layers" (selectionChange)="onLayerChange($event)">
+    <mat-select placeholder="Select Layers" (selectionChange)="onLayerChange($event)" >
       <mat-option *ngFor="let l of layers; let i=index" [value]="l.value"> {{l.label}} </mat-option>
     </mat-select>
   </mat-form-field>
   
   <mat-form-field>
-    <mat-select placeholder="Select Fields">
+    <mat-select placeholder="Select Fields" [(ngModel)]="selectedField">
       <mat-option *ngFor="let l of fields; let i=index" [value]="l.value"> {{l.label}} </mat-option>
     </mat-select>
   </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder="Select" [(ngModel)]="selectedOprator" >
+      <mat-option value ="=">&#61;</mat-option>
+      <mat-option value ="LIKE">LIKE</mat-option>
 
-  <div class="operators">
-    <button mat-stroked-button>&#61;</button>
+    </mat-select>
+  </mat-form-field>
+  <!-- <div class="operators">
+    <button mat-stroked-button></button>
     <button mat-stroked-button>&#60;</button>
     <button mat-stroked-button>&#62;</button>
     <button mat-stroked-button>&#60;&#61; </button>
@@ -27,17 +33,17 @@
     <button mat-stroked-button>AND</button>
     <button mat-stroked-button>OR</button>
     <button mat-stroked-button>NOT</button>
-  </div>
+  </div> -->
 
   <mat-form-field style="padding-top: 15px;">
-    <input matInput placeholder="Enter value" >
+    <input matInput placeholder="Enter value" (change)="onQueryChange()" [(ngModel)] = "queryValue" >
   </mat-form-field>
   <mat-form-field style="padding-top: 15px;">
-    <textarea matInput placeholder="Final query" ></textarea>
+    <textarea  matInput placeholder="Final query" value = "{{finalQuery}}" ></textarea>
   </mat-form-field>
 
   <div style="text-align: center">
-      <button mat-raised-button color="primary">Search</button>
+      <button mat-raised-button color="primary" (click)="SearchFeatures()">Search</button>
   </div>
 
 

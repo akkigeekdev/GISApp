@@ -23,7 +23,11 @@ export class QueryComponent implements OnInit {
   map:any;
   layers:select[] = [ ]
   fields:select[] = [ ]
-
+  finalQuery = ""; 
+  queryValue = "";
+  selectedOprator="";
+  selectedField:"";
+  selectedLayer;
   ngOnInit() {
   }
   ngAfterViewInit() {
@@ -38,11 +42,14 @@ export class QueryComponent implements OnInit {
   }
   onLayerChange(e):void{
     this.fields = [];
+    this.finalQuery="";
+    this.selectedOprator="";
+    
     let fields = this.fields;
     let layers = this.map.getLayers().getArray().filter(function(layer){
       return layer.get('id') == e.value;
     });
-   
+    this.selectedLayer = layers[0];
      let featureUrl = "http://192.168.0.104:6600/geoserver/wfs?version=1.3.0&request=describeFeatureType&outputFormat=application/json&service=WFS&typeName="+ layers[0].getSource().getParams().LAYERS ;
      this.http.get(featureUrl).subscribe(
       (res:any)=>{
@@ -63,6 +70,24 @@ export class QueryComponent implements OnInit {
        },
       (error)=>{ console.log(error)  }
     )
+  }
+  onQueryChange()
+  {
+    if(this.queryValue.replace(/\s/g,'') !=""){
+      if(this.selectedOprator==='LIKE')
+      {
+        this.finalQuery = this.selectedField + " " + this.selectedOprator + " " + "%"+ this.queryValue + "%"
+      }else{
+        this.finalQuery = this.selectedField + " " + this.selectedOprator + " " + this.queryValue ;
+      }
+    }else{
+      this.finalQuery = "";
+    }
+  }
+
+  SearchFeatures()
+  {
+    let queryUrl = ""
   }
 
 }

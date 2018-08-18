@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-import { Component, OnInit } from '@angular/core';
-=======
 import { Component, OnInit, Input } from '@angular/core';
 import { ResultService } from "../../result.service";
 
@@ -8,7 +5,6 @@ export interface resultTemp{
   layerName: string,
   attributes: object
 }
->>>>>>> 97f1491e6ec87310afdcc82b465551c2a936e925
 
 @Component({
   selector: 'app-result-window',
@@ -17,13 +13,6 @@ export interface resultTemp{
 })
 export class ResultWindowComponent implements OnInit {
 
-<<<<<<< HEAD
-  constructor() { }
-
-  ngOnInit() {
-  }
-
-=======
   constructor(private resservice: ResultService) { }
   
   show = false;
@@ -66,5 +55,4 @@ export class ResultWindowComponent implements OnInit {
     this.show = false;
   }
   
->>>>>>> 97f1491e6ec87310afdcc82b465551c2a936e925
 }
