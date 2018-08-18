@@ -36,6 +36,7 @@ import {
   FormsModule,
   ReactiveFormsModule
 } from '@angular/forms';
+import { ResultWindowComponent } from './widgets/result-window/result-window.component';
 
 
 
@@ -48,7 +49,8 @@ import {
     BookmarkComponent,
     BasemapsComponent,
     QueryComponent,
-    PrintComponent
+    PrintComponent,
+    ResultWindowComponent
   ],
   imports: [
     BrowserModule,

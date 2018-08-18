@@ -262,12 +262,9 @@ export class AppComponent {
 
     let promises = [], 
     global = this.globals , 
-    http = this.http;
-
-
-
-    this.map.on('singleclick', function(evt){
-
+    http = this.http,
+    map = this.map;
+    this.map.once('singleclick', function(evt){
       let coord = transform([ evt.coordinate[0],  evt.coordinate[1]],  'EPSG:3857','EPSG:4326');
       let box:any = [
         (coord[0] - 0.0001),
@@ -276,11 +273,8 @@ export class AppComponent {
         (coord[1] + 0.0001)
       ]
       box = box.join(",")+"";
-
-      
       let visibleLayers = global.getVisibleLayers();
       
-
       for (let i = 1; i < visibleLayers.length; i++) {
 
         const layer = visibleLayers[i].getSource().getParams().LAYERS;
@@ -305,14 +299,6 @@ export class AppComponent {
       }, function(error){
         console.log(error);
       })
-
-      // let url = "http://192.168.1.14:6600/geoserver/PrecisionFarming/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image:png&TRANSPARENT=true&QUERY_LAYERS=PrecisionFarming:farm&LAYERS=PrecisionFarming:farm&INFO_FORMAT=application/json&FEATURE_COUNT=300&X=50&Y=50&SRS=EPSG:4326&WIDTH=101&HEIGHT=101&BBOX="+box;
-      
-      // this.http.get(url)
-      //   .subscribe(
-      //     (res)=>{console.log(res)},
-      //     (error)=>{ console.log(error)}
-      // )
 
     });
     

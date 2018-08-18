@@ -31,7 +31,7 @@ export class LayersComponent implements OnInit {
         if(layer.getSource().getParams){
           img = this.getLegend(layer.getSource().getParams().LAYERS) ;
         }
-        debugger;
+        
         this.layers.push( { name:layer.get('title'), id: id, legend: img, selected:true} );
       }
     }
@@ -56,7 +56,7 @@ export class LayersComponent implements OnInit {
   }
 
   getLegend(name:string): string{
-    return "http://192.168.1.14:6600/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=50&HEIGHT=50&LAYER="+name+"&legend_options=fontName:Times%20New%20Roman&bgColor=0xff12ff&fontColor=0x000033&dpi=180"
+    return "http://192.168.1.14:6600/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=25&HEIGHT=25&LAYER="+name+"&legend_options=fontName:Times%20New%20Roman&bgColor=0xff12ff&fontColor=0x000033&dpi=180"
   }
 
 }
