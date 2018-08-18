@@ -31,7 +31,11 @@ export class LayersComponent implements OnInit {
         if(layer.getSource().getParams){
           img = this.getLegend(layer.getSource().getParams().LAYERS) ;
         }
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> 97f1491e6ec87310afdcc82b465551c2a936e925
         this.layers.push( { name:layer.get('title'), id: id, legend: img, selected:true} );
       }
     }

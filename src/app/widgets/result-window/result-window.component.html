@@ -1,5 +1,20 @@
+<<<<<<< HEAD
 <div style="position: absolute;top: 10px;left:500px;padding: 20px;background: white;z-index: 1000;">  result-window works! 
 
 </div>
   
 
+=======
+<div class="resultwindow" *ngIf="show">
+  <div class="title">
+    <span class="navigator previous" *ngIf="hasPrevious"> &#60; </span>
+    Feature title
+    <span class="navigator next" *ngIf="hadNext"> &#62; </span>
+    <div class="closeres" (click)="closeWindow($event)">x</div>
+  </div>
+
+  <div class="body">
+    
+  </div>
+</div>
+>>>>>>> 97f1491e6ec87310afdcc82b465551c2a936e925

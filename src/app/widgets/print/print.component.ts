@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Globals } from "../../globals";
 import * as jsPDF from 'jspdf'
 import {unByKey} from 'ol/Observable.js';
-import { resetApplicationState } from '../../../../node_modules/@angular/core/src/render3/instructions';
 
 @Component({
   selector: 'app-print',
@@ -60,108 +59,38 @@ export class PrintComponent implements OnInit {
     let extent = this.map.getView().calculateExtent(size);
 
     let source = this.map.getLayers().getArray()[0].getSource();
-    let format = this.selectedFormat, map = this.map;
-
-    let watch = {
-      canvas: null,
-      timer: null,
-      setTimeForExport: function(){
-        if(this.timer) clearTimeout(this.timer);
-        this.timer = null;
-        let canvas = this.canvas;
-
-        this.timer = setTimeout(() => {
-          let data = canvas.toDataURL('image/jpeg');
-          let pdf = new jsPDF('landscape', undefined, format);
-          pdf.addImage(data, 'JPEG', 0, 0, dim[0], dim[1]);
-          pdf.save('map.pdf');
-          map.setSize(size);
-          map.getView().fit(extent, {size: size});
-          map.renderSync();
-        }, 3000);
-      }
-    }
-
-    let keys;
+    
+    let canvas, format = this.selectedFormat, map = this.map, keys, timer;
     this.map.once('postcompose', function(event) {
-      watch.canvas = event.context.canvas;
+      canvas = event.context.canvas;
       keys = [
-        source.on('tileloadend', watch.setTimeForExport),
-        source.on('tileloaderror', watch.setTimeForExport)
+        source.on('tileloadend', setTimeForExport),
+        source.on('tileloaderror', setTimeForExport)
       ];      
     });
 
-
+    function setTimeForExport(){
+      if(timer) clearTimeout(timer);
+      timer = null;
+      timer = setTimeout(() => {
+        let data = canvas.toDataURL('image/jpeg');
+        let pdf = new jsPDF('landscape', undefined, format);
+        pdf.addImage(data, 'JPEG', 0, 0, dim[0], dim[1]);
+        pdf.save('map.pdf');
+        keys.forEach(unByKey);
+        keys = [];
+        map.setSize(size);
+        map.getView().fit(extent, {size: size});
+        map.renderSync();
+      }, 3000);
+    }
 
     let printSize = [width, height];
     this.map.setSize(printSize);
     this.map.getView().fit(extent, {size: printSize});
     this.map.renderSync();
   
-    // let loading = 0;
-    // let loaded = 0;
-
-    // let tileLoadStart = function() {
-    //   loading += 1;
-    // }
-
-    // let timer;
-    // let keys = [];
-
-    // let map = this.map;
-    // let format = this.selectedFormat;
-
-    
-    // function tileLoadEndFactory(canvas) {
-    //   return function () {
-    //     loaded+= 1;
-    //   if (timer) {
-    //     clearTimeout(timer);
-    //     timer = null;
-    //   }
-    //   if (loading === loaded) { debugger;
-    //     timer = window.setTimeout(function () {
-    //       loading = 0;
-    //       loaded = 0;
-    //       let data = canvas.toDataURL('image/jpeg');
-    //       let pdf = new jsPDF('landscape', undefined, format);
-    //       pdf.addImage(data, 'JPEG', 0, 0, dim[0], dim[1]);
-    //       pdf.save('map.pdf');
-    //       keys.forEach(unByKey);
-    //       keys = [];
-    //       map.setSize(size);
-    //       map.getView().fit(extent, {size: size});
-    //       map.renderSync();
-    //     }, 500);
-    //   }
-    //   };
-    // }
-    
-    // this.map.once('postcompose', function(event) {
-
-    //   let canvas = event.context.canvas;
-    //   let tileLoadEnd = tileLoadEndFactory(canvas);
-    //   keys = [
-    //     source.on('tileloadstart', tileLoadStart),
-    //     source.on('tileloadend', tileLoadEnd),
-    //     source.on('tileloaderror', tileLoadEnd)
-    //   ];
-    //   // tileLoadEnd();
-    //   tileLoadEnd()
-    // });
-
-    // let printSize = [width, height];
-    // this.map.setSize(printSize);
-    // this.map.getView().fit(extent, {size: printSize});
-    // // loaded = -1;
-    // this.map.renderSync();
-
   }
 
- 
-  exportPDFasfgasdf(){
-    this.globals.getVisibleLayers()
-  }
-  
 }
 

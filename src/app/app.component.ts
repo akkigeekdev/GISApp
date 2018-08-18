@@ -10,6 +10,7 @@ import { WidgetService } from './widget.service'
 import { WidgetDirective } from './widget.directive'
 import {defaults as defaultControls, ScaleLine, FullScreen} from 'ol/control.js';
 import { HttpClient } from "@angular/common/http";
+import { ResultService } from "./result.service";
 
 @Component({
   selector: 'app-root',
@@ -17,7 +18,8 @@ import { HttpClient } from "@angular/common/http";
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
- 
+
+
   @ViewChild(WidgetDirective) appWidget: WidgetDirective;
 
   map:any;
@@ -30,7 +32,8 @@ export class AppComponent {
     private globals:Globals,
     private widgetservice: WidgetService,
     private componentFactoryResolver:ComponentFactoryResolver,
-    private http: HttpClient
+    private http: HttpClient,
+    private resservice: ResultService
   ){
     this.widgets = this.widgetservice.getWidgets();
   }
@@ -263,8 +266,15 @@ export class AppComponent {
     let promises = [], 
     global = this.globals , 
     http = this.http,
+<<<<<<< HEAD
     map = this.map;
     this.map.once('singleclick', function(evt){
+=======
+    result = this.resservice;
+
+    this.map.once('singleclick', function(evt){
+
+>>>>>>> 97f1491e6ec87310afdcc82b465551c2a936e925
       let coord = transform([ evt.coordinate[0],  evt.coordinate[1]],  'EPSG:3857','EPSG:4326');
       let box:any = [
         (coord[0] - 0.0001),
@@ -286,7 +296,7 @@ export class AppComponent {
           promises.push(
             new Promise((resolve, reject)=>{
               http.get(url).subscribe(
-                (res)=>{ resolve(res) },
+                (res)=>{ res["layerName"]= layer.split(":")[1] ;resolve(res) },
                 (error)=>{ reject(error) }
               )
             })
@@ -294,24 +304,17 @@ export class AppComponent {
         }
       }
 
-      Promise.all(promises).then(function(result){
-        console.log(result);
+      Promise.all(promises).then(function(res){
+        result.showFeatureCollections(res);
       }, function(error){
         console.log(error);
       })
 
     });
-    
-
   }
-
 
   toggleDrawer():void{
     this.drawerOpenStatus = !this.drawerOpenStatus;
   }
 
 }
-
-
-//http://localhost:6600/geoserver/PrecisionFarming/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image:png&TRANSPARENT=true&QUERY_LAYERS=PrecisionFarming:plot&LAYERS=PrecisionFarming:plot&INFO_FORMAT=application/json&FEATURE_COUNT=300&X=50&Y=50&SRS=EPSG:4326&WIDTH=101&HEIGHT=101&BBOX=73.9953256362152, 17.615813190566428, 74.00281436378478, 17.619284792734277
-"http://192.168.1.14:6600/geoserver/PrecisionFarming/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image:png&TRANSPARENT=true&QUERY_LAYERS=PrecisionFarming:Farm&LAYERS=PrecisionFarming:Farm&INFO_FORMAT=application/json&FEATURE_COUNT=300&X=50&Y=50&SRS=EPSG:4326&WIDTH=101&HEIGHT=101&BBOX=73.99901291534422,17.617502684561632,73.99921291534423,17.617702684561632"

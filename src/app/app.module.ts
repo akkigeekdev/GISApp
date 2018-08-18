@@ -9,6 +9,7 @@ import { BasemapsComponent } from './widgets/basemaps/basemaps.component';
 import { LayersComponent } from './widgets/layers/layers.component';
 import { PrintComponent } from './widgets/print/print.component';
 import { QueryComponent } from './widgets/query/query.component';
+import { ResultWindowComponent } from './widgets/result-window/result-window.component';
 
 // services
 import { Globals } from './globals';
@@ -37,6 +38,7 @@ import {
   ReactiveFormsModule
 } from '@angular/forms';
 import { ResultWindowComponent } from './widgets/result-window/result-window.component';
+
 
 
 
