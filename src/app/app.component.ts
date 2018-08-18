@@ -277,8 +277,8 @@ export class AppComponent {
       ]
       box = box.join(",")+"";
 
-      debugger;
-      let visibleLayers = global.getVisibleLayers(); console.log(visibleLayers);
+      
+      let visibleLayers = global.getVisibleLayers();
       
 
       for (let i = 1; i < visibleLayers.length; i++) {

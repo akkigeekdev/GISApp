@@ -60,7 +60,7 @@ export class PrintComponent implements OnInit {
     let extent = this.map.getView().calculateExtent(size);
 
     let source = this.map.getLayers().getArray()[0].getSource();
-
+    let format = this.selectedFormat, map = this.map;
 
     let watch = {
       canvas: null,
@@ -68,9 +68,16 @@ export class PrintComponent implements OnInit {
       setTimeForExport: function(){
         if(this.timer) clearTimeout(this.timer);
         this.timer = null;
+        let canvas = this.canvas;
 
         this.timer = setTimeout(() => {
-          console.log("done");
+          let data = canvas.toDataURL('image/jpeg');
+          let pdf = new jsPDF('landscape', undefined, format);
+          pdf.addImage(data, 'JPEG', 0, 0, dim[0], dim[1]);
+          pdf.save('map.pdf');
+          map.setSize(size);
+          map.getView().fit(extent, {size: size});
+          map.renderSync();
         }, 3000);
       }
     }
@@ -83,6 +90,13 @@ export class PrintComponent implements OnInit {
         source.on('tileloaderror', watch.setTimeForExport)
       ];      
     });
+
+
+
+    let printSize = [width, height];
+    this.map.setSize(printSize);
+    this.map.getView().fit(extent, {size: printSize});
+    this.map.renderSync();
   
     // let loading = 0;
     // let loaded = 0;
@@ -136,11 +150,11 @@ export class PrintComponent implements OnInit {
     //   tileLoadEnd()
     // });
 
-    let printSize = [width, height];
-    this.map.setSize(printSize);
-    this.map.getView().fit(extent, {size: printSize});
-    // loaded = -1;
-    this.map.renderSync();
+    // let printSize = [width, height];
+    // this.map.setSize(printSize);
+    // this.map.getView().fit(extent, {size: printSize});
+    // // loaded = -1;
+    // this.map.renderSync();
 
   }
 
