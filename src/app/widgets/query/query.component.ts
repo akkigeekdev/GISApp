@@ -50,7 +50,7 @@ export class QueryComponent implements OnInit {
       return layer.get('id') == e.value;
     });
     this.selectedLayer = layers[0];
-     let featureUrl = "http://192.168.0.104:6600/geoserver/wfs?version=1.3.0&request=describeFeatureType&outputFormat=application/json&service=WFS&typeName="+ layers[0].getSource().getParams().LAYERS ;
+     let featureUrl = "http://192.168.1.14:6600/geoserver/wfs?version=1.3.0&request=describeFeatureType&outputFormat=application/json&service=WFS&typeName="+ layers[0].getSource().getParams().LAYERS ;
      this.http.get(featureUrl).subscribe(
       (res:any)=>{
         let response = res;

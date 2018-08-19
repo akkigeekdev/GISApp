@@ -90,7 +90,7 @@ export class AppComponent {
     let layers: Layers[] = [ ];
         
     var parser = new WMSCapabilities();
-    let WMSCapabilitiesUrl = "http://192.168.0.104:6600/geoserver/ows?service=wms&version=1.1.1&request=GetCapabilities";
+    let WMSCapabilitiesUrl = "http://192.168.1.14:6600/geoserver/ows?service=wms&version=1.1.1&request=GetCapabilities";
     this.http.get(WMSCapabilitiesUrl, { headers: new HttpHeaders({ 'Accept': 'application/xml' }), responseType: 'text' })
       .subscribe(
         (res: any) => {
@@ -101,7 +101,7 @@ export class AppComponent {
             layers.push(
               {
                 SourceInfo: {
-                  url: 'http://192.168.0.104:6600/geoserver/wms',
+                  url: 'http://192.168.1.14:6600/geoserver/wms',
                   params: { LAYERS: layer.Name },
                   serverType: 'geoserver',
                   isBaseLayer: false,
@@ -134,9 +134,7 @@ export class AppComponent {
         (error) => { console.log(error) }
       );
       
-    
-
-  }
+    }
 
   loadWidgets(): void {
     for (let i = 0; i < this.widgets.length; i++) {
@@ -173,7 +171,7 @@ export class AppComponent {
 
         const layer = visibleLayers[i].getSource().getParams().LAYERS;
 
-        let url = `http://192.168.0.104:6600/geoserver/PrecisionFarming/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image:png&TRANSPARENT=true&QUERY_LAYERS=${layer}&LAYERS=${layer}&INFO_FORMAT=application/json&FEATURE_COUNT=300&X=50&Y=50&SRS=EPSG:4326&WIDTH=101&HEIGHT=101&BBOX=${box}`;
+        let url = `http://192.168.1.14:6600/geoserver/PrecisionFarming/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image:png&TRANSPARENT=true&QUERY_LAYERS=${layer}&LAYERS=${layer}&INFO_FORMAT=application/json&FEATURE_COUNT=300&X=50&Y=50&SRS=EPSG:4326&WIDTH=101&HEIGHT=101&BBOX=${box}`;
         // console.log(url);
 
         if (layer != "Basemap") {
