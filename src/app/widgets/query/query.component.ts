@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Globals } from '../../globals'
 import { HttpClient } from "@angular/common/http";
-import { DialogWindowService } from "../../dialog-window.service";
-import { getTreeControlFunctionsMissingError } from '../../../../node_modules/@angular/cdk/tree';
+import { DialogWindowService } from "../dialog/dialog.component";
+
 export interface select {
   value: any;
   label: any;

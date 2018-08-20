@@ -6,11 +6,11 @@ import OSM from 'ol/source/OSM'
 import Tile from 'ol/layer/tile'
 import TileWMS from 'ol/source/tilewms'
 import { Globals } from './globals'
-import { WidgetService } from './widget.service'
-import { WidgetDirective } from './widget.directive'
+import { WidgetService } from './services/widget-loader/widget.service'
+import { WidgetDirective } from './services/widget-loader/widget.directive'
 import { defaults as defaultControls, ScaleLine, FullScreen } from 'ol/control.js';
 import { HttpClient } from "@angular/common/http";
-import { ResultService } from "./result.service";
+import { ResultService } from "./widgets/result-window/result-window.component";
 import WMSCapabilities from 'ol/format/WMSCapabilities'
 import { HttpHeaders } from '@angular/common/http'
 
@@ -33,6 +33,8 @@ export interface Layers {
   BoundingBox: any;
   id: any;
 }
+
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -44,7 +46,7 @@ export class AppComponent {
   @ViewChild(WidgetDirective) appWidget: WidgetDirective;
 
   map: any;
-  drawerOpenStatus: boolean = false;
+  drawerOpenStatus: boolean = true;
   widgets = [];
 
   scaleLineControl = new ScaleLine();
@@ -136,7 +138,8 @@ export class AppComponent {
       
     }
 
-  loadWidgets(): void {
+  
+    loadWidgets(): void {
     for (let i = 0; i < this.widgets.length; i++) {
       const widgetItem = this.widgets[i];
       let componentFactory = this.componentFactoryResolver.resolveComponentFactory(widgetItem.component);
@@ -187,6 +190,7 @@ export class AppComponent {
       }
 
       Promise.all(promises).then(function (res) {
+        debugger;
         result.showFeatureCollections(res);
       }, function (error) {
         console.log(error);
