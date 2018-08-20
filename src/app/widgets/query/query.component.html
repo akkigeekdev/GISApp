@@ -23,17 +23,6 @@
 
     </mat-select>
   </mat-form-field>
-  <!-- <div class="operators">
-    <button mat-stroked-button></button>
-    <button mat-stroked-button>&#60;</button>
-    <button mat-stroked-button>&#62;</button>
-    <button mat-stroked-button>&#60;&#61; </button>
-    <button mat-stroked-button>&#62;&#61; </button>
-    <button mat-stroked-button>LIKE</button>
-    <button mat-stroked-button>AND</button>
-    <button mat-stroked-button>OR</button>
-    <button mat-stroked-button>NOT</button>
-  </div> -->
 
   <mat-form-field style="padding-top: 15px;">
     <input matInput placeholder="Enter value" (change)="onQueryChange()" [(ngModel)] = "queryValue" >
@@ -44,6 +33,7 @@
 
   <div style="text-align: center">
       <button mat-raised-button color="primary" (click)="SearchFeatures()">Search</button>
+      <button mat-raised-button color="primary" (click)="Clear()">Clear</button>
   </div>
 
 
