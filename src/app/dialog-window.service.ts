@@ -9,7 +9,6 @@ export class DialogWindowService {
   @Output() showError: EventEmitter<boolean> = new EventEmitter();
 
   showErrorDialog(error){
-    debugger;
    this.showError.emit(error);
   }
   

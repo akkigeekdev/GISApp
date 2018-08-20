@@ -14,35 +14,6 @@ export class BasemapsComponent implements OnInit {
   map:any;
   constructor(private global:Globals) { this.map = this.global.map;}
 
-
-  // osm = {
-  //   img: "osm.png",
-  //   source: new TileLayer({ source: new OSM() }),
-  //   name:"OSM",
-  //   selected: true
-  // };
-  // bingAerial = {
-  //   img: "aerial.jpg",
-  //   source: new TileLayer({
-  //     source: new BingMaps({
-  //       key: 'AjN0UtayJCMrJz9YEVutFuV1AFiDkNt9kHFTtw7gC4expbJGflke5DkefuXns7Hd',
-  //       imagerySet: 'Aerial'
-  //     })
-  //   }),
-  //   name:"Aerial",
-  //   selected: false
-  // };
-  // bingRoad = {
-  //   img: "road.jpg",
-  //   source: new TileLayer({
-  //     source: new BingMaps({
-  //       key: 'AjN0UtayJCMrJz9YEVutFuV1AFiDkNt9kHFTtw7gC4expbJGflke5DkefuXns7Hd',
-  //       imagerySet: 'Road'
-  //     })
-  //   }),
-  //   name:"Road",
-  //   selected: false
-  // };
   osm = {
     img: "osm.png",
     source: new OSM(),
