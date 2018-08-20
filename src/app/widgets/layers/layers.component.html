@@ -23,9 +23,9 @@
         <mat-icon>dialpad</mat-icon>
         <span>{{layer.name}}</span>
       </button>
-      <button mat-menu-item disabled>
-        <mat-icon>voicemail</mat-icon>
-        <span>Check voicemail</span>
+      <button mat-menu-item (click) =zoomToLayer(layer)>
+        <mat-icon>center_focus_strong</mat-icon>
+        <span>Zoom To Layer</span>
       </button>
       <button mat-menu-item>
         <mat-icon>notifications_off</mat-icon>

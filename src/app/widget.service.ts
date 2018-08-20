@@ -14,7 +14,8 @@ export class WidgetService {
       new WidgetItem(BookmarkComponent),
       new WidgetItem(LayersComponent),
       new WidgetItem(PrintComponent),
-      new WidgetItem(QueryComponent)
+      new WidgetItem(QueryComponent),
+      
     ]
   }
 }

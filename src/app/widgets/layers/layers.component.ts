@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import {Globals} from '../../globals'
-
+import {transformExtent} from 'ol/proj';
 @Component({
   selector: 'app-layers',
   templateUrl: './layers.component.html',
@@ -29,9 +29,10 @@ export class LayersComponent implements OnInit {
 
         let img;
         if(layer.getSource().getParams){
-          img = this.getLegend(layer.getSource().getParams().LAYERS) ;
+         
+          //img = this.getLegend(layer.getSource().getParams().LAYERS) ;
+          img = this.getLegendurl(layer.get('legendUrl'));
         }
-
         this.layers.push( { name:layer.get('title'), id: id, legend: img, selected:true} );
       }
     }
@@ -56,7 +57,22 @@ export class LayersComponent implements OnInit {
   }
 
   getLegend(name:string): string{
-    return "http://192.168.1.14:6600/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=50&HEIGHT=50&LAYER="+name+"&legend_options=fontName:Times%20New%20Roman&bgColor=0xff12ff&fontColor=0x000033&dpi=180"
+    return "http://192.168.1.14:6600/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=25&HEIGHT=25&LAYER="+name+"&legend_options=fontName:Times%20New%20Roman&bgColor=0xff12ff&fontColor=0x000033&dpi=180"
+  }
+  getLegendurl(url:string): string{
+    return url;
+  }
+
+  zoomToLayer(layer):void
+  {
+    let selectedLayer;
+    let layers = this.map.getLayers().getArray().filter(function(l){
+      return l.get('id') == layer.id;
+    });
+    selectedLayer = layers[0];
+    var oldextent = selectedLayer.get('boundingBox');
+    var extent = transformExtent(oldextent,'EPSG:4326', 'EPSG:3857');
+    this.map.getView().fit(extent)
   }
 
 }
