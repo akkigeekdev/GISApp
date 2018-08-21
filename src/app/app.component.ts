@@ -1,6 +1,6 @@
 import { Component, ViewChild, ComponentFactoryResolver } from '@angular/core'
-import View from 'ol/view'
-import Map from 'ol/map'
+import View from 'ol/View'
+import Map from 'ol/Map'
 import { transform } from 'ol/proj'
 import OSM from 'ol/source/OSM'
 import Tile from 'ol/layer/tile'
@@ -46,7 +46,7 @@ export class AppComponent {
   @ViewChild(WidgetDirective) appWidget: WidgetDirective;
 
   map: any;
-  drawerOpenStatus: boolean = true;
+  drawerOpenStatus: boolean = false;
   widgets = [];
 
   scaleLineControl = new ScaleLine();
@@ -97,7 +97,7 @@ export class AppComponent {
       .subscribe(
         (res: any) => {
           var result = parser.read(res);
-          console.log(result);
+     
           result.Capability.Layer.Layer[0].Layer.forEach(function (layer, index) {
             
             layers.push(
@@ -190,7 +190,6 @@ export class AppComponent {
       }
 
       Promise.all(promises).then(function (res) {
-        debugger;
         result.showFeatureCollections(res);
       }, function (error) {
         console.log(error);
