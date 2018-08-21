@@ -12,7 +12,7 @@
 
   <div class="list" *ngFor="let layer of layers; let i = index"> 
     <mat-checkbox [(ngModel)]="layer.selected" [name]="layer.name" (change)="chkLayer_changed($event)">
-      <img [src]="layer.legend" alt="">
+      <img *ngIf="layer.legend" [src]="layer.legend" alt="">
       {{layer.name}}
     </mat-checkbox> 
     <button mat-icon-button [matMenuTriggerFor]="menu">
