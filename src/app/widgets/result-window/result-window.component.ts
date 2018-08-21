@@ -2,8 +2,7 @@ import { Component, OnInit, Injectable, Output, EventEmitter } from '@angular/co
 
 export interface resultTemp{
   layerName: string,
-  attributes: object,
-  showing: boolean
+  attributes: object
 }
 
 @Injectable({
@@ -17,11 +16,10 @@ export class ResultService {
 
   showFeatureCollections(featureCollections){
 
-    if( featureCollections && !Array.isArray(featureCollections)){
-      featureCollections = [featureCollections]
+    if(featureCollections[0] && featureCollections[0].type && featureCollections[0].type == "FeatureCollection"){
+      this.change.emit(featureCollections);
     }
-    debugger;
-    this.change.emit(featureCollections);
+    
   }
 }
 
@@ -37,9 +35,9 @@ export class ResultWindowComponent implements OnInit {
   constructor(private resservice: ResultService) { }
   
   show = false;
-
-  hasPrevious = false;
-  hasNext = false;
+  
+  showingIndex = 0;
+  showingAttributes = [];
 
   results:resultTemp[] = [];
 
@@ -51,6 +49,8 @@ export class ResultWindowComponent implements OnInit {
 
   execute(fcs){
 
+    console.log(fcs);
+    
     for (let i = 0; i < fcs.length; i++) {
       const layername = fcs[i].layerName;
 
@@ -58,28 +58,47 @@ export class ResultWindowComponent implements OnInit {
         const feature = fcs[i].features[j];
         const prop = feature.properties;
 
+        let keys = Object.keys(prop);
+        let attributes = []
+
+        for (let i = 0; i < keys.length; i++) {
+          const key = keys[i];
+          attributes.push(
+            {column: key, value: prop[key]}
+          )
+        }
+
         this.results.push({
           layerName: layername,
-          attributes: prop,
-          showing: (i==0)
+          attributes: attributes
         })
-      }      
+
+      } 
     }
 
     console.log(this.results);
-
+    
     this.showresults()
   }
 
-
   showresults(){
-
+    if(this.results.length == 0 ) {}
+    this.show = true;
   }
 
+  showPrevious(){
+    this.showingIndex -= 1
+  }
+  
+  showNext(){
+    this.showingIndex += 1
+  }
  
   closeWindow(e){
     e.preventDefault();
     this.show = false;
+    this.showingIndex = 0;
+    this.results = []
   }
   
 }
