@@ -1,11 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Globals } from '../../globals'
 import { HttpClient } from "@angular/common/http";
-<<<<<<< HEAD
 import { DialogWindowService } from "../../dialog-window.service";
-=======
-import { DialogWindowService } from "../dialog/dialog.component";
->>>>>>> d019fe8f48295ec14eb30258609359cb000d4a1a
 
 export interface select {
   value: any;

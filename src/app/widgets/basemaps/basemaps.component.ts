@@ -13,10 +13,6 @@ export class BasemapsComponent implements OnInit {
   map:any;
   constructor(private global:Globals) { this.map = this.global.map;}
 
-<<<<<<< HEAD
-=======
-
->>>>>>> d019fe8f48295ec14eb30258609359cb000d4a1a
   osm = {
     img: "osm.png",
     source: new OSM(),
