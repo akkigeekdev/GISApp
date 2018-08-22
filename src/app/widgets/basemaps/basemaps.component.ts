@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Globals } from "../../globals";
-import TileLayer from 'ol/layer/Tile.js';
 import BingMaps from 'ol/source/BingMaps.js';
 import OSM from 'ol/source/OSM';
 
@@ -14,6 +13,10 @@ export class BasemapsComponent implements OnInit {
   map:any;
   constructor(private global:Globals) { this.map = this.global.map;}
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> d019fe8f48295ec14eb30258609359cb000d4a1a
   osm = {
     img: "osm.png",
     source: new OSM(),

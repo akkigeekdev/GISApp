@@ -13,8 +13,8 @@ import { DialogComponent } from './widgets/dialog/dialog.component';
 
 // services
 import { Globals } from './globals';
-import { WidgetService } from './widget.service';
-import { WidgetDirective } from './widget.directive';
+import { WidgetService } from './services/widget-loader/widget.service';
+import { WidgetDirective } from './services/widget-loader/widget.directive';
 import { HttpClientModule} from "@angular/common/http";
 
 // Material components

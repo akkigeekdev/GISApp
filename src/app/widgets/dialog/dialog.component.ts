@@ -1,5 +1,23 @@
 import { Component, OnInit } from '@angular/core';
-import { DialogWindowService } from "../../dialog-window.service";
+import { Injectable,EventEmitter,Output } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class DialogWindowService {
+
+  constructor() { }
+  @Output() showError: EventEmitter<boolean> = new EventEmitter();
+
+  showErrorDialog(error){
+    debugger;
+   this.showError.emit(error);
+  }
+  
+}
+
+
+
 @Component({
   selector: 'app-dialog',
   templateUrl: './dialog.component.html',
