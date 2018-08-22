@@ -174,7 +174,7 @@ export class AppComponent {
 
         const layer = visibleLayers[i].getSource().getParams().LAYERS;
 
-        let url = `http://192.168.1.14:6600/geoserver/PrecisionFarming/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image:png&TRANSPARENT=true&QUERY_LAYERS=${layer}&LAYERS=${layer}&INFO_FORMAT=application/json&FEATURE_COUNT=300&X=50&Y=50&SRS=EPSG:4326&WIDTH=101&HEIGHT=101&BBOX=${box}`;
+        let url = `http://192.168.1.14:6600/geoserver/PFDB/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image:png&TRANSPARENT=true&QUERY_LAYERS=${layer}&LAYERS=${layer}&INFO_FORMAT=application/json&FEATURE_COUNT=300&X=50&Y=50&SRS=EPSG:4326&WIDTH=101&HEIGHT=101&BBOX=${box}`;
         // console.log(url);
 
         if (layer != "Basemap") {

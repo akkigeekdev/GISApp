@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Globals } from '../../globals'
 import { HttpClient } from "@angular/common/http";
-import { DialogWindowService } from "../dialog/dialog.component";
-
+import { DialogWindowService } from "../../dialog-window.service";
+import { ResultService } from "../result-window/result-window.component";
+import { HttpHeaders } from '@angular/common/http'
 export interface select {
   value: any;
   label: any;
@@ -19,7 +20,8 @@ export class QueryComponent implements OnInit {
   constructor(
     private globals: Globals,
     private http: HttpClient,
-    private dialogWindowService: DialogWindowService
+    private dialogWindowService: DialogWindowService,
+    private resservice: ResultService
   ) {
     this.map = this.globals.map
   }
@@ -59,7 +61,7 @@ export class QueryComponent implements OnInit {
         let response = res;
         if (response.featureTypes[0].properties.length > 0) {
           response.featureTypes[0].properties.forEach(function (attributes) {
-            if (attributes.name != 'geom') {
+            if (attributes.name != 'GEOM') {
               fields.push({
                 label: attributes.name.toUpperCase(),
                 value: attributes.name
@@ -86,6 +88,7 @@ export class QueryComponent implements OnInit {
   }
 
   SearchFeatures() {
+    let result = this.resservice;
     if(!this.selectedLayer) {
       this.dialogWindowService.showErrorDialog("Please Select Layer"); return;
     }
@@ -101,8 +104,20 @@ export class QueryComponent implements OnInit {
     {
       this.dialogWindowService.showErrorDialog("Please Enter Value"); return;
     }
-
-
+    let bbox = this.selectedLayer.get('boundingBox');
+    debugger;
+    //let featureUrl = `http://192.168.1.14:6600/geoserver/PFDB/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&FORMAT=image:png&TRANSPARENT=true&QUERY_LAYERS=${this.selectedLayer.getSource().getParams().LAYERS}&LAYERS=${this.selectedLayer.getSource().getParams().LAYERS}&INFO_FORMAT=application/json&FEATURE_COUNT=50S&X=50&Y=50&SRS=EPSG:4326&WIDTH=101&HEIGHT=101&BBOX=${sbbox}`;
+    let featureUrl = "http://192.168.1.14:6600/geoserver/wfs?service=wfs&version=1.1.0&request=GetFeature&&outputFormat=application/json&typeName=" + this.selectedLayer.getSource().getParams().LAYERS;
+    this.http.get(featureUrl,{ headers: new HttpHeaders({ 'Accept': 'application/xml' }), responseType: 'text' }).subscribe(
+      (res: any) => {
+        let rec_feture_collections = JSON.parse(res);
+        rec_feture_collections["layerName"] = this.selectedLayer.getSource().getParams().LAYERS.split(":")[1];
+        result.showFeatureCollections([rec_feture_collections]);
+      },
+      (error) => { 
+        console.log(error)
+       }
+    )
   }
   Clear()
     {
