@@ -103,7 +103,7 @@ export class QueryComponent implements OnInit {
     }
     let bbox = this.selectedLayer.get('boundingBox');
     
-    let featureUrl = `http://192.168.1.14:6600/geoserver/PrecisionFarming/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image:png&TRANSPARENT=true&QUERY_LAYERS=${this.selectedLayer.getSource().getParams().LAYERS}&LAYERS=${this.selectedLayer.getSource().getParams().LAYERS}&INFO_FORMAT=application/json&FEATURE_COUNT=50S&X=50&Y=50&SRS=EPSG:4326&WIDTH=101&HEIGHT=101&BBOX=${bbox}`;
+    let featureUrl = `http://192.168.1.14:6600/geoserver/PFDB/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image:png&TRANSPARENT=true&QUERY_LAYERS=${this.selectedLayer.getSource().getParams().LAYERS}&LAYERS=${this.selectedLayer.getSource().getParams().LAYERS}&INFO_FORMAT=application/json&FEATURE_COUNT=50S&X=50&Y=50&SRS=EPSG:4326&WIDTH=101&HEIGHT=101&BBOX=${bbox}`;
       console.log(featureUrl);
     this.http.get(featureUrl).subscribe(
       (res: any) => {
