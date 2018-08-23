@@ -46,7 +46,7 @@ export class AppComponent {
   @ViewChild(WidgetDirective) appWidget: WidgetDirective;
 
   map: any;
-  drawerOpenStatus: boolean = false;
+  drawerOpenStatus: boolean = true;
   widgets = [];
 
   scaleLineControl = new ScaleLine();
@@ -93,53 +93,51 @@ export class AppComponent {
         
     var parser = new WMSCapabilities();
     let WMSCapabilitiesUrl = "http://192.168.1.14:6600/geoserver/ows?service=wms&version=1.1.1&request=GetCapabilities";
-    this.http.get(WMSCapabilitiesUrl, { headers: new HttpHeaders({ 'Accept': 'application/xml' }), responseType: 'text' })
-      .subscribe(
-        (res: any) => {
-          var result = parser.read(res);
-     
-          result.Capability.Layer.Layer[0].Layer.forEach(function (layer, index) {
-            
-            layers.push(
-              {
-                SourceInfo: {
-                  url: 'http://192.168.1.14:6600/geoserver/wms',
-                  params: { LAYERS: layer.Name },
-                  serverType: 'geoserver',
-                  isBaseLayer: false,
-                  crossOrigin: 'anonymous',
-                  tiled: true
-                },
-                Title: layer.Title.toUpperCase(),
-                LegendUrl: layer.Style[0].LegendURL[0].OnlineResource,
-                BoundingBox: layer.BoundingBox[0].extent,
-                id: index + 1
-              })
-          });
-          let tilelayers = layers.map(l => {
-            return new Tile({
-              source: new TileWMS(l.SourceInfo),
-              title: l.Title,
-              id: l.id,
-              legendUrl:l.LegendUrl,
-              boundingBox:l.BoundingBox
-            });
-          });
-      
-          for (let i = 0; i < tilelayers.length; i++) {
-            const tlayer = tilelayers[i];
-            this.map.addLayer(tlayer);
-          }
+    this.http
+      .get(WMSCapabilitiesUrl, { headers: new HttpHeaders({ 'Accept': 'application/xml' }), responseType: 'text' })
+      .subscribe( (res: any) => {
+          
+        var result = parser.read(res);
+        result.Capability.Layer.Layer[0].Layer.forEach(function (layer, index) {
+            layers.push({
+              SourceInfo: {
+                url: 'http://192.168.1.14:6600/geoserver/wms',
+                params: { LAYERS: layer.Name },
+                serverType: 'geoserver',
+                isBaseLayer: false,
+                crossOrigin: 'anonymous',
+                tiled: true
+              },
+              Title: layer.Title.toUpperCase(),
+              LegendUrl: layer.Style[0].LegendURL[0].OnlineResource,
+              BoundingBox: layer.BoundingBox[0].extent,
+              id: index + 1
+            })
+        });
 
-          this.loadWidgets();
-        },
-        (error) => { console.log(error) }
-      );
+        let tilelayers = layers.map(l => {
+          return new Tile({
+            source: new TileWMS(l.SourceInfo),
+            title: l.Title,
+            id: l.id,
+            legendUrl:l.LegendUrl,
+            boundingBox:l.BoundingBox
+          });
+        });
       
-    }
+        for (let i = 0; i < tilelayers.length; i++) {
+          const tlayer = tilelayers[i];
+          this.map.addLayer(tlayer);
+        }
 
-  
-    loadWidgets(): void {
+        this.loadWidgets();
+
+      }, (error) => { console.log(error) } 
+    );
+      
+  }
+
+  loadWidgets(): void {
     for (let i = 0; i < this.widgets.length; i++) {
       const widgetItem = this.widgets[i];
       let componentFactory = this.componentFactoryResolver.resolveComponentFactory(widgetItem.component);
