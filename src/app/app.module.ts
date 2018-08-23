@@ -10,6 +10,7 @@ import { LayersComponent } from './widgets/layers/layers.component';
 import { PrintComponent } from './widgets/print/print.component';
 import { QueryComponent } from './widgets/query/query.component';
 import { ResultWindowComponent } from './widgets/result-window/result-window.component';
+import { LoaderComponent } from './UI/loader/loader.component';
 
 // services
 import { Globals } from './globals';
@@ -38,6 +39,7 @@ import {
   ReactiveFormsModule
 } from '@angular/forms';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,7 +49,8 @@ import {
     BasemapsComponent,
     QueryComponent,
     PrintComponent,
-    ResultWindowComponent
+    ResultWindowComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,

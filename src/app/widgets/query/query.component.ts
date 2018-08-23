@@ -4,6 +4,7 @@ import { HttpClient } from "@angular/common/http";
 import { ResultService } from "../result-window/result-window.component";
 import { HttpHeaders } from '@angular/common/http'
 import swal from 'sweetalert';
+import { LoaderService } from "../../UI/loader/loader.component";
 
 @Component({
   selector: 'app-query',
@@ -17,7 +18,8 @@ export class QueryComponent implements OnInit {
   constructor(
     private globals: Globals,
     private http: HttpClient,
-    private resservice: ResultService
+    private resservice: ResultService,
+    private loader: LoaderService
   ) {
     this.map = this.globals.map
   }
@@ -76,6 +78,8 @@ export class QueryComponent implements OnInit {
   }
  
   SearchFeatures() {
+
+    this.loader.show()
 
     if(!this.selectedLayerName)  swal({ text: "Please Select Layer"}); 
     else if(!this.selectedFieldName) swal({ text: "Please Select Attributes"}); 
