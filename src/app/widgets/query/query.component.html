@@ -12,7 +12,7 @@
   </mat-form-field>
   
   <mat-form-field>
-    <mat-select placeholder="Select Fields" [(ngModel)]="selectedField">
+    <mat-select placeholder="Select Fields" [(ngModel)]="selectedFieldName" >
       <mat-option *ngFor="let l of fields; let i=index" [value]="l.value"> {{l.label}} </mat-option>
     </mat-select>
   </mat-form-field>
@@ -20,23 +20,16 @@
     <mat-select placeholder="Select operation" [(ngModel)]="selectedOprator" >
       <mat-option value ="=">&#61;</mat-option>
       <mat-option value ="LIKE">LIKE</mat-option>
-
     </mat-select>
   </mat-form-field>
 
   <mat-form-field style="padding-top: 15px;">
-    <input matInput placeholder="Enter value" (change)="onQueryChange()" [(ngModel)] = "queryValue" >
+    <input matInput placeholder="Enter value" [(ngModel)] = "enteredValue" >
   </mat-form-field>
-  <mat-form-field style="padding-top: 15px;">
-    <textarea  matInput placeholder="Final query" value = "{{finalQuery}}" ></textarea>
-  </mat-form-field>
-
+  
   <div style="text-align: center">
       <button mat-raised-button color="primary" (click)="SearchFeatures()">Search</button>
-
       <button style="margin-left: 15px;" mat-raised-button color="primary" (click)="Clear()">Clear</button>
   </div>
-
-
 
 </mat-expansion-panel>

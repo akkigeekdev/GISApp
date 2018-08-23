@@ -1,14 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Globals } from '../../globals'
 import { HttpClient } from "@angular/common/http";
-import { DialogWindowService } from "../../dialog-window.service";
 import { ResultService } from "../result-window/result-window.component";
 import { HttpHeaders } from '@angular/common/http'
-export interface select {
-  value: any;
-  label: any;
-}
-
+import swal from 'sweetalert';
 
 @Component({
   selector: 'app-query',
@@ -17,24 +12,27 @@ export interface select {
 })
 export class QueryComponent implements OnInit {
 
+  
+  map: any;
   constructor(
     private globals: Globals,
     private http: HttpClient,
-    private dialogWindowService: DialogWindowService,
     private resservice: ResultService
   ) {
     this.map = this.globals.map
   }
-  map: any;
-  layers: select[] = []
-  fields: select[] = []
-  finalQuery = "";
-  queryValue = "";
-  selectedOprator = "";
-  selectedField = "";
-  selectedLayer;
-  ngOnInit() {
-  }
+  
+  // fills cmb box
+  layers = []
+  fields = []
+  
+  selectedLayerName = ""
+  selectedFieldName = ""
+  selectedOprator = ""
+  enteredValue = ""
+
+  ngOnInit() { }
+
   ngAfterViewInit() {
     let layers = this.map.getLayers().getArray();
     for (let i = 0; i < layers.length; i++) {
@@ -45,88 +43,67 @@ export class QueryComponent implements OnInit {
       }
     }
   }
+
   onLayerChange(e): void {
-    this.fields = [];
-    this.finalQuery = "";
-    this.selectedOprator = "";
+    
+    // clear field
+    this.fields = []
+    this.selectedOprator = ""
+    this.enteredValue = ""
 
+
+    // get all fields related to the selected layer 
+    let selectedLayer = this.map.getLayers().getArray().filter(l => l.get('id') == e.value)[0];  
+    this.selectedLayerName = selectedLayer.getSource().getParams().LAYERS
+
+    // set the query url
+    let queryURL = "http://192.168.1.14:6600/geoserver/wfs?version=1.3.0&request=describeFeatureType&outputFormat=application/json&service=WFS&typeName=" + this.selectedLayerName;
+
+    // get fields
     let fields = this.fields;
-    let layers = this.map.getLayers().getArray().filter(function (layer) {
-      return layer.get('id') == e.value;
-    });
-    this.selectedLayer = layers[0];
-    let featureUrl = "http://192.168.1.14:6600/geoserver/wfs?version=1.3.0&request=describeFeatureType&outputFormat=application/json&service=WFS&typeName=" + layers[0].getSource().getParams().LAYERS;
-    this.http.get(featureUrl).subscribe(
-      (res: any) => {
-        let response = res;
-        if (response.featureTypes[0].properties.length > 0) {
-          response.featureTypes[0].properties.forEach(function (attributes) {
-            if (attributes.name != 'GEOM') {
-              fields.push({
-                label: attributes.name.toUpperCase(),
-                value: attributes.name
-              });
-            }
-
+    this.http
+      .get(queryURL)
+      .subscribe( (res: any) => {
+        if (res.featureTypes[0].properties.length > 0) {
+          res.featureTypes[0].properties.forEach(function (attributes) {
+            if (attributes.name != 'GEOM') fields.push({ label: attributes.name.toUpperCase(), value: attributes.name });
           });
-
         }
       },
       (error) => { console.log(error) }
     )
+
   }
-  onQueryChange() {
-    if (this.queryValue.replace(/\s/g, '') != "") {
-      if (this.selectedOprator === 'LIKE') {
-        this.finalQuery = this.selectedField + " " + this.selectedOprator + " " + "'%" + this.queryValue + "%'"
-      } else {
-        this.finalQuery = this.selectedField + " " + this.selectedOprator + " '" + this.queryValue+"'";
-      }
-    } else {
-      this.finalQuery = "";
+ 
+  SearchFeatures() {
+
+    if(!this.selectedLayerName)  swal({ text: "Please Select Layer"}); 
+    else if(!this.selectedFieldName) swal({ text: "Please Select Attributes"}); 
+    else if(!this.selectedOprator) swal({ text: "Please Select Operator"});
+    else if (!this.enteredValue) swal({ text: "Please Select Value"});
+    else {
+      let result = this.resservice;
+      let typename = this.selectedLayerName;
+      let queryURL = "http://192.168.1.14:6600/geoserver/wfs?service=wfs&version=1.1.0&request=GetFeature&&outputFormat=application/json&typeName=" + typename;
+
+      this.http
+        .get(queryURL,{ headers: new HttpHeaders({ 'Accept': 'application/xml' }), responseType: 'text' })
+        .subscribe( (res: any) => {
+          let fc = JSON.parse(res); // fc = featureCollection
+          fc["layerName"] = typename.split(":")[1];
+          result.showFeatureCollections([fc]);
+        }, (error) => { 
+          console.log(error)
+        }
+      )
     }
   }
 
-  SearchFeatures() {
-    let result = this.resservice;
-    if(!this.selectedLayer) {
-      this.dialogWindowService.showErrorDialog("Please Select Layer"); return;
-    }
-    if (!this.selectedField)
-    {
-      this.dialogWindowService.showErrorDialog("Please Select Attributes"); return;
-    }
-    if (!this.selectedOprator) 
-    {
-      this.dialogWindowService.showErrorDialog("Please Select Operator"); return;
-    }
-    if (!this.queryValue) 
-    {
-      this.dialogWindowService.showErrorDialog("Please Enter Value"); return;
-    }
-    let bbox = this.selectedLayer.get('boundingBox');
-    debugger;
-    //let featureUrl = `http://192.168.1.14:6600/geoserver/PFDB/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&FORMAT=image:png&TRANSPARENT=true&QUERY_LAYERS=${this.selectedLayer.getSource().getParams().LAYERS}&LAYERS=${this.selectedLayer.getSource().getParams().LAYERS}&INFO_FORMAT=application/json&FEATURE_COUNT=50S&X=50&Y=50&SRS=EPSG:4326&WIDTH=101&HEIGHT=101&BBOX=${sbbox}`;
-    let featureUrl = "http://192.168.1.14:6600/geoserver/wfs?service=wfs&version=1.1.0&request=GetFeature&&outputFormat=application/json&typeName=" + this.selectedLayer.getSource().getParams().LAYERS;
-    this.http.get(featureUrl,{ headers: new HttpHeaders({ 'Accept': 'application/xml' }), responseType: 'text' }).subscribe(
-      (res: any) => {
-        let rec_feture_collections = JSON.parse(res);
-        rec_feture_collections["layerName"] = this.selectedLayer.getSource().getParams().LAYERS.split(":")[1];
-        result.showFeatureCollections([rec_feture_collections]);
-      },
-      (error) => { 
-        console.log(error)
-       }
-    )
+  Clear() {
+    this.enteredValue = "";
+    this.selectedOprator = "";
+    this.selectedFieldName = "";
+    this.selectedLayerName ="";    
   }
-  Clear()
-    {
-      this.finalQuery = "";
-      this.queryValue = "";
-      this.selectedOprator = "";
-      this.selectedField= "";
-      this.selectedLayer="";
-    
-    }
 
 }
