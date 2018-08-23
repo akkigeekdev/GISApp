@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+
 // components
 import { AppComponent } from './app.component';
 import { BookmarkComponent } from './widgets/bookmark/bookmark.component';
@@ -9,7 +10,6 @@ import { LayersComponent } from './widgets/layers/layers.component';
 import { PrintComponent } from './widgets/print/print.component';
 import { QueryComponent } from './widgets/query/query.component';
 import { ResultWindowComponent } from './widgets/result-window/result-window.component';
-import { DialogComponent } from './widgets/dialog/dialog.component';
 
 // services
 import { Globals } from './globals';
@@ -30,8 +30,7 @@ import {
   MatChipsModule,
   MatDialogModule,
   MatSelectModule,
-  MatInputModule,
-  MatDialog 
+  MatInputModule
 } from '@angular/material';
 
 import {
@@ -48,8 +47,7 @@ import {
     BasemapsComponent,
     QueryComponent,
     PrintComponent,
-    ResultWindowComponent,
-    DialogComponent
+    ResultWindowComponent
   ],
   imports: [
     BrowserModule,
