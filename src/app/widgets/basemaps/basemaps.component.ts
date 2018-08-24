@@ -44,6 +44,10 @@ export class BasemapsComponent implements OnInit {
   ngOnInit() {
   }
 
+  ngAfterContentInit() {
+    // this.setBaseMap(1)
+  }
+
 
   setBaseMap(index){
     // unselect all

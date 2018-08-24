@@ -1,4 +1,4 @@
-import { Component, OnInit, Injectable, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Injectable, EventEmitter, Output, ViewChild, ElementRef } from '@angular/core';
 
 
 @Injectable({
@@ -12,7 +12,6 @@ export class LoaderService {
   @Output() hideLoader: EventEmitter<boolean> = new EventEmitter();
 
   show(){
-    debugger;
     this.showLoader.emit()
   }
   hide(){
@@ -31,23 +30,19 @@ export class LoaderComponent implements OnInit {
 
   constructor(private loaderservice:LoaderService) { }
 
-  loader;
+  @ViewChild('loader') loader:ElementRef;
 
   ngOnInit() {
-    
     this.loaderservice.showLoader.subscribe(_ => {
-      console.log(this.loader)
+      this.loader.nativeElement.style.display = "block"
     })
     this.loaderservice.hideLoader.subscribe(_ => {
-      console.log(this.loader)
+      this.loader.nativeElement.style.display = "none"
     })
   }
 
-  show(){
-    console.log(this.loader)
+  ngAfterContentInit() {
+
   }
-  
-  hide(){
-    console.log(this.loader)
-  }
+
 }

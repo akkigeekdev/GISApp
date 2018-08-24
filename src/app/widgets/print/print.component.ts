@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Globals } from "../../globals";
 import * as jsPDF from 'jspdf'
 import {unByKey} from 'ol/Observable.js';
+import { LoaderService } from "../../UI/loader/loader.component";
 
 @Component({
   selector: 'app-print',
@@ -14,7 +15,8 @@ export class PrintComponent implements OnInit {
   _this = this;
 
   constructor(
-    private globals: Globals
+    private globals: Globals,
+    private laoder: LoaderService
   ) {
     this.map = globals.map;
   }
@@ -60,8 +62,9 @@ export class PrintComponent implements OnInit {
 
     let source = this.map.getLayers().getArray()[0].getSource();
     
-    let canvas, format = this.selectedFormat, map = this.map, keys, timer;
+    let canvas, format = this.selectedFormat, map = this.map, keys, timer, loader = this.laoder;
     this.map.once('postcompose', function(event) {
+      loader.show()
       canvas = event.context.canvas;
       keys = [
         source.on('tileloadend', setTimeForExport),
@@ -82,6 +85,7 @@ export class PrintComponent implements OnInit {
         map.setSize(size);
         map.getView().fit(extent, {size: size});
         map.renderSync();
+        loader.hide()
       }, 3000);
     }
 
