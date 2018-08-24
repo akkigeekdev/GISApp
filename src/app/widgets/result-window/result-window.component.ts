@@ -41,7 +41,8 @@ export class ResultWindowComponent implements OnInit {
 
   results:resultTemp[] = [];
 
-  @ViewChild('resulthead') head:ElementRef
+  @ViewChild('resultNode') resultNode:ElementRef
+  @ViewChild('resultTitleNode') resultTitleNode:ElementRef
 
   ngOnInit() {
     this.resservice.change.subscribe(fcs=> {
@@ -50,6 +51,7 @@ export class ResultWindowComponent implements OnInit {
   }
 
   ngAfterContentInit() { 
+    dragElement(this.resultNode.nativeElement, this.resultTitleNode.nativeElement)
   }
 
   execute(fcs){
@@ -107,7 +109,7 @@ export class ResultWindowComponent implements OnInit {
 
 
 
-function dragElement(elmnt) {
+function dragElement(boxelelmnt, elmnt) {
 
   var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
 
@@ -136,8 +138,8 @@ function dragElement(elmnt) {
     pos3 = e.clientX;
     pos4 = e.clientY;
     // set the element's new position:
-    elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-    elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+    boxelelmnt.style.top = (boxelelmnt.offsetTop - pos2) + "px";
+    boxelelmnt.style.left = (boxelelmnt.offsetLeft - pos1) + "px";
   }
 
   function closeDragElement() {

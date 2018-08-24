@@ -1,5 +1,5 @@
-<div class="resultwindow" *ngIf="show">
-  <div class="title" #resulthead>
+<div class="resultwindow" [class.hide]="!show" #resultNode>
+  <div class="title" #resultTitleNode>
     <span class="navigator previous" *ngIf="showingIndex != 0" (click)="showPrevious()"> &#60; </span>
     <span class="navigator next" *ngIf="(showingIndex != (results.length - 1)) &&( results.length != 0)" (click)="showNext()"> &#62; </span>
     <!-- <span class="navigator previous" *ngIf="hasPrevious" > &#60; </span> -->

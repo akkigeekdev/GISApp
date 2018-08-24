@@ -7,6 +7,10 @@
     min-width: 350px;
     border-radius: 5px;
     box-shadow: 0 0 5px #afafaf;
+
+    &.hide{
+        display: none !important;
+    }
     
     .title{
         padding: 10px;
