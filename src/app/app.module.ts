@@ -6,11 +6,13 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { BookmarkComponent } from './widgets/bookmark/bookmark.component';
 import { BasemapsComponent } from './widgets/basemaps/basemaps.component';
+import { HeatmapComponent } from './widgets/heatmap/heatmap.component';
 import { LayersComponent } from './widgets/layers/layers.component';
 import { PrintComponent } from './widgets/print/print.component';
 import { QueryComponent } from './widgets/query/query.component';
 import { ResultWindowComponent } from './widgets/result-window/result-window.component';
 import { LoaderComponent } from './UI/loader/loader.component';
+
 
 // services
 import { Globals } from './globals';
@@ -40,6 +42,7 @@ import {
 } from '@angular/forms';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -50,7 +53,8 @@ import {
     QueryComponent,
     PrintComponent,
     ResultWindowComponent,
-    LoaderComponent
+    LoaderComponent,
+    HeatmapComponent
   ],
   imports: [
     BrowserModule,
@@ -74,6 +78,7 @@ import {
   entryComponents: [  
     BookmarkComponent,
     BasemapsComponent,
+    HeatmapComponent,
     LayersComponent,
     PrintComponent,
     QueryComponent

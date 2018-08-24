@@ -1,12 +1,9 @@
 <div class="resultwindow" [class.hide]="!show" #resultNode>
   <div class="title" #resultTitleNode>
-    <span class="navigator previous" *ngIf="showingIndex != 0" (click)="showPrevious()"> &#60; </span>
-    <span class="navigator next" *ngIf="(showingIndex != (results.length - 1)) &&( results.length != 0)" (click)="showNext()"> &#62; </span>
-    <!-- <span class="navigator previous" *ngIf="hasPrevious" > &#60; </span> -->
-    <!-- Feature title -->
-    <span *ngIf="results.length != 0" class="name">{{ results[showingIndex].layerName }}</span>
-    <!-- <span class="navigator next" *ngIf="hasNext"> &#62; </span> -->
-    <div class="closeres" (click)="closeWindow($event)">x</div>
+    <mat-icon class="navigation" *ngIf="showingIndex != 0" (click)="showPrevious()">arrow_left</mat-icon>
+    <span class="name" *ngIf="results.length != 0" >{{ results[showingIndex].layerName }} ( {{showingIndex+1}} of {{results.length}} )</span>
+    <mat-icon class="navigation"  *ngIf="(showingIndex != (results.length - 1)) &&( results.length != 0)" (click)="showNext()">arrow_right</mat-icon>
+    <mat-icon class="closer" (click)="closeWindow($event)">cancel</mat-icon>
   </div>
 
   <div class="body">

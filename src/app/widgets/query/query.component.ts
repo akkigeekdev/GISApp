@@ -106,15 +106,61 @@ export class QueryComponent implements OnInit {
         .get(queryURL,{ headers: new HttpHeaders({ 'Accept': 'application/xml' }), responseType: 'text' })
         .subscribe( (res: any) => {
           let fc = JSON.parse(res); // fc = featureCollection
-          fc["layerName"] = title;
-          result.showFeatureCollections([fc]);
-          loader.hide()
+          fc = this.getQueriredFC(fc);
+
+          if(fc.features.length > 0){
+            fc["layerName"] = title;
+            result.showFeatureCollections([fc]);
+          }
+          else{
+            swal({ text: "No feature found"})
+          }
+
+          this.loader.hide()
         }, (error) => { 
           loader.hide()
           console.log(error)
         }
       )
     }
+  }
+
+  getQueriredFC(fc){
+    let features = fc.features;
+    let operator = this.selectedOprator;
+    let uservalue = this.enteredValue.toUpperCase();
+
+    console.log(features, operator, uservalue);
+
+    features = features.filter(f => {
+      let prop_value = f.properties[this.selectedFieldName]
+      
+      if(prop_value){
+        if(operator == "<" && !isNaN(prop_value) && !isNaN(uservalue)){
+          return Number(prop_value) < Number(uservalue) 
+        }
+        else if(operator == ">" && !isNaN(prop_value) && !isNaN(uservalue)){
+          return Number(prop_value) > Number(uservalue) 
+        }
+        else if(operator == "="){
+          return uservalue == prop_value
+        }
+        else if(operator == "<="  && !isNaN(prop_value) && !isNaN(uservalue)){
+          return prop_value <= uservalue 
+        }
+        else if(operator == ">="  && !isNaN(prop_value) && !isNaN(uservalue)){
+          return prop_value >= uservalue 
+        }
+        else if(operator == "like"){
+          let ans = new RegExp(uservalue,"g").exec(prop_value)
+          if(ans) return f
+        }
+      }
+
+    })
+
+    fc.features = features;
+    return fc;   
   }
 
   Clear() {

@@ -1,9 +1,9 @@
 .resultwindow{
     position: absolute;
     background: white;
-    top: 50%;
+    top: 100px;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translateX(-50%);
     min-width: 350px;
     border-radius: 5px;
     box-shadow: 0 0 5px #afafaf;
@@ -13,37 +13,46 @@
     }
     
     .title{
-        padding: 10px;
+     
         background-color: #8395be;
         color: white;
         border-top-left-radius: 5px;
         border-top-right-radius: 5px;
-        
+        display: flex;
+
         .name{
             font-size: 1.3em;
             margin-left: 10px;
             margin-right: 10px;
+            padding: 10px 0;
+            flex: 1;
         }
 
-        .closeres{
-            position: absolute;
-            top: 15px;
-            right: 10px;
-            font-size: larger;
-            line-height: 15px;
+        .mat-icon.navigation{
+            font-size: 45px;
+            height: 45px;
+            width: 45px;
             cursor: pointer;
-            
+
             &:hover{
-                font-weight: bold;
+                background-color: #7e8cad;
             }
         }
 
-        .navigator{
-            font-weight: bold;
-            font-size: 20px;
-            line-height: 20px;
+        .mat-icon.closer{
+            position: absolute;
+            top: -12px;
+            right: -10px;
             cursor: pointer;
+            color: #da7575;
+            background: white;
+            border-radius: 50%;
+            
+            &:hover{
+                color: red;
+            }
         }
+
     }
 
     .body{
@@ -52,6 +61,7 @@
         .result-table{
             width: 100%;
             border-collapse: collapse;
+            font-size: .9em;
 
             tr{
                 &:nth-child(even){background-color: #f2f2f2;}
