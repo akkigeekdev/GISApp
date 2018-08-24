@@ -170,7 +170,9 @@ export class AppComponent {
 
       for (let i = 1; i < visibleLayers.length; i++) {
 
-        const layer = visibleLayers[i].getSource().getParams().LAYERS;
+       const layer = visibleLayers[i].getSource().getParams().LAYERS;
+   
+        const layerName = visibleLayers[i].get('title')
 
         let url = `http://192.168.1.14:6600/geoserver/PFDB/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image:png&TRANSPARENT=true&QUERY_LAYERS=${layer}&LAYERS=${layer}&INFO_FORMAT=application/json&FEATURE_COUNT=300&X=50&Y=50&SRS=EPSG:4326&WIDTH=101&HEIGHT=101&BBOX=${box}`;
         // console.log(url);
@@ -179,7 +181,7 @@ export class AppComponent {
           promises.push(
             new Promise((resolve, reject) => {
               http.get(url).subscribe(
-                (res) => { res["layerName"] = layer.split(":")[1]; resolve(res) },
+                (res) => { res["layerName"] = layerName; resolve(res) },
                 (error) => { reject(error) }
               )
             })

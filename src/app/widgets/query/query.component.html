@@ -12,14 +12,18 @@
   </mat-form-field>
   
   <mat-form-field>
-    <mat-select placeholder="Select Fields" [(ngModel)]="selectedFieldName" >
-      <mat-option *ngFor="let l of fields; let i=index" [value]="l.value"> {{l.label}} </mat-option>
+    <mat-select placeholder="Select Fields"  [(ngModel)]="selectedFieldName" (selectionChange)="onFieldChange($event)">
+      <mat-option  *ngFor="let l of fields; let i=index" [value]="l.value"> {{l.label}} </mat-option>
     </mat-select>
   </mat-form-field>
   <mat-form-field>
-    <mat-select placeholder="Select operation" [(ngModel)]="selectedOprator" >
-      <mat-option value ="=">&#61;</mat-option>
-      <mat-option value ="LIKE">LIKE</mat-option>
+    <mat-select placeholder="Select operation" [(ngModel)]="selectedOprator"  >
+      <mat-option *ngIf="operatorType!='string'" value ="&#60;">Less than</mat-option>
+      <mat-option *ngIf="operatorType!='string'" value ="&#62;">greater than</mat-option>
+      <mat-option value ="&#61;">Equal to</mat-option>
+      <mat-option *ngIf="operatorType!='string'" value ="&#60;&#61;">less than equal to</mat-option>
+      <mat-option *ngIf="operatorType!='string'" value ="&#61;&#61;">greater than equal to</mat-option>
+      <mat-option *ngIf="operatorType=='string'" value ="LIKE">LIKE</mat-option>
     </mat-select>
   </mat-form-field>
 

@@ -31,7 +31,10 @@ export class QueryComponent implements OnInit {
   selectedLayer;
   selectedLayerName;
   selectedFieldName;
+  
+  operatorType;
   selectedOprator;
+  
   enteredValue;
 
   ngOnInit() { }
@@ -47,7 +50,7 @@ export class QueryComponent implements OnInit {
     }
   }
 
-  onLayerChange(e): void {
+  onLayerChange(e){
     
     // clear field
     this.fields = []
@@ -69,13 +72,20 @@ export class QueryComponent implements OnInit {
       .subscribe( (res: any) => {
         if (res.featureTypes[0].properties.length > 0) {
           res.featureTypes[0].properties.forEach(function (attributes) {
-            if (attributes.name != 'GEOM') fields.push({ label: attributes.name.toUpperCase(), value: attributes.name });
+            if (attributes.name != 'GEOM') fields.push({ label: attributes.name.toUpperCase(), value: attributes.name, type: attributes.localType  });
           });
+          console.log(fields);
+          
         }
       },
       (error) => { console.log(error) }
     )
 
+  }
+
+  onFieldChange(e){
+    let selField = <any>this.fields.filter(f => f.value == this.selectedFieldName, this) || [{}]
+    this.operatorType = selField[0].type;
   }
  
   SearchFeatures() {
