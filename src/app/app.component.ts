@@ -3,16 +3,17 @@ import View from 'ol/View'
 import Map from 'ol/Map'
 import { transform } from 'ol/proj'
 import OSM from 'ol/source/OSM'
-import Tile from 'ol/layer/tile'
+import Tile from 'ol/layer/Tile'
 import TileWMS from 'ol/source/tilewms'
 import { Globals } from './globals'
 import { WidgetService } from './services/widget-loader/widget.service'
 import { WidgetDirective } from './services/widget-loader/widget.directive'
-import { defaults as defaultControls, ScaleLine, FullScreen } from 'ol/control.js';
+import { defaults as defaultControls, ScaleLine } from 'ol/control.js';
 import { HttpClient } from "@angular/common/http";
 import { ResultService } from "./widgets/result-window/result-window.component";
 import WMSCapabilities from 'ol/format/WMSCapabilities'
 import { HttpHeaders } from '@angular/common/http'
+import { IfStmt } from '@angular/compiler';
 
 
 export interface Params {
@@ -68,8 +69,7 @@ export class AppComponent {
     this.map = new Map({
       target: 'map',
       controls: defaultControls({ attribution: false }).extend([
-        this.scaleLineControl,
-        new FullScreen()
+        this.scaleLineControl
       ]),
       layers: [
         new Tile({ source: new OSM(), title: "Basemap", id: "0" })
@@ -85,34 +85,34 @@ export class AppComponent {
     this.globals.map = this.map;
 
     this.addLayers()
-    
+
   }
 
   addLayers() {
-    let layers: Layers[] = [ ];
-        
+    let layers: Layers[] = [];
+
     var parser = new WMSCapabilities();
     let WMSCapabilitiesUrl = "http://192.168.1.14:6600/geoserver/ows?service=wms&version=1.1.1&request=GetCapabilities";
     this.http
       .get(WMSCapabilitiesUrl, { headers: new HttpHeaders({ 'Accept': 'application/xml' }), responseType: 'text' })
-      .subscribe( (res: any) => {
-          
+      .subscribe((res: any) => {
+
         var result = parser.read(res);
         result.Capability.Layer.Layer[0].Layer.forEach(function (layer, index) {
-            layers.push({
-              SourceInfo: {
-                url: 'http://192.168.1.14:6600/geoserver/wms',
-                params: { LAYERS: layer.Name },
-                serverType: 'geoserver',
-                isBaseLayer: false,
-                crossOrigin: 'anonymous',
-                tiled: true
-              },
-              Title: layer.Title.toUpperCase(),
-              LegendUrl: layer.Style[0].LegendURL[0].OnlineResource,
-              BoundingBox: layer.BoundingBox[0].extent,
-              id: index + 1
-            })
+          layers.push({
+            SourceInfo: {
+              url: 'http://192.168.1.14:6600/geoserver/wms',
+              params: { LAYERS: layer.Name },
+              serverType: 'geoserver',
+              isBaseLayer: false,
+              crossOrigin: 'anonymous',
+              tiled: true
+            },
+            Title: layer.Title.toUpperCase(),
+            LegendUrl: layer.Style[0].LegendURL[0].OnlineResource,
+            BoundingBox: layer.BoundingBox[0].extent,
+            id: index + 1
+          })
         });
 
         let tilelayers = layers.map(l => {
@@ -120,11 +120,11 @@ export class AppComponent {
             source: new TileWMS(l.SourceInfo),
             title: l.Title,
             id: l.id,
-            legendUrl:l.LegendUrl,
-            boundingBox:l.BoundingBox
+            legendUrl: l.LegendUrl,
+            boundingBox: l.BoundingBox
           });
         });
-      
+
         for (let i = 0; i < tilelayers.length; i++) {
           const tlayer = tilelayers[i];
           this.map.addLayer(tlayer);
@@ -132,9 +132,9 @@ export class AppComponent {
 
         this.loadWidgets();
 
-      }, (error) => { console.log(error) } 
-    );
-      
+      }, (error) => { console.log(error) }
+      );
+
   }
 
   loadWidgets(): void {
@@ -170,23 +170,26 @@ export class AppComponent {
 
       for (let i = 1; i < visibleLayers.length; i++) {
 
-       const layer = visibleLayers[i].getSource().getParams().LAYERS;
-   
-        const layerName = visibleLayers[i].get('title')
+        if (visibleLayers[i].getSource().getParams) {
+          const layer = visibleLayers[i].getSource().getParams().LAYERS;
 
-        let url = `http://192.168.1.14:6600/geoserver/PFDB/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image:png&TRANSPARENT=true&QUERY_LAYERS=${layer}&LAYERS=${layer}&INFO_FORMAT=application/json&FEATURE_COUNT=300&X=50&Y=50&SRS=EPSG:4326&WIDTH=101&HEIGHT=101&BBOX=${box}`;
-        // console.log(url);
+          const layerName = visibleLayers[i].get('title')
 
-        if (layer != "Basemap") {
-          promises.push(
-            new Promise((resolve, reject) => {
-              http.get(url).subscribe(
-                (res) => { res["layerName"] = layerName; resolve(res) },
-                (error) => { reject(error) }
-              )
-            })
-          )
+          let url = `http://192.168.1.14:6600/geoserver/PFDB/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image:png&TRANSPARENT=true&QUERY_LAYERS=${layer}&LAYERS=${layer}&INFO_FORMAT=application/json&FEATURE_COUNT=300&X=50&Y=50&SRS=EPSG:4326&WIDTH=101&HEIGHT=101&BBOX=${box}`;
+          // console.log(url);
+
+          if (layer != "Basemap") {
+            promises.push(
+              new Promise((resolve, reject) => {
+                http.get(url).subscribe(
+                  (res) => { res["layerName"] = layerName; resolve(res) },
+                  (error) => { reject(error) }
+                )
+              })
+            )
+          }
         }
+
       }
 
       Promise.all(promises).then(function (res) {

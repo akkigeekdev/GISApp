@@ -4,6 +4,19 @@
       HeatMap
     </mat-panel-title>
   </mat-expansion-panel-header>
+  <mat-form-field>
+    <mat-select placeholder="Select Layers" (selectionChange)="onLayerChange($event)" >
+      <mat-option *ngFor="let l of layers; let i=index" [value]="l.value"> {{l.label}} </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder="Select Fields"  [(ngModel)]="selectedFieldName" (selectionChange)="onFieldChange($event)">
+      <mat-option  *ngFor="let l of fields; let i=index" [value]="l.value"> {{l.label}} </mat-option>
+    </mat-select>
+  </mat-form-field>
 
-
+  <div style="text-align: center">
+    <button mat-raised-button color="primary" (click)="GenerateHeatMap()">Generate </button>
+    <button style="margin-left: 15px;" mat-raised-button color="primary" (click)="Clear()">Clear</button>
+</div>
 </mat-expansion-panel>

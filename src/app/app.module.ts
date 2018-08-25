@@ -40,6 +40,7 @@ import {
   FormsModule,
   ReactiveFormsModule
 } from '@angular/forms';
+import { WeatherComponent } from './widgets/weather/weather.component';
 
 
 
@@ -54,7 +55,8 @@ import {
     PrintComponent,
     ResultWindowComponent,
     LoaderComponent,
-    HeatmapComponent
+    HeatmapComponent,
+    WeatherComponent
   ],
   imports: [
     BrowserModule,

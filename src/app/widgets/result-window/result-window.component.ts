@@ -46,6 +46,7 @@ export class ResultWindowComponent implements OnInit {
 
   ngOnInit() {
     this.resservice.change.subscribe(fcs=> {
+      this.results = [];
       this.execute(fcs)
     })
   }
