@@ -12,6 +12,8 @@ import { PrintComponent } from './widgets/print/print.component';
 import { QueryComponent } from './widgets/query/query.component';
 import { ResultWindowComponent } from './widgets/result-window/result-window.component';
 import { LoaderComponent } from './UI/loader/loader.component';
+import { WeatherComponent } from './widgets/weather/weather.component';
+import { MeasureComponent } from './widgets/measure/measure.component';
 
 
 // services
@@ -33,14 +35,15 @@ import {
   MatChipsModule,
   MatDialogModule,
   MatSelectModule,
-  MatInputModule
+  MatInputModule,
+  MatTooltipModule
 } from '@angular/material';
 
 import {
   FormsModule,
   ReactiveFormsModule
 } from '@angular/forms';
-import { WeatherComponent } from './widgets/weather/weather.component';
+
 
 
 
@@ -56,7 +59,8 @@ import { WeatherComponent } from './widgets/weather/weather.component';
     ResultWindowComponent,
     LoaderComponent,
     HeatmapComponent,
-    WeatherComponent
+    WeatherComponent,
+    MeasureComponent
   ],
   imports: [
     BrowserModule,
@@ -75,6 +79,7 @@ import { WeatherComponent } from './widgets/weather/weather.component';
     MatDialogModule,
     MatSelectModule,
     MatInputModule,
+    MatTooltipModule,
     HttpClientModule
   ],
   entryComponents: [  
@@ -82,6 +87,7 @@ import { WeatherComponent } from './widgets/weather/weather.component';
     BasemapsComponent,
     HeatmapComponent,
     LayersComponent,
+    MeasureComponent,
     PrintComponent,
     QueryComponent
   ],

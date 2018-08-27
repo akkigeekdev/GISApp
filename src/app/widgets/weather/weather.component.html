@@ -1,3 +1,22 @@
-<p class="weather">
-  weather works!
-</p>
+<div class="weather" [class.min]="!show" >
+    <div class="min" matTooltip="close" matTooltipPosition="left" (click)="closeWindow()"></div>
+    <div class="temp">
+      <div class="value">{{temp}}<sup>o</sup> </div>
+      <div class="desc">{{desc}}</div> 
+      <img (click)="openWindow()" *ngIf="icon" src="assets/images/weather/{{icon}}.svg" alt="">
+    </div>
+    <div class="foot">
+      <div class="humidity" 
+        matTooltip="Humidity"
+        matTooltipPosition="above">
+        <img src="assets/images/weather/humidity.svg" alt="">
+        <span class="value">{{humidity}}</span>%
+      </div>
+      <div class="wind"
+      matTooltip="Wind"
+      matTooltipPosition="above">
+       <img src="assets/images/weather/wind.svg" alt="">
+        <span class="value">{{wind}}</span>m/s
+      </div>
+    </div>
+  </div>  

@@ -7,7 +7,7 @@ import swal from 'sweetalert';
 import { LoaderService } from "../../UI/loader/loader.component";
 import { Heatmap as HeatmapLayer } from 'ol/layer';
 import VectorSource from 'ol/source/Vector';
-import KML from 'ol/format/KML';
+import {GeoJSON} from 'ol/format';
 @Component({
   selector: 'app-heatmap',
   templateUrl: './heatmap.component.html',
@@ -85,31 +85,36 @@ export class HeatmapComponent implements OnInit {
   }
 
   GenerateHeatMap() {
+    this.map.getLayers().forEach(layer => {
+      if (layer instanceof HeatmapLayer) {
+        this.map.removeLayer(layer);
+      }
+    });
     let selectedField = this.selectedFieldName
 
-    let KMLUrl = "http://192.168.1.14:6600/geoserver/wms/kml?layers=" + this.selectedLayerName;
+    let GeoJSONURL = "http://192.168.1.14:6600/geoserver/PFDB/ows?service=WFS&version=1.0.0&request=GetFeature&typeName="+this.selectedLayerName+"&outputFormat=application/json";
 
     var vector = new HeatmapLayer({
       source: new VectorSource({
-        url: KMLUrl,
-        format: new KML({
+        url: GeoJSONURL,
+        format: new GeoJSON({
           extractStyles: false
-        })
+          })
       }),
-      blur: 20,
-      radius: 20,
-      type: 'HeatMap'
+      gradient: [ '#99ff33','#ff99cc','#cc0066','#3366ff','#cc0000'],
+      blur : 60,
+      radius : 30
     });
 
-
+    //console.log(vector);
+  
     vector.getSource().on('addfeature', function (event) {
-      debugger;
-      let attr = event.feature.get(selectedField);
-      console.log(attr);
+      let feature_val = event.feature.get(selectedField);
+     console.log(feature_val);
     });
+    console.log(vector.getSource().getUrl());
 
     this.map.addLayer(vector);
-
   }
 
   Clear() {

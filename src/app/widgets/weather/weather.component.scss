@@ -1,7 +1,97 @@
-.weather{
-    position: fixed;
-    z-index: 1000;
-    bottom:10px;
-    right:10px;
-    background: black
+.weather {
+  position: fixed;
+  z-index: 1000;
+  top:70%;
+  right: 10px;
+  background-color: rgba(255, 255, 255, .4);
+  width: 370px;
+  box-shadow: 0 0 5px #adadad; //   font-family: 'Roboto';
+  transition: top .5s 0s cubic-bezier(.1, 1.2, .3, 1), display .5s 0s cubic-bezier(.1, 1.2, .3, 1), width .5s 0s cubic-bezier(.1, 1.2, .3, 1), height .5s 0s cubic-bezier(.1, 1.2, .3, 1);
+  &.min {
+    top: 80px;
+    height: 40px;
+    width: 40px;
+    box-shadow: none;
+    padding: 5px;    
+    border-radius: 2px;
+    .temp {
+      border-radius: 2px;
+    }
+    img {
+      top: 3px !important;
+      bottom: 0 !important;
+      height: 35px !important;
+      right: 3px !important;
+    }
+    .min,
+    .temp .value,
+    .temp .desc,
+    .foot {
+      display: none;
+    }
+  }
+  .min {
+    height: 30px;
+    width: 30px;
+    position: absolute;
+    /* background-color: white; */
+    right: 0;
+    top: 0;
+    z-index: 1001;
+    cursor: pointer;
+    &::after {
+      content: '';
+      display: block;
+      position: absolute;
+      width: 15px;
+      height: 3px;
+      top: 10px;
+      background-color: white;
+      right: 10px;
+    }
+  }
+  .temp {
+    background-color: rgba(0, 60, 136, .5);
+    color: white;
+    padding: 20px;
+    position: relative;
+    .value {
+      font-size: 3em;
+      sup {
+        line-height: 20px;
+        font-size: 50%;
+        vertical-align: top;
+        mso-text-raise: 40%;
+      }
+    }
+    img {
+      position: absolute;
+      top: 15px;
+      right: 30px;
+      height: 90px;
+      transition: height .5s 0s cubic-bezier(.1, 1.2, .3, 1);
+    }
+  }
+  .foot {
+    cursor: pointer;
+    display: flex;
+    .humidity,
+    .wind {
+      flex: 1;
+      padding: 10px 20px;
+      text-align: center;
+      color: rgba(0, 60, 136, .5);
+      .value {
+        font-size: 2em;
+        font-weight: bold;
+      }
+      img {
+        height: 20px;
+        margin-right: 5px;
+      }
+    }
+    .wind {
+      border-left: 1px solid #ececec;
+    }
+  }
 }

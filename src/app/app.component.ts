@@ -13,8 +13,8 @@ import { HttpClient } from "@angular/common/http";
 import { ResultService } from "./widgets/result-window/result-window.component";
 import WMSCapabilities from 'ol/format/WMSCapabilities'
 import { HttpHeaders } from '@angular/common/http'
-import { IfStmt } from '@angular/compiler';
-
+import MousePosition from 'ol/control/MousePosition';
+import {createStringXY} from 'ol/coordinate';
 
 export interface Params {
   LAYERS: any;
@@ -47,7 +47,7 @@ export class AppComponent {
   @ViewChild(WidgetDirective) appWidget: WidgetDirective;
 
   map: any;
-  drawerOpenStatus: boolean = true;
+  drawerOpenStatus: boolean = false;
   widgets = [];
 
   scaleLineControl = new ScaleLine();
@@ -66,10 +66,19 @@ export class AppComponent {
   ngAfterViewInit() {
     this.scaleLineControl.setUnits("metric");
 
+    let mousePositionControl = new MousePosition({
+      coordinateFormat: createStringXY(5),
+      projection: 'EPSG:4326',
+      className: 'custom-mouse-position',
+      target: document.getElementById("widget-coordinate"),
+      undefinedHTML: '&nbsp;'
+    });
+    
     this.map = new Map({
       target: 'map',
       controls: defaultControls({ attribution: false }).extend([
-        this.scaleLineControl
+        this.scaleLineControl,
+        mousePositionControl
       ]),
       layers: [
         new Tile({ source: new OSM(), title: "Basemap", id: "0" })
@@ -84,7 +93,7 @@ export class AppComponent {
     });
     this.globals.map = this.map;
 
-    this.addLayers()
+    this.addLayers();
 
   }
 

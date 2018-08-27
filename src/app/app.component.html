@@ -12,11 +12,13 @@
     <div class="ol-control" style="left: .5em; top: 4.5em; ">
       <button class=" button" type="button" (click)="StartIdentify()">i</button>
     </div>
+    
+    <div class="coordinate" id="widget-coordinate"></div>
+    <app-weather></app-weather>
     <app-result-window></app-result-window>
   </mat-drawer-content>
-  
 </mat-drawer-container>
 
 <div [class.closed]="!drawerOpenStatus" class="opener" (click)="toggleDrawer()" ></div>
 <app-loader></app-loader>
-<app-weather></app-weather>
+

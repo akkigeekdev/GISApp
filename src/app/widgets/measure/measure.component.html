@@ -1,0 +1,20 @@
+<mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Measure
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <mat-form-field>
+      <mat-select placeholder="Select operation" [(ngModel)]="selectType" (selectionChange)="onTypeChange($event)"  >
+        <mat-option value ="length">Length</mat-option>
+        <mat-option value ="area">Area</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div style="text-align: center">
+      <button mat-raised-button color="primary" (click)="StartDrawing()">Start Drawing</button>
+      <button style="margin-left: 15px;" mat-raised-button color="primary" (click)="Clear()">Clear</button>
+    </div>
+    
+  </mat-expansion-panel>
+  
