@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // components
 import { AppComponent } from './app.component';
@@ -11,6 +12,7 @@ import { LayersComponent } from './widgets/layers/layers.component';
 import { PrintComponent } from './widgets/print/print.component';
 import { QueryComponent } from './widgets/query/query.component';
 import { ResultWindowComponent } from './widgets/result-window/result-window.component';
+import { ToggleComponent } from './UI/toggle/toggle.component';
 import { LoaderComponent } from './UI/loader/loader.component';
 import { WeatherComponent } from './widgets/weather/weather.component';
 import { MeasureComponent } from './widgets/measure/measure.component';
@@ -39,11 +41,6 @@ import {
   MatTooltipModule
 } from '@angular/material';
 
-import {
-  FormsModule,
-  ReactiveFormsModule
-} from '@angular/forms';
-
 
 
 
@@ -60,7 +57,8 @@ import {
     LoaderComponent,
     HeatmapComponent,
     WeatherComponent,
-    MeasureComponent
+    MeasureComponent,
+    ToggleComponent
   ],
   imports: [
     BrowserModule,

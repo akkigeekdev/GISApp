@@ -10,8 +10,13 @@
         <table *ngIf="results.length != 0" class="result-table">
           <tr *ngFor="let a of results[showingIndex].attributes; let i=index;">
             <td>{{a.column}}</td>
-            <td>
-              <ng-template>{{a.value}}</ng-template>
+            <td> 
+              <ng-container *ngIf="!a.isSwitch; else elseTemplate">
+                {{a.value}}
+              </ng-container>
+              <ng-template #elseTemplate>
+                <app-toggle (toggled)="switchStatusChanged(i, $event)" mode="{{a.value}}"></app-toggle>
+              </ng-template>
             </td>
             <!-- <ng-template properties></ng-template> -->
           </tr>

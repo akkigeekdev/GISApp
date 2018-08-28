@@ -93,8 +93,8 @@ export class AppComponent {
     });
     this.globals.map = this.map;
 
-    this.addLayers();
-
+    // this.addLayers();
+    this.loadWidgets();
   }
 
   addLayers() {
@@ -153,8 +153,7 @@ export class AppComponent {
       let viewContainerRef = this.appWidget.viewContainerRef;
       try {
         setTimeout(function () { viewContainerRef.createComponent(componentFactory); }, 100)
-      } catch (error) {
-      }
+      } catch (error) { }
     }
   }
 

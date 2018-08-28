@@ -1,9 +1,9 @@
 import { Component, OnInit, Injectable, Output, EventEmitter, ElementRef, ViewChild } from '@angular/core';
-import { PropertyDirective } from "./property.directive";
 
 export interface resultTemp{
   layerName: string,
-  attributes: Array<object>
+  attributes: Array<object>,
+  isSwitch?: boolean
 }
 
 @Injectable({
@@ -44,8 +44,6 @@ export class ResultWindowComponent implements OnInit {
 
   @ViewChild('resultNode') resultNode:ElementRef
   @ViewChild('resultTitleNode') resultTitleNode:ElementRef
-
-  @ViewChild(PropertyDirective) properties: PropertyDirective;
 
   ngOnInit() {
     this.resservice.change.subscribe(fcs=> {
@@ -112,6 +110,10 @@ export class ResultWindowComponent implements OnInit {
   showresults(){
     if(this.results.length == 0 ) {}
     this.show = true;
+  }
+
+  switchStatusChanged(atrributeIndex, e){
+    // call loader and update feature
   }
 
   showPrevious(){
