@@ -7,11 +7,14 @@
   </div>
 
   <div class="body">
-      <table *ngIf="results.length != 0" class="result-table">
-        <tr *ngFor="let a of results[showingIndex].attributes; let i=index">
-          <td>{{a.column}}</td>
-          <td>{{a.value}}</td>
-        </tr>
-      </table>
+        <table *ngIf="results.length != 0" class="result-table">
+          <tr *ngFor="let a of results[showingIndex].attributes; let i=index;">
+            <td>{{a.column}}</td>
+            <td>
+              <ng-template>{{a.value}}</ng-template>
+            </td>
+            <!-- <ng-template properties></ng-template> -->
+          </tr>
+        </table>
   </div>
 </div>

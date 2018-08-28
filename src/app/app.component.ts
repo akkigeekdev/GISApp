@@ -4,7 +4,7 @@ import Map from 'ol/Map'
 import { transform } from 'ol/proj'
 import OSM from 'ol/source/OSM'
 import Tile from 'ol/layer/Tile'
-import TileWMS from 'ol/source/tilewms'
+import TileWMS from 'ol/source/TileWMS'
 import { Globals } from './globals'
 import { WidgetService } from './services/widget-loader/widget.service'
 import { WidgetDirective } from './services/widget-loader/widget.directive'
@@ -159,7 +159,6 @@ export class AppComponent {
   }
 
   StartIdentify() {
-
     let promises = [],
       global = this.globals,
       http = this.http,

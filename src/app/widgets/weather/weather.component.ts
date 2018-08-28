@@ -13,7 +13,7 @@ export class WeatherComponent implements OnInit {
     private http: HttpClient
   ) { }
 
-  show = true;
+  show = false;
   temp;
   desc;
   humidity;

@@ -1,8 +1,9 @@
 import { Component, OnInit, Injectable, Output, EventEmitter, ElementRef, ViewChild } from '@angular/core';
+import { PropertyDirective } from "./property.directive";
 
 export interface resultTemp{
   layerName: string,
-  attributes: object
+  attributes: Array<object>
 }
 
 @Injectable({
@@ -44,6 +45,8 @@ export class ResultWindowComponent implements OnInit {
   @ViewChild('resultNode') resultNode:ElementRef
   @ViewChild('resultTitleNode') resultTitleNode:ElementRef
 
+  @ViewChild(PropertyDirective) properties: PropertyDirective;
+
   ngOnInit() {
     this.resservice.change.subscribe(fcs=> {
       this.results = [];
@@ -69,11 +72,32 @@ export class ResultWindowComponent implements OnInit {
 
         for (let i = 0; i < keys.length; i++) {
           const key = keys[i];
-          attributes.push(
-            {column: key, value: prop[key]}
-          )
-        }
 
+          if(layername == "VALVE" && key == "DEVICE_STATUS"){
+
+            //create toggle element
+            let div = document.createElement("div")
+            div.classList.add("oltoggle-onoff")
+
+            let chk = document.createElement("input")
+            chk.type = "checkbox"
+            chk.id = (layername + key)
+
+            let label = document.createElement("label")
+            label.htmlFor = chk.id
+
+            div.appendChild(chk)
+            div.appendChild(label)
+
+            attributes.push( {column: key, value: div })
+
+          }
+          else{
+            attributes.push( {column: key, value: prop[key]} )
+          }
+
+        }
+        
         this.results.push({
           layerName: layername,
           attributes: attributes
