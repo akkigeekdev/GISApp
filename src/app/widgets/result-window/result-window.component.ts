@@ -72,23 +72,10 @@ export class ResultWindowComponent implements OnInit {
           const key = keys[i];
 
           if(layername == "VALVE" && key == "DEVICE_STATUS"){
-
-            //create toggle element
-            let div = document.createElement("div")
-            div.classList.add("oltoggle-onoff")
-
-            let chk = document.createElement("input")
-            chk.type = "checkbox"
-            chk.id = (layername + key)
-
-            let label = document.createElement("label")
-            label.htmlFor = chk.id
-
-            div.appendChild(chk)
-            div.appendChild(label)
-
-            attributes.push( {column: key, value: div })
-
+            attributes.push( {column: key, value: prop[key], isSwitch:true} )
+          }
+          else if(layername == "SOIL SENSOR" && key == "DEVICE_STATUS"){
+            attributes.push( {column: key, value: prop[key], isSwitch:true} )
           }
           else{
             attributes.push( {column: key, value: prop[key]} )

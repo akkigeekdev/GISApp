@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 
@@ -9,11 +9,12 @@ import { HttpClient } from '@angular/common/http';
 })
 export class WeatherComponent implements OnInit {
 
+
   constructor(
     private http: HttpClient
   ) { }
 
-  show = false;
+  show = true;
   temp;
   desc;
   humidity;

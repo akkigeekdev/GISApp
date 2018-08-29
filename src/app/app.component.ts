@@ -5,7 +5,7 @@ import { transform } from 'ol/proj'
 import OSM from 'ol/source/OSM'
 import Tile from 'ol/layer/Tile'
 import TileWMS from 'ol/source/TileWMS'
-import { Globals } from './globals'
+import { Globals, FlashFeature } from './globals'
 import { WidgetService } from './services/widget-loader/widget.service'
 import { WidgetDirective } from './services/widget-loader/widget.directive'
 import { defaults as defaultControls, ScaleLine } from 'ol/control.js';
@@ -93,8 +93,8 @@ export class AppComponent {
     });
     this.globals.map = this.map;
 
-    // this.addLayers();
-    this.loadWidgets();
+    this.addLayers();
+    // this.loadWidgets();
   }
 
   addLayers() {
@@ -155,6 +155,8 @@ export class AppComponent {
         setTimeout(function () { viewContainerRef.createComponent(componentFactory); }, 100)
       } catch (error) { }
     }
+
+    this.flashValve();
   }
 
   StartIdentify() {
@@ -212,4 +214,18 @@ export class AppComponent {
     this.drawerOpenStatus = !this.drawerOpenStatus;
   }
 
+  flashValve(){
+
+    let queryURL = "http://192.168.1.14:6600/geoserver/wfs?service=wfs&version=1.1.0&request=GetFeature&&outputFormat=application/json&typeName=PFDB:VALVE";
+ 
+    this.http
+    .get(queryURL,{ headers: new HttpHeaders({ 'Accept': 'application/xml' }), responseType: 'text' })
+    .subscribe( (res: any) => {
+      let fc = JSON.parse(res); // fc = featureCollection
+      fc.features = fc.features.filter(f=>f.properties["DEVICE_STATUS"]=="ON")
+      new FlashFeature(this.map, fc.features,{color:"red"});
+    }, (err)=>{
+      console.log(err);
+    })
+  }
 }

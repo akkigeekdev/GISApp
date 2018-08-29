@@ -47,7 +47,6 @@ export class MeasureComponent implements OnInit {
   ngOnInit() { }
 
   ngAfterContentInit() {
-    console.log(this.map);
   }
   
   startDrawing(){

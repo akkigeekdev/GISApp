@@ -95,6 +95,7 @@ export class QueryComponent implements OnInit {
     else if(!this.selectedOprator) swal({ text: "Please Select Operator"});
     else if (!this.enteredValue) swal({ text: "Please Select Value"});
     else {
+      debugger;
       let result = this.resservice, loader = this.loader;
       let typename = this.selectedLayerName;
       let title = this.selectedLayer.get("title");
