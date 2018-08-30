@@ -5,7 +5,7 @@ import { transform } from 'ol/proj'
 import OSM from 'ol/source/OSM'
 import Tile from 'ol/layer/Tile'
 import TileWMS from 'ol/source/TileWMS'
-import { Globals, FlashFeature } from './globals'
+import { Globals, FlashFeature, FeatureQuery } from './globals'
 import { WidgetService } from './services/widget-loader/widget.service'
 import { WidgetDirective } from './services/widget-loader/widget.directive'
 import { defaults as defaultControls, ScaleLine } from 'ol/control.js';
@@ -15,6 +15,13 @@ import WMSCapabilities from 'ol/format/WMSCapabilities'
 import { HttpHeaders } from '@angular/common/http'
 import MousePosition from 'ol/control/MousePosition';
 import {createStringXY} from 'ol/coordinate';
+import WFS from 'ol/format/WFS';
+import { equalTo, bbox } from "ol/format/Filter";
+import GeoJSON from 'ol/format/GeoJSON';
+import { buffer } from "ol/extent";
+import Geometry from 'ol/geom/Geometry';
+
+
 
 export interface Params {
   LAYERS: any;
@@ -160,54 +167,36 @@ export class AppComponent {
   }
 
   StartIdentify() {
-    let promises = [],
-      global = this.globals,
-      http = this.http,
-      result = this.resservice;
 
-    this.map.once('singleclick', function (evt) {
+    // get all visible layers name
+    let layernames = this.globals.getVisibleLayers().reduce((acc, l) =>{
+      if(l.getSource().getParams){
+        const layer = l.getSource().getParams().LAYERS
+        let name = layer.split(":")[1]
+        acc.push(name)
+      }      
+      return acc
+    },[])
 
-      let coord = transform([evt.coordinate[0], evt.coordinate[1]], 'EPSG:3857', 'EPSG:4326');
-      let box: any = [
-        (coord[0] - 0.0001),
-        (coord[1] - 0.0001),
-        (coord[0] + 0.0001),
-        (coord[1] + 0.0001)
-      ]
-      box = box.join(",") + "";
-      let visibleLayers = global.getVisibleLayers();
+    this.map.once('singleclick',  (evt) => {
+      
+      let coord = evt.coordinate
+      let box: any = [ (coord[0] - 0.0001),(coord[1] - 0.0001), (coord[0] + 0.0001), (coord[1] + 0.0001) ]
 
-      for (let i = 1; i < visibleLayers.length; i++) {
-
-        if (visibleLayers[i].getSource().getParams) {
-          const layer = visibleLayers[i].getSource().getParams().LAYERS;
-
-          const layerName = visibleLayers[i].get('title')
-
-          let url = `http://192.168.1.14:6600/geoserver/PFDB/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image:png&TRANSPARENT=true&QUERY_LAYERS=${layer}&LAYERS=${layer}&INFO_FORMAT=application/json&FEATURE_COUNT=300&X=50&Y=50&SRS=EPSG:4326&WIDTH=101&HEIGHT=101&BBOX=${box}`;
-          // console.log(url);
-
-          if (layer != "Basemap") {
-            promises.push(
-              new Promise((resolve, reject) => {
-                http.get(url).subscribe(
-                  (res) => { res["layerName"] = layerName; resolve(res) },
-                  (error) => { reject(error) }
-                )
-              })
-            )
-          }
-        }
-
-      }
-
-      Promise.all(promises).then(function (res) {
-        result.showFeatureCollections(res);
-      }, function (error) {
-        console.log(error);
+      let query = new FeatureQuery()
+      query.featurePrefix = 'PFDB';
+      query.featureTypes = layernames;
+      query.geometryName = "GEOM";
+      query.bbox = box;
+      
+      query.send((features)=>{
+        console.log(features);
+        console.log(layernames)
+        this.resservice.showFeatureCollections(features);
+      }, (err) => {
+        console.log(err);
       })
-
-    });
+    })
   }
 
   toggleDrawer(): void {
@@ -216,16 +205,16 @@ export class AppComponent {
 
   flashValve(){
 
-    let queryURL = "http://192.168.1.14:6600/geoserver/wfs?service=wfs&version=1.1.0&request=GetFeature&&outputFormat=application/json&typeName=PFDB:VALVE";
- 
-    this.http
-    .get(queryURL,{ headers: new HttpHeaders({ 'Accept': 'application/xml' }), responseType: 'text' })
-    .subscribe( (res: any) => {
-      let fc = JSON.parse(res); // fc = featureCollection
-      fc.features = fc.features.filter(f=>f.properties["DEVICE_STATUS"]=="ON")
-      new FlashFeature(this.map, fc.features,{color:"red"});
-    }, (err)=>{
+    
+    let query = new FeatureQuery();
+    query.featurePrefix = 'PFDB';
+    query.featureTypes = ['VALVE'];
+    query.filter = equalTo('DEVICE_STATUS', 'ON');
+    query.send( (features)=>{
+      new FlashFeature(this.map, features,{color:"red"});
+    }, (err) => {
       console.log(err);
     })
+
   }
 }

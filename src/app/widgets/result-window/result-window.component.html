@@ -15,10 +15,9 @@
                 {{a.value}}
               </ng-container>
               <ng-template #elseTemplate>
-                <app-toggle (toggled)="switchStatusChanged(i, $event)" mode="{{a.value}}"></app-toggle>
+                <app-toggle (toggled)="switchStatusChanged(results[showingIndex].attributes[i].feature, results[showingIndex].attributes[i].column, $event)" mode="{{a.value}}"></app-toggle>
               </ng-template>
             </td>
-            <!-- <ng-template properties></ng-template> -->
           </tr>
         </table>
   </div>

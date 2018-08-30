@@ -1,4 +1,5 @@
 import { Component, OnInit, Injectable, Output, EventEmitter, ElementRef, ViewChild } from '@angular/core';
+import { EditFeature } from "../../globals";
 
 export interface resultTemp{
   layerName: string,
@@ -13,11 +14,11 @@ export class ResultService {
 
   constructor() { }
 
-  @Output() change: EventEmitter<boolean> = new EventEmitter();
+  @Output() change: EventEmitter<any> = new EventEmitter();
 
   showFeatureCollections(featureCollections){
 
-    if(featureCollections[0] && featureCollections[0].type && featureCollections[0].type == "FeatureCollection"){
+    if(Array.isArray(featureCollections)){
       this.change.emit(featureCollections);
     }
     
@@ -59,48 +60,50 @@ export class ResultWindowComponent implements OnInit {
   execute(fcs){
 
     for (let i = 0; i < fcs.length; i++) {
-      const layername = fcs[i].layerName;
 
-      for (let j = 0; j < fcs[i].features.length; j++) {
-        const feature = fcs[i].features[j];
-        const prop = feature.properties;
+      const layername = fcs[i].getId().split(".")[0].replace(/\_/g," ").replace(" DATA","");
+      const feature = fcs[i]
+      const prop = feature.getProperties()
 
-        let keys = Object.keys(prop);
-        let attributes = []
+      let attributes = []
+      feature.getKeys().forEach(k => {
 
-        for (let i = 0; i < keys.length; i++) {
-          const key = keys[i];
-
-          if(layername == "VALVE" && key == "DEVICE_STATUS"){
-            attributes.push( {column: key, value: prop[key], isSwitch:true} )
-          }
-          else if(layername == "SOIL SENSOR" && key == "DEVICE_STATUS"){
-            attributes.push( {column: key, value: prop[key], isSwitch:true} )
-          }
-          else{
-            attributes.push( {column: key, value: prop[key]} )
-          }
-
+        if(layername == "VALVE" && k == "DEVICE_STATUS"){
+          attributes.push( {column: k, value: prop[k], isSwitch:true, feature} )
+        }
+        else if(layername == "SOIL SENSOR" && k == "DEVICE_STATUS"){
+          attributes.push( {column: k, value: prop[k], isSwitch:true,feature} )
+        }
+        else{
+          if(k!="geometry"){attributes.push( {column: k, value: prop[k]} )}
         }
         
-        this.results.push({
-          layerName: layername,
-          attributes: attributes
-        })
+      });
 
-      } 
+      this.results.push({
+        layerName: layername,
+        attributes: attributes
+      })
+
     }
-    
+
     this.showresults()
+
   }
 
   showresults(){
-    if(this.results.length == 0 ) {}
+    if(this.results.length == 0 ) { this.show = false; return}
     this.show = true;
   }
 
-  switchStatusChanged(atrributeIndex, e){
+  switchStatusChanged(feature, prop, value){
     // call loader and update feature
+    console.log(feature, prop, value)
+    feature.set(prop, value)
+
+    let edit = new EditFeature("PFDB",feature.getId().split(".")[0])
+    edit.updates([feature], (res)=>{console.log(res)}, (err)=>{console.log(err)})
+
   }
 
   showPrevious(){
@@ -166,3 +169,33 @@ function dragElement(boxelelmnt, elmnt) {
 
 
 
+/*
+var formatWFS = new ol.format.WFS();
+var formatGML = new ol.format.GML({
+featureNS: 'http://geoserver.org/bftchamber',
+featureType: 'bft',
+srsName: 'EPSG:27700'
+});
+var transactWFS = function(p,f) {
+switch(p) {
+case 'insert':
+    node = formatWFS.writeTransaction([f],null,null,formatGML);
+    break;
+case 'update':
+    node = formatWFS.writeTransaction(null,[f],null,formatGML);
+    break;
+case 'delete':
+    node = formatWFS.writeTransaction(null,null,[f],formatGML);
+    break;
+}
+s = new XMLSerializer();
+str = s.serializeToString(node);
+$.ajax('http://localhost:8080/geoserver/wfs',{
+    type: 'POST',
+    dataType: 'xml',
+    processData: false,
+    contentType: 'text/xml',
+    data: str
+    }).done();
+}
+*/
