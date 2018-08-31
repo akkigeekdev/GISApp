@@ -5,6 +5,8 @@ import { ResultService } from "../result-window/result-window.component";
 import { HttpHeaders } from '@angular/common/http'
 import swal from 'sweetalert';
 import { LoaderService } from "../../UI/loader/loader.component";
+import { FeatureQuery } from "../../globals";
+import { equalTo, between, greaterThan, lessThan, greaterThanOrEqualTo, lessThanOrEqualTo, like  } from "ol/format/filter";
 
 @Component({
   selector: 'app-query',
@@ -57,7 +59,6 @@ export class QueryComponent implements OnInit {
     this.selectedOprator = ""
     this.enteredValue = ""
 
-
     // get all fields related to the selected layer 
     this.selectedLayer = this.map.getLayers().getArray().filter(l => l.get('id') == e.value)[0];  
     this.selectedLayerName = this.selectedLayer.getSource().getParams().LAYERS
@@ -74,12 +75,11 @@ export class QueryComponent implements OnInit {
           res.featureTypes[0].properties.forEach(function (attributes) {
             if (attributes.name != 'GEOM') fields.push({ label: attributes.name.toUpperCase(), value: attributes.name, type: attributes.localType  });
           });
-          console.log(fields);
-          
         }
       },
       (error) => { console.log(error) }
     )
+ 
 
   }
 
@@ -89,79 +89,49 @@ export class QueryComponent implements OnInit {
   }
  
   SearchFeatures() {
-
+debugger;
     if(!this.selectedLayerName)  swal({ text: "Please Select Layer"}); 
     else if(!this.selectedFieldName) swal({ text: "Please Select Attributes"}); 
     else if(!this.selectedOprator) swal({ text: "Please Select Operator"});
     else if (!this.enteredValue) swal({ text: "Please Select Value"});
     else {
-      debugger;
-      let result = this.resservice, loader = this.loader;
-      let typename = this.selectedLayerName;
-      let title = this.selectedLayer.get("title");
-      let queryURL = "http://192.168.1.14:6600/geoserver/wfs?service=wfs&version=1.1.0&request=GetFeature&&outputFormat=application/json&typeName=" + typename;
+      let query = new FeatureQuery()
+      query.featurePrefix = 'PFDB';
+      query.featureTypes = [this.selectedLayerName.split(":")[1]];
+     
+      try {
+        if(this.selectedOprator == "<") query.filter = lessThan(this.selectedFieldName, Number(this.enteredValue))
+        else if(this.selectedOprator == ">") query.filter = greaterThan(this.selectedFieldName, Number(this.enteredValue))
+        else if(this.selectedOprator == "=") query.filter = equalTo(this.selectedFieldName, this.enteredValue, false)
+        else if(this.selectedOprator == "<=" ) query.filter = lessThanOrEqualTo(this.selectedFieldName, Number(this.enteredValue))
+        else if(this.selectedOprator == ">=" ) query.filter = greaterThanOrEqualTo(this.selectedFieldName, Number(this.enteredValue))
+        else if(this.selectedOprator == "like") query.filter = like(this.selectedFieldName, this.enteredValue, undefined, undefined,undefined,false)
 
-      loader.show()
-      
-      this.http
-        .get(queryURL,{ headers: new HttpHeaders({ 'Accept': 'application/xml' }), responseType: 'text' })
-        .subscribe( (res: any) => {
-          let fc = JSON.parse(res); // fc = featureCollection
-          fc = this.getQueriredFC(fc);
+        this.loader.show()
 
-          if(fc.features.length > 0){
-            fc["layerName"] = title;
-            result.showFeatureCollections([fc]);
+        query.send((features)=>{
+          
+          if(features.length > 0){
+            this.resservice.showFeatureCollections(features);
           }
           else{
             swal({ text: "No feature found"})
           }
-
           this.loader.hide()
-        }, (error) => { 
-          loader.hide()
-          console.log(error)
-        }
-      )
-    }
-  }
 
-  getQueriredFC(fc){
-    let features = fc.features;
-    let operator = this.selectedOprator;
-    let uservalue = this.enteredValue.toUpperCase();
-
-    console.log(features, operator, uservalue);
-
-    features = features.filter(f => {
-      let prop_value = f.properties[this.selectedFieldName]
-      
-      if(prop_value){
-        if(operator == "<" && !isNaN(prop_value) && !isNaN(uservalue)){
-          return Number(prop_value) < Number(uservalue) 
-        }
-        else if(operator == ">" && !isNaN(prop_value) && !isNaN(uservalue)){
-          return Number(prop_value) > Number(uservalue) 
-        }
-        else if(operator == "="){
-          return uservalue == prop_value
-        }
-        else if(operator == "<="  && !isNaN(prop_value) && !isNaN(uservalue)){
-          return prop_value <= uservalue 
-        }
-        else if(operator == ">="  && !isNaN(prop_value) && !isNaN(uservalue)){
-          return prop_value >= uservalue 
-        }
-        else if(operator == "like"){
-          let ans = new RegExp(uservalue,"g").exec(prop_value)
-          if(ans) return f
-        }
+        }, (err) => {
+          console.log(err);
+          swal({ text: "Something went wrong."})
+          this.loader.hide()
+        })
+      } catch (error) {
+        swal({ text: "Something went wrong."})
+        console.log(error);
+        this.loader.hide()
       }
 
-    })
 
-    fc.features = features;
-    return fc;   
+    }
   }
 
   Clear() {

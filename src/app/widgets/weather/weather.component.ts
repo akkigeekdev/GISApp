@@ -26,13 +26,18 @@ export class WeatherComponent implements OnInit {
   }
 
   ngAfterContentInit() {
-    setInterval(()=>{
-      this.requestWeather().subscribe(res=>{
-        this.showResult(res);
-      }, err=>{
-        console.log(err);
-      });
-    }, 5000)
+    // setInterval(()=>{
+    //   this.requestWeather().subscribe(res=>{
+    //     this.showResult(res);
+    //   }, err=>{
+    //     console.log(err);
+    //   });
+    // }, 5000)
+    this.requestWeather().subscribe(res=>{
+      this.showResult(res);
+    }, err=>{
+      console.log(err);
+    });
   }
 
   requestWeather(){

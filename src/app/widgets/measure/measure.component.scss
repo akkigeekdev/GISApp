@@ -3,7 +3,7 @@ mat-form-field{
 }
 .tooltip {
     position: relative;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(84, 167, 223, 0.801);
     border-radius: 4px;
     color: white;
     padding: 4px 8px;
@@ -15,9 +15,9 @@ mat-form-field{
     font-weight: bold;
   }
   .tooltip-static {
-    background-color: #ffcc33;
-    color: black;
-    border: 1px solid white;
+    background-color: #17e4ff;
+    color: rgb(38, 155, 87);
+    border: 1px solid rgb(15, 7, 7);
   }
   .tooltip-measure:before,
   .tooltip-static:before {

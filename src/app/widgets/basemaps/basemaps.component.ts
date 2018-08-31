@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Globals } from "../../globals";
-import BingMaps from 'ol/source/BingMaps.js';
+import BingMaps from 'ol/source/BingMaps';
 import OSM from 'ol/source/OSM';
 
 @Component({
@@ -17,7 +17,7 @@ export class BasemapsComponent implements OnInit {
     img: "osm.png",
     source: new OSM(),
     name:"OSM",
-    selected: true
+    selected: false
   };
   bingAerial = {
     img: "aerial.jpg",
@@ -26,7 +26,7 @@ export class BasemapsComponent implements OnInit {
       imagerySet: 'Aerial'
     }),
     name:"Aerial",
-    selected: false
+    selected: true
   };
   bingRoad = {
     img: "road.jpg",

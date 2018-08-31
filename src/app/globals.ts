@@ -102,7 +102,7 @@ export class FeatureQuery{
 
   wfs; 
   featureRequest;
-  filter; geometryName;  count;  bbox;
+  filter; geometryName;  count;  bbox; maxFeatures;
 
   constructor(
     public featurePrefix?: string,
@@ -125,6 +125,7 @@ export class FeatureQuery{
 
     if(this.filter)  a.filter = this.filter
     if(this.geometryName)  a.geometryName = this.geometryName
+    if(this.maxFeatures)  a.maxFeatures = this.maxFeatures
     if(this.count)  a.count = this.count
     if(this.bbox)  a.bbox = this.bbox
 

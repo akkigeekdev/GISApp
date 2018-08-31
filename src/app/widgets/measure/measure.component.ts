@@ -25,9 +25,11 @@ export class MeasureComponent implements OnInit {
   helpTooltip/* overlay */; helpTooltipElement;
   measureTooltip/* overlay */; measureTooltipElement;
 
-
-  sketch
-  listener
+  SelectedMesureType;
+  drawComplete = false;
+  totalDistance;
+  sketch;
+  listener;
   continuePolygonMsg = 'Click to continue drawing the polygon'
   continueLineMsg = 'Click to continue drawing the line'
 
@@ -50,6 +52,7 @@ export class MeasureComponent implements OnInit {
   }
   
   startDrawing(){
+    
     this.addInteraction()
     this.map.on('pointermove', this.pointerMoveHandler.bind(this));
     this.map.getViewport().addEventListener('mouseout',()=>{
@@ -62,14 +65,16 @@ export class MeasureComponent implements OnInit {
     this.map.removeEventListener('pointermove')
     this.helpTooltipElement.parentNode.removeChild(this.helpTooltipElement)
     this.measureTooltipElement.parentNode.removeChild(this.measureTooltipElement);
-    this.map.removeLayer(this.drawingLayer)
-
-    this.measures.forEach(_ => this.map.removeOverlay(_))
-
-    this.drawingLayer = null
+    this.map.removeLayer(this.drawingLayer);
+    this.measures.forEach(_ => this.map.removeOverlay(_));
+    this.drawingLayer = null;
+    this.SelectedMesureType = null;
+    this.drawComplete = false;
+    this.totalDistance = null;
   }
 
   pointerMoveHandler(evt){
+    
     if (evt.dragging) {
       return;
     }
@@ -106,7 +111,7 @@ export class MeasureComponent implements OnInit {
   }
 
   getDrawInteraction() {
-
+    
     if(!this.drawingLayer){
       this.drawingLayer = new VectorLayer({
         source: new VectorSource(),
@@ -156,6 +161,7 @@ export class MeasureComponent implements OnInit {
   }
 
   drawstart(e) {
+    
     // set sketch
     this.sketch = e.feature;
     var tooltipCoord = e.coordinate;
@@ -165,17 +171,23 @@ export class MeasureComponent implements OnInit {
       var output;
       if (geom instanceof Polygon) {
         output = this.formatArea(geom);
+        this.SelectedMesureType = "Area"
+
         tooltipCoord = geom.getInteriorPoint().getCoordinates();
       } else if (geom instanceof LineString) {
+        this.SelectedMesureType = "Length"
         output = this.formatLength(geom);
         tooltipCoord = geom.getLastCoordinate();
       }
       this.measureTooltipElement.innerHTML = output;
+      this.totalDistance = output;
+      this.drawComplete = true;
       this.measureTooltip.setPosition(tooltipCoord);
     });
   }
 
   drawend() { 
+    
     this.measureTooltipElement.className = 'tooltip tooltip-static';
     this.measureTooltip.setOffset([0, -7]);
     this.sketch = null;
@@ -185,9 +197,11 @@ export class MeasureComponent implements OnInit {
   }
 
   createHelpTooltip() {
-    if (this.helpTooltipElement) {
-      this.helpTooltipElement.parentNode.removeChild(this.helpTooltipElement);
-    }
+    
+    // if (this.helpTooltipElement) {
+    //   debugger;
+    //   this.helpTooltipElement.parentNode.removeChild(this.helpTooltipElement);
+    // }
     this.helpTooltipElement = document.createElement('div');
     this.helpTooltipElement.className = 'tooltip hidden';
     this.helpTooltip = new Overlay({
@@ -199,9 +213,11 @@ export class MeasureComponent implements OnInit {
   }
 
   createMeasureTooltip() {
-    if (this.measureTooltipElement) {
-      this.measureTooltipElement.parentNode.removeChild(this.measureTooltipElement);
-    }
+    
+    // if (this.measureTooltipElement) {
+    //   debugger;
+    //   this.measureTooltipElement.parentNode.removeChild(this.measureTooltipElement);
+    // }
     this.measureTooltipElement = document.createElement('div');
     this.measureTooltipElement.className = 'tooltip tooltip-measure';
     this.measureTooltip = new Overlay({
@@ -214,6 +230,7 @@ export class MeasureComponent implements OnInit {
   }
 
   formatLength(line) {
+    
     var length = getLength(line);
     var output;
     if (length > 100) {
@@ -227,6 +244,7 @@ export class MeasureComponent implements OnInit {
   }
 
   formatArea(polygon) {
+    
     var area = getArea(polygon);
     var output;
     if (area > 10000) {

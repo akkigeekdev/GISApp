@@ -15,11 +15,8 @@ import WMSCapabilities from 'ol/format/WMSCapabilities'
 import { HttpHeaders } from '@angular/common/http'
 import MousePosition from 'ol/control/MousePosition';
 import {createStringXY} from 'ol/coordinate';
-import WFS from 'ol/format/WFS';
-import { equalTo, bbox } from "ol/format/Filter";
-import GeoJSON from 'ol/format/GeoJSON';
-import { buffer } from "ol/extent";
-import Geometry from 'ol/geom/Geometry';
+import { equalTo, bbox } from "ol/format/filter";
+import BingMaps from 'ol/source/BingMaps';
 
 
 
@@ -88,7 +85,14 @@ export class AppComponent {
         mousePositionControl
       ]),
       layers: [
-        new Tile({ source: new OSM(), title: "Basemap", id: "0" })
+        new Tile(
+          { 
+            source: new BingMaps({
+              key: 'AjN0UtayJCMrJz9YEVutFuV1AFiDkNt9kHFTtw7gC4expbJGflke5DkefuXns7Hd',
+              imagerySet: 'Aerial'
+            }), 
+            title: "Basemap", 
+            id: "0" })
       ],
       view: new View({
         center: transform(
@@ -101,7 +105,6 @@ export class AppComponent {
     this.globals.map = this.map;
 
     this.addLayers();
-    // this.loadWidgets();
   }
 
   addLayers() {
@@ -204,8 +207,6 @@ export class AppComponent {
   }
 
   flashValve(){
-
-    
     let query = new FeatureQuery();
     query.featurePrefix = 'PFDB';
     query.featureTypes = ['VALVE'];

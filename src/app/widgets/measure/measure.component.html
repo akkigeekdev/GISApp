@@ -15,6 +15,10 @@
       <button mat-raised-button color="primary" (click)="startDrawing()">Start Drawing</button>
       <button style="margin-left: 15px;" mat-raised-button color="primary" (click)="stopDrawing()">Clear</button>
     </div>
+
+    <div *ngIf="drawComplete" style="margin-top: 10px"> 
+      {{SelectedMesureType}} : <label [innerHTML]="totalDistance"></label> 
+    </div>
     
   </mat-expansion-panel>
   
