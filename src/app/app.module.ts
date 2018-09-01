@@ -16,6 +16,7 @@ import { ToggleComponent } from './UI/toggle/toggle.component';
 import { LoaderComponent } from './UI/loader/loader.component';
 import { WeatherComponent } from './widgets/weather/weather.component';
 import { MeasureComponent } from './widgets/measure/measure.component';
+import { AttributeTableComponent } from './widgets/attribute-table/attribute-table.component';
 
 
 // services
@@ -38,8 +39,11 @@ import {
   MatDialogModule,
   MatSelectModule,
   MatInputModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MatTabsModule,
+  MatTableModule
 } from '@angular/material';
+
 
 
 
@@ -58,7 +62,8 @@ import {
     HeatmapComponent,
     WeatherComponent,
     MeasureComponent,
-    ToggleComponent
+    ToggleComponent,
+    AttributeTableComponent
   ],
   imports: [
     BrowserModule,
@@ -78,6 +83,8 @@ import {
     MatSelectModule,
     MatInputModule,
     MatTooltipModule,
+    MatTabsModule,
+    MatTableModule,
     HttpClientModule
   ],
   entryComponents: [  

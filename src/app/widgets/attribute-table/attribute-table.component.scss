@@ -1,0 +1,29 @@
+.attribute-window{
+   position: fixed;
+   width:100%;
+   bottom: 0;
+   left: 0;
+   height: 0;
+   background-color: white;
+   z-index: 2;
+   transition: height .5s 0s cubic-bezier(.1, 1.2, .3, 1);
+
+   .handle{
+        height: 12px;
+        background-color: #35669c;
+        color: white;
+        text-align: center;
+        line-height: 12px;
+        &:hover{
+            cursor: row-resize
+        }
+   }
+
+   .body{
+        width: inherit;
+       .mat-table{width:100%}
+       .mat-tab-group.mat-primary .mat-ink-bar{background-color: #35669c !important;}
+    }
+}
+
+   

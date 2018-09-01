@@ -16,9 +16,11 @@
     <div class="coordinate" id="widget-coordinate"></div>
     <app-weather></app-weather>
     <app-result-window></app-result-window>
+    <app-attribute-table></app-attribute-table>
   </mat-drawer-content>
 </mat-drawer-container>
 
 <div [class.closed]="!drawerOpenStatus" class="opener" (click)="toggleDrawer()" ></div>
 <app-loader></app-loader>
+
 

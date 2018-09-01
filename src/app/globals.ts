@@ -119,8 +119,7 @@ export class FeatureQuery{
       featureNS: featureNS,
       outputFormat: 'application/json',
       featurePrefix: this.featurePrefix,
-      featureTypes: this.featureTypes,
-      handle: "agfasdg"
+      featureTypes: this.featureTypes
     }
 
     if(this.filter)  a.filter = this.filter
@@ -185,12 +184,11 @@ export class EditFeature{
     if(this.featureType) a.featureType = this.featureType;
     if(this.srsName) a.srsName = this.srsName;
 
-    debugger
     return a
   }
 
   send(scallback, fcallback){
-    debugger
+
     fetch('http://192.168.1.14:6600/geoserver/wfs', {
       method: 'POST',
       body: new XMLSerializer().serializeToString(this.request)
@@ -205,3 +203,6 @@ export class EditFeature{
   }
 
 }
+
+
+// https://codepen.io/Akki2591/pen/gdmpYy

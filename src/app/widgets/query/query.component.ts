@@ -89,7 +89,7 @@ export class QueryComponent implements OnInit {
   }
  
   SearchFeatures() {
-debugger;
+
     if(!this.selectedLayerName)  swal({ text: "Please Select Layer"}); 
     else if(!this.selectedFieldName) swal({ text: "Please Select Attributes"}); 
     else if(!this.selectedOprator) swal({ text: "Please Select Operator"});
@@ -105,7 +105,7 @@ debugger;
         else if(this.selectedOprator == "=") query.filter = equalTo(this.selectedFieldName, this.enteredValue, false)
         else if(this.selectedOprator == "<=" ) query.filter = lessThanOrEqualTo(this.selectedFieldName, Number(this.enteredValue))
         else if(this.selectedOprator == ">=" ) query.filter = greaterThanOrEqualTo(this.selectedFieldName, Number(this.enteredValue))
-        else if(this.selectedOprator == "like") query.filter = like(this.selectedFieldName, this.enteredValue, undefined, undefined,undefined,false)
+        else if(this.selectedOprator == "like") query.filter = like(this.selectedFieldName, "%"+this.enteredValue+"%", undefined, undefined, undefined, false)
 
         this.loader.show()
 
@@ -125,7 +125,7 @@ debugger;
           this.loader.hide()
         })
       } catch (error) {
-        swal({ text: "Something went wrong."})
+        swal({ text: "check input"})
         console.log(error);
         this.loader.hide()
       }
