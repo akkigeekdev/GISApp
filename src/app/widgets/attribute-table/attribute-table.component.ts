@@ -37,13 +37,16 @@ export class AttributeTableComponent implements OnInit {
   dataSource = new MatTableDataSource(ELEMENT_DATA);
 
   isOpen = false
+  attrwindowHeight = 350;
+
   constructor() { }
 
   ngOnInit(){
     this.dataSource.sort = this.sort;
   }
-
+  
   ngAfterContentInit() {
+    this.toggleOpen()
     this.resizeHandle()
   }
 
@@ -54,18 +57,30 @@ export class AttributeTableComponent implements OnInit {
       this.control.nativeElement.style.bottom = "10px";
     }
     else{
-      this.awindow.nativeElement.style.height = "350px";
-      this.control.nativeElement.style.bottom = "360px";
+      this.awindow.nativeElement.style.height = this.attrwindowHeight + "px";
+      this.control.nativeElement.style.bottom = (this.attrwindowHeight+10) + "px";
     }
 
+    this.resizeContents()
     this.isOpen = !this.isOpen;
+  }
+
+  resizeContents(finalheight){ //patch
+    setTimeout(() => {
+      let contents = document.querySelectorAll(".attr-content");
+      contents.forEach(element => {
+        element.style.height = ((finalheight || this.attrwindowHeight )- 61) + "px"
+      });
+    }, 1000);
   }
 
   resizeHandle(){
 
     let handle = this.handle.nativeElement, 
         awindow = this.awindow.nativeElement,
-        control = this.control.nativeElement;
+        control = this.control.nativeElement,
+        finalheight = this.attrwindowHeight,
+        resizeContents = this.resizeContents.bind(this);
 
     let presentheight,clickedposition;
 
@@ -87,12 +102,13 @@ export class AttributeTableComponent implements OnInit {
       e.preventDefault();
       
       let movediff = clickedposition - e.clientY
-      let finalheight = presentheight+movediff
+      finalheight = presentheight+movediff
       
       if( finalheight >= 50 && finalheight <= 600 ){ 
         awindow.style.height = finalheight+"px" 
         control.style.bottom = (finalheight+10)+"px"
       }
+      resizeContents(finalheight)
 
     }
     function closeDragElement() {

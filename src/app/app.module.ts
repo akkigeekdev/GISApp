@@ -41,7 +41,8 @@ import {
   MatInputModule,
   MatTooltipModule,
   MatTabsModule,
-  MatTableModule
+  MatTableModule,
+  MatSortModule
 } from '@angular/material';
 
 
@@ -85,6 +86,7 @@ import {
     MatTooltipModule,
     MatTabsModule,
     MatTableModule,
+    MatSortModule,
     HttpClientModule
   ],
   entryComponents: [  

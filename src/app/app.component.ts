@@ -104,7 +104,8 @@ export class AppComponent {
     });
     this.globals.map = this.map;
 
-    this.addLayers();
+    // this.addLayers();
+    this.loadWidgets()
   }
 
   addLayers() {
