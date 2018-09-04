@@ -8,6 +8,9 @@ import { LoaderService } from "../../UI/loader/loader.component";
 import { Heatmap as HeatmapLayer } from 'ol/layer';
 import VectorSource from 'ol/source/Vector';
 import {GeoJSON} from 'ol/format';
+import Tile from 'ol/layer/Tile'
+import TileWMS from 'ol/source/TileWMS'
+import {Vector as VectorLayer} from 'ol/layer.js';
 @Component({
   selector: 'app-heatmap',
   templateUrl: './heatmap.component.html',
@@ -47,7 +50,7 @@ export class HeatmapComponent implements OnInit {
   }
   onLayerChange(e) {
     this.fields = []
-
+    this.selectedFieldName= '';
 
     // get all fields related to the selected layer 
     this.selectedLayer = this.map.getLayers().getArray().filter(l => l.get('id') == e.value)[0];
@@ -70,9 +73,7 @@ export class HeatmapComponent implements OnInit {
               }
             }
           });
-          //  console.log(fields);
-
-        }
+     }
 
       },
         (error) => { console.log(error) }
@@ -85,6 +86,9 @@ export class HeatmapComponent implements OnInit {
   }
 
   GenerateHeatMap() {
+    if(!this.selectedFieldName)     swal({ text: "Please Select Field"}); 
+    else
+  {
     this.map.getLayers().forEach(layer => {
       if (layer instanceof HeatmapLayer) {
         this.map.removeLayer(layer);
@@ -105,24 +109,38 @@ export class HeatmapComponent implements OnInit {
       blur : 60,
       radius : 30
     });
-
-    //console.log(vector);
-  
-    vector.getSource().on('addfeature', function (event) {
+ vector.getSource().on('addfeature', function (event) {
       let feature_val = event.feature.get(selectedField);
-     console.log(feature_val);
+      var magnitude = feature_val;
+      event.feature.set('weight', Math.round(feature_val * 5));
     });
-    console.log(vector.getSource().getUrl());
+    //console.log(vector.getSource().getUrl());
 
     this.map.addLayer(vector);
   }
+}
 
   Clear() {
+    this.fields = []
     this.map.getLayers().forEach(layer => {
       if (layer instanceof HeatmapLayer) {
         this.map.removeLayer(layer);
       }
     });
+  }
+
+  UpdateLayers()
+  {
+    
+    this.map.getLayers().forEach(layer => {
+      if (!((layer instanceof VectorLayer )||(layer instanceof HeatmapLayer )) && layer.get('id') != 0)  {
+        //layer.getSource().updateParams(layer.getSource().getParams());
+        var params = layer.getSource().getParams();
+        layer.getSource().updateParams(params);       
+      }
+     
+    });
+
   }
 
 }

@@ -104,8 +104,8 @@ export class AppComponent {
     });
     this.globals.map = this.map;
 
-    // this.addLayers();
-    this.loadWidgets()
+    this.addLayers();
+    // this.loadWidgets()
   }
 
   addLayers() {
@@ -168,6 +168,8 @@ export class AppComponent {
     }
 
     this.flashValve();
+
+    this.heatMapGenerate()
   }
 
   StartIdentify() {
@@ -217,6 +219,11 @@ export class AppComponent {
     }, (err) => {
       console.log(err);
     })
+
+  }
+
+
+  heatMapGenerate(){
 
   }
 }

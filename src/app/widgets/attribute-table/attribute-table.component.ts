@@ -46,7 +46,7 @@ export class AttributeTableComponent implements OnInit {
   }
   
   ngAfterContentInit() {
-    this.toggleOpen()
+    // this.toggleOpen()
     this.resizeHandle()
   }
 
@@ -61,14 +61,14 @@ export class AttributeTableComponent implements OnInit {
       this.control.nativeElement.style.bottom = (this.attrwindowHeight+10) + "px";
     }
 
-    this.resizeContents()
+    this.resizeContents(undefined)
     this.isOpen = !this.isOpen;
   }
 
   resizeContents(finalheight){ //patch
     setTimeout(() => {
-      let contents = document.querySelectorAll(".attr-content");
-      contents.forEach(element => {
+      let contents = Array.from(document.querySelectorAll(".attr-content"));
+      contents.forEach((element:any) => {
         element.style.height = ((finalheight || this.attrwindowHeight )- 61) + "px"
       });
     }, 1000);
