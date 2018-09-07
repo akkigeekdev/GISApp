@@ -1,0 +1,18 @@
+<mat-expansion-panel>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      Generate Report
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+
+  <mat-form-field>
+    <mat-select placeholder="Select Report Type" [(ngModel)]="selectedReportType" >
+      <mat-option *ngFor="let r of reportType;let i=index" [value] = "r.value">{{r.name}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div style="text-align: center">
+    <button mat-raised-button color="primary" (click)="GenerateReport()">Get Report </button>
+</div>
+
+  </mat-expansion-panel>

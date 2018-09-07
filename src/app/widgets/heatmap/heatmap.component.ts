@@ -82,8 +82,9 @@ export class HeatmapComponent implements OnInit {
   }
   onFieldChange(e) {
     let selField = <any>this.fields.filter(f => f.value == this.selectedFieldName, this) || [{}]
-    //console.log(selField);
   }
+
+
 
   GenerateHeatMap() {
     if(!this.selectedFieldName)     swal({ text: "Please Select Field"}); 
@@ -94,7 +95,7 @@ export class HeatmapComponent implements OnInit {
         this.map.removeLayer(layer);
       }
     });
-    let selectedField = this.selectedFieldName
+    let selectedField = this.selectedFieldName;
 
     let GeoJSONURL = "http://192.168.1.14:6600/geoserver/PFDB/ows?service=WFS&version=1.0.0&request=GetFeature&typeName="+this.selectedLayerName+"&outputFormat=application/json";
 
@@ -106,19 +107,19 @@ export class HeatmapComponent implements OnInit {
           })
       }),
       gradient: [ '#99ff33','#ff99cc','#cc0066','#3366ff','#cc0000'],
-      blur : 60,
-      radius : 30
+      blur : 30,
+      radius : 15
     });
  vector.getSource().on('addfeature', function (event) {
       let feature_val = event.feature.get(selectedField);
       var magnitude = feature_val;
       event.feature.set('weight', Math.round(feature_val * 5));
-    });
-    //console.log(vector.getSource().getUrl());
 
-    this.map.addLayer(vector);
+      
+    });
+      this.map.addLayer(vector);
   }
-}
+  }
 
   Clear() {
     this.fields = []
@@ -128,19 +129,4 @@ export class HeatmapComponent implements OnInit {
       }
     });
   }
-
-  UpdateLayers()
-  {
-    
-    this.map.getLayers().forEach(layer => {
-      if (!((layer instanceof VectorLayer )||(layer instanceof HeatmapLayer )) && layer.get('id') != 0)  {
-        //layer.getSource().updateParams(layer.getSource().getParams());
-        var params = layer.getSource().getParams();
-        layer.getSource().updateParams(params);       
-      }
-     
-    });
-
-  }
-
 }

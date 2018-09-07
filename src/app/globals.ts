@@ -121,7 +121,6 @@ export class FeatureQuery{
       featurePrefix: this.featurePrefix,
       featureTypes: this.featureTypes
     }
-
     if(this.filter)  a.filter = this.filter
     if(this.geometryName)  a.geometryName = this.geometryName
     if(this.maxFeatures)  a.maxFeatures = this.maxFeatures
@@ -137,9 +136,10 @@ export class FeatureQuery{
     if(!this.featureTypes) {failcallback("FeatureTypes need"); return}
 
     this.featureRequest = this.wfs.writeGetFeature(this.getWriteGetFeature())
-
+    
 
     fetch('http://192.168.1.14:6600/geoserver/wfs', {
+     
       method: 'POST',
       body: new XMLSerializer().serializeToString(this.featureRequest)
     }).then((response) => {
@@ -203,6 +203,3 @@ export class EditFeature{
   }
 
 }
-
-
-// https://codepen.io/Akki2591/pen/gdmpYy

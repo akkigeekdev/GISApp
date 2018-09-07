@@ -6,7 +6,8 @@ import { LayersComponent } from '../../widgets/layers/layers.component'
 import { MeasureComponent } from "../../widgets/measure/measure.component";
 import { PrintComponent } from "../../widgets/print/print.component";
 import { QueryComponent } from "../../widgets/query/query.component";
-
+import { ReportComponent } from "../../widgets/report/report.component"
+import { ValveManagerComponent } from "../../widgets/valve-manager/valve-manager.component"
 export class WidgetItem {
   constructor(public component: Type<any>) {}
 }
@@ -22,6 +23,9 @@ export class WidgetService {
       new WidgetItem(MeasureComponent),
       new WidgetItem(PrintComponent),
       new WidgetItem(QueryComponent),
+      new WidgetItem(ReportComponent),
+      new WidgetItem(ValveManagerComponent),
+      
     ]
   }
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit, Injectable, Output, EventEmitter, ElementRef, ViewChild } from '@angular/core';
 import { EditFeature } from "../../globals";
-
+import Chart from 'chart.js';
 export interface resultTemp{
   layerName: string,
   attributes: Array<object>,
@@ -15,13 +15,17 @@ export class ResultService {
   constructor() { }
 
   @Output() change: EventEmitter<any> = new EventEmitter();
+  @Output() showReport: EventEmitter<any> = new EventEmitter();
 
   showFeatureCollections(featureCollections){
 
     if(Array.isArray(featureCollections)){
       this.change.emit(featureCollections);
     }
-    
+  }
+
+  showReportData(reportData){
+    this.showReport.emit(reportData);
   }
 }
 
@@ -37,11 +41,17 @@ export class ResultWindowComponent implements OnInit {
   constructor(private resservice: ResultService) { }
   
   show = false;
-  
+  showTable = false;
+  showGraph =false;
   showingIndex = 0;
   showingAttributes = [];
-
+  reportType;
   results:resultTemp[] = [];
+  reportResult = ["dgasf","asghas"]; 
+  reporthead = ["adgasg","asdgsdfg"];
+  x_axis; y_axis;
+  myChart;
+  tableData;
 
   @ViewChild('resultNode') resultNode:ElementRef
   @ViewChild('resultTitleNode') resultTitleNode:ElementRef
@@ -50,11 +60,26 @@ export class ResultWindowComponent implements OnInit {
     this.resservice.change.subscribe(fcs=> {
       this.results = [];
       this.execute(fcs)
+    });
+
+    this.resservice.showReport.subscribe(data=>{
+      this.reportResult = [];
+      this.reportType ="";
+      this.showReportData(data);
     })
   }
 
   ngAfterContentInit() { 
     dragElement(this.resultNode.nativeElement, this.resultTitleNode.nativeElement)
+  }
+
+  showReportData(data){
+    this.reportResult = data.response;
+    this.reportType = data.reportType;
+    this.reporthead = Object.keys(this.reportResult[0]);
+    this.showTable = true;
+    this.showGraph =false;
+    this.show = false;
   }
 
   execute(fcs){
@@ -94,10 +119,12 @@ export class ResultWindowComponent implements OnInit {
   showresults(){
     if(this.results.length == 0 ) { this.show = false; return}
     this.show = true;
+    this.showTable = false;
+    this.showGraph =false;
   }
 
   switchStatusChanged(feature, prop, value){
-    // call loader and update feature
+  
     console.log(feature, prop, value)
     feature.set(prop, value)
 
@@ -119,12 +146,76 @@ export class ResultWindowComponent implements OnInit {
     this.show = false;
     this.showingIndex = 0;
     this.results = []
-  }
+    this.showTable = false;
+    this.showGraph =false;
+    this.reportResult =[];
+    try{
+      this.myChart.destroy();
+      }catch{
   
+      }
+  }
+
+  GenerateGraph(){
+    try{
+    this.myChart.destroy();
+    }catch{
+
+    }
+    this.showTable = false;
+    this.showGraph =true;
+    this.show =false;
+    let label_data = this.reportResult.map(res=> res[this.x_axis]);
+    let value_data = this.reportResult.map(res=> res[this.y_axis])
+    this.myChart = new Chart("myChart", {
+      type: 'bar',
+      data: {
+          labels: label_data.sort(),
+          datasets: [{
+              label: this.y_axis,
+              data: value_data,
+              backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+          }]
+      },
+      options: {
+          scales: {
+              yAxes: [{
+                  ticks: {
+                      beginAtZero:true
+                  }
+              }]
+          }
+      }
+  });
+  }
+
+  Back(){
+    try{
+      this.myChart.destroy();
+      }catch{
+  
+      }
+      this.show = false;
+      this.showTable = true;
+      this.showGraph =false;
+  }
 }
-
-
-
 
 function dragElement(boxelelmnt, elmnt) {
 
@@ -167,35 +258,3 @@ function dragElement(boxelelmnt, elmnt) {
   }
 }
 
-
-
-/*
-var formatWFS = new ol.format.WFS();
-var formatGML = new ol.format.GML({
-featureNS: 'http://geoserver.org/bftchamber',
-featureType: 'bft',
-srsName: 'EPSG:27700'
-});
-var transactWFS = function(p,f) {
-switch(p) {
-case 'insert':
-    node = formatWFS.writeTransaction([f],null,null,formatGML);
-    break;
-case 'update':
-    node = formatWFS.writeTransaction(null,[f],null,formatGML);
-    break;
-case 'delete':
-    node = formatWFS.writeTransaction(null,null,[f],formatGML);
-    break;
-}
-s = new XMLSerializer();
-str = s.serializeToString(node);
-$.ajax('http://localhost:8080/geoserver/wfs',{
-    type: 'POST',
-    dataType: 'xml',
-    processData: false,
-    contentType: 'text/xml',
-    data: str
-    }).done();
-}
-*/

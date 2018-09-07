@@ -70,9 +70,127 @@
                 td{
                     border: 1px solid #ddd;
                     padding: 8px;
+                    span{font-weight: bold}
+                    span.on{ color:green}
+                    span.off{ color: red}
                 }
             }
         }
  
+    }
+}
+.resultTable{
+    position: absolute;
+    background: white;
+    top: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 350px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px #afafaf;
+
+    &.hide{
+        display: none !important;
+    }
+
+    .title{
+     
+        background-color: #8395be;
+        color: white;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        display: flex;
+
+        .name{
+            font-size: 1.3em;
+            margin-left: 10px;
+            margin-right: 10px;
+            padding: 10px 0;
+            flex: 1;
+        }
+        .mat-icon.closer{
+            position: absolute;
+            top: -12px;
+            right: -10px;
+            cursor: pointer;
+            color: #da7575;
+            background: white;
+            border-radius: 50%;
+            
+            &:hover{
+                color: red;
+            }
+        }
+    }
+    .reportBody{
+        padding:10px;
+
+        .report-table{
+            width: 100%;
+            border-collapse: collapse;
+            font-size: .9em;
+
+            tr{
+                &:nth-child(even){background-color: #f2f2f2;}
+                &:hover {background-color: #ddd;}
+
+                td{
+                    border: 1px solid #ddd;
+                    padding: 8px;
+                    span{font-weight: bold}
+                    span.on{ color:green}
+                    span.off{ color: red}
+                }
+            }
+        }
+ 
+    }
+    
+}
+
+
+
+.resultGraph{
+    position: absolute;
+    background: white;
+    top: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 350px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px #afafaf;
+
+    &.hide{
+        display: none !important;
+    }
+
+    .title{
+     
+        background-color: #8395be;
+        color: white;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        display: flex;
+
+        .name{
+            font-size: 1.3em;
+            margin-left: 10px;
+            margin-right: 10px;
+            padding: 10px 0;
+            flex: 1;
+        }
+        .mat-icon.closer{
+            position: absolute;
+            top: -12px;
+            right: -10px;
+            cursor: pointer;
+            color: #da7575;
+            background: white;
+            border-radius: 50%;
+            
+            &:hover{
+                color: red;
+            }
+        }
     }
 }

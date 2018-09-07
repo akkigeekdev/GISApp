@@ -17,8 +17,8 @@ import MousePosition from 'ol/control/MousePosition';
 import {createStringXY} from 'ol/coordinate';
 import { equalTo, bbox } from "ol/format/filter";
 import BingMaps from 'ol/source/BingMaps';
-
-
+import { Heatmap as HeatmapLayer } from 'ol/layer';
+import {Vector as VectorLayer} from 'ol/layer.js';
 
 export interface Params {
   LAYERS: any;
@@ -53,6 +53,7 @@ export class AppComponent {
   map: any;
   drawerOpenStatus: boolean = false;
   widgets = [];
+  timer;
 
   scaleLineControl = new ScaleLine();
 
@@ -116,8 +117,10 @@ export class AppComponent {
     this.http
       .get(WMSCapabilitiesUrl, { headers: new HttpHeaders({ 'Accept': 'application/xml' }), responseType: 'text' })
       .subscribe((res: any) => {
+        //console.log(res)
 
         var result = parser.read(res);
+        
         result.Capability.Layer.Layer[0].Layer.forEach(function (layer, index) {
           layers.push({
             SourceInfo: {
@@ -157,7 +160,7 @@ export class AppComponent {
 
   }
 
-  loadWidgets(): void {
+  loadWidgets() {
     for (let i = 0; i < this.widgets.length; i++) {
       const widgetItem = this.widgets[i];
       let componentFactory = this.componentFactoryResolver.resolveComponentFactory(widgetItem.component);
@@ -166,15 +169,11 @@ export class AppComponent {
         setTimeout(function () { viewContainerRef.createComponent(componentFactory); }, 100)
       } catch (error) { }
     }
-
     this.flashValve();
-
-    this.heatMapGenerate()
+    this.UpdateLayersFrequently();
   }
 
   StartIdentify() {
-
-    // get all visible layers name
     let layernames = this.globals.getVisibleLayers().reduce((acc, l) =>{
       if(l.getSource().getParams){
         const layer = l.getSource().getParams().LAYERS
@@ -185,19 +184,14 @@ export class AppComponent {
     },[])
 
     this.map.once('singleclick',  (evt) => {
-      
       let coord = evt.coordinate
-      let box: any = [ (coord[0] - 0.0001),(coord[1] - 0.0001), (coord[0] + 0.0001), (coord[1] + 0.0001) ]
-
+      let box: any = [ (coord[0] - 0.001),(coord[1] - 0.001), (coord[0] + 0.001), (coord[1] + 0.001) ]
       let query = new FeatureQuery()
       query.featurePrefix = 'PFDB';
       query.featureTypes = layernames;
       query.geometryName = "GEOM";
       query.bbox = box;
-      
       query.send((features)=>{
-        console.log(features);
-        console.log(layernames)
         this.resservice.showFeatureCollections(features);
       }, (err) => {
         console.log(err);
@@ -223,7 +217,23 @@ export class AppComponent {
   }
 
 
-  heatMapGenerate(){
+  UpdateLayersFrequently(){
+    this.timer = setInterval(()=>{
+     
+      this.map.getLayers().forEach(layer => {
+        if (!((layer instanceof VectorLayer )||(layer instanceof HeatmapLayer )) && layer.get('id') != 0)  {
+          var params = layer.getSource().getParams();
+          layer.getSource().updateParams(params);       
+        }
 
+        if(layer instanceof VectorLayer)
+        {
+          console.log('Remove Later Succecfully');
+          this.map.removeLayer(layer);
+        }
+    });
+   
+    this.flashValve();
+    },30000);
   }
 }

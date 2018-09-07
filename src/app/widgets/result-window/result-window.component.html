@@ -1,24 +1,71 @@
 <div class="resultwindow" [class.hide]="!show" #resultNode>
   <div class="title" #resultTitleNode>
     <mat-icon class="navigation" *ngIf="showingIndex != 0" (click)="showPrevious()">arrow_left</mat-icon>
-    <span class="name" *ngIf="results.length != 0" >{{ results[showingIndex].layerName }} ( {{showingIndex+1}} of {{results.length}} )</span>
-    <mat-icon class="navigation"  *ngIf="(showingIndex != (results.length - 1)) &&( results.length != 0)" (click)="showNext()">arrow_right</mat-icon>
+    <span class="name" *ngIf="results.length != 0">{{ results[showingIndex].layerName }} ( {{showingIndex+1}} of {{results.length}} )</span>
+    <mat-icon class="navigation" *ngIf="(showingIndex != (results.length - 1)) &&( results.length != 0)" (click)="showNext()">arrow_right</mat-icon>
     <mat-icon class="closer" (click)="closeWindow($event)">cancel</mat-icon>
   </div>
 
   <div class="body">
-        <table *ngIf="results.length != 0" class="result-table">
-          <tr *ngFor="let a of results[showingIndex].attributes; let i=index;">
-            <td>{{a.column}}</td>
-            <td> 
-              <ng-container *ngIf="!a.isSwitch; else elseTemplate">
-                {{a.value}}
-              </ng-container>
-              <ng-template #elseTemplate>
-                <app-toggle (toggled)="switchStatusChanged(results[showingIndex].attributes[i].feature, results[showingIndex].attributes[i].column, $event)" mode="{{a.value}}"></app-toggle>
-              </ng-template>
-            </td>
-          </tr>
-        </table>
+    <table *ngIf="results.length != 0" class="result-table">
+      <tr *ngFor="let a of results[showingIndex].attributes; let i=index;">
+        <td>{{a.column}}</td>
+        <td>
+          <ng-container *ngIf="!a.isSwitch; else elseTemplate">
+            {{a.value}}
+          </ng-container>
+          <ng-template #elseTemplate>
+            <span [class.on]="a.value=='ON'" [class.off]="a.value=='OFF'">{{a.value}}</span>
+          </ng-template>
+        </td>
+      </tr>
+    </table>
   </div>
+</div>
+
+<div class="resultTable" [class.hide]="!showTable">
+  <div class="title">
+    <span class="name">{{reportType}}</span>
+    <mat-icon class="closer" (click)="closeWindow($event)">cancel</mat-icon>
+  </div>
+
+  <div class="reportBody">
+    <table class="report-table" *ngIf="reportResult.length != 0">
+      <tr>
+        <td *ngFor="let a of reporthead">{{a}}</td>
+      </tr>
+      <tr *ngFor="let b of reportResult">
+        <td *ngFor="let c of reporthead;">
+          {{b[c]}}
+        </td>
+      </tr>
+    </table>
+
+    <div style="text-align: center;margin-top: 15px">
+        <mat-form-field style="margin-left: 15px">
+            <mat-select placeholder="Select X Axis"  [(ngModel)]="x_axis" >
+              <mat-option *ngFor="let a of reporthead; let i=index" [value]="a"  > {{a}} </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field style="margin-left: 15px">
+              <mat-select placeholder="Select Y Axis"  [(ngModel)]="y_axis">
+                <mat-option  *ngFor="let a of reporthead; let i=index" [value]="a"> {{a}} </mat-option>
+              </mat-select>
+            </mat-form-field>
+      <button style="margin-left: 15px" mat-raised-button color="primary" (click)="GenerateGraph()">Generate Graph </button>
+    </div>
+  </div>
+</div>
+
+<div class="resultGraph" [class.hide]='!showGraph' >
+  <div class="title">
+    <span class="name">{{reportType}}</span>
+    <mat-icon class="closer" (click)="closeWindow($event)">cancel</mat-icon>
+  </div>
+  <div class="graphBody" style="padding: 25px">
+    <canvas id="myChart" width="100%" height="100%"></canvas>
+  </div>
+  <div style="text-align: center;margin-top: 15px;margin-bottom: 15px">
+      <button style="margin-left: 15px" mat-raised-button color="primary" (click)="Back()">Back To Data </button>
+    </div>
 </div>

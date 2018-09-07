@@ -2,7 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { ChartsModule } from 'ng4-charts/ng4-charts';
 // components
 import { AppComponent } from './app.component';
 import { BookmarkComponent } from './widgets/bookmark/bookmark.component';
@@ -17,14 +18,13 @@ import { LoaderComponent } from './UI/loader/loader.component';
 import { WeatherComponent } from './widgets/weather/weather.component';
 import { MeasureComponent } from './widgets/measure/measure.component';
 import { AttributeTableComponent } from './widgets/attribute-table/attribute-table.component';
-
-
+import { ValveManagerComponent } from './widgets/valve-manager/valve-manager.component';
 // services
 import { Globals } from './globals';
 import { WidgetService } from './services/widget-loader/widget.service';
 import { WidgetDirective } from './services/widget-loader/widget.directive';
 import { HttpClientModule} from "@angular/common/http";
-
+import { ReportComponent } from './widgets/report/report.component';
 // Material components
 import { 
   MatSidenavModule, 
@@ -37,16 +37,13 @@ import {
   MatDividerModule,
   MatChipsModule,
   MatDialogModule,
-  MatSelectModule,
   MatInputModule,
   MatTooltipModule,
   MatTabsModule,
   MatTableModule,
-  MatSortModule
+  MatSortModule,MatSelectModule
 } from '@angular/material';
-
-
-
+import { PlotManagerComponent } from './widgets/plot-manager/plot-manager.component';
 
 
 @NgModule({
@@ -64,7 +61,11 @@ import {
     WeatherComponent,
     MeasureComponent,
     ToggleComponent,
-    AttributeTableComponent
+    AttributeTableComponent,
+    ReportComponent,
+    ValveManagerComponent,
+    PlotManagerComponent
+    
   ],
   imports: [
     BrowserModule,
@@ -87,7 +88,9 @@ import {
     MatTabsModule,
     MatTableModule,
     MatSortModule,
-    HttpClientModule
+    HttpClientModule,
+    MatSlideToggleModule,
+    ChartsModule
   ],
   entryComponents: [  
     BookmarkComponent,
@@ -96,7 +99,9 @@ import {
     LayersComponent,
     MeasureComponent,
     PrintComponent,
-    QueryComponent
+    QueryComponent,
+    ReportComponent,
+    ValveManagerComponent
   ],
   providers: [Globals, WidgetService],
   bootstrap: [AppComponent]

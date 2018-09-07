@@ -26,31 +26,32 @@ export class WeatherComponent implements OnInit {
   }
 
   ngAfterContentInit() {
-    // setInterval(()=>{
-    //   this.requestWeather().subscribe(res=>{
-    //     this.showResult(res);
-    //   }, err=>{
-    //     console.log(err);
-    //   });
-    // }, 5000)
     this.requestWeather().subscribe(res=>{
       this.showResult(res);
     }, err=>{
       console.log(err);
     });
+    setInterval(()=>{
+      this.requestWeather().subscribe(res=>{
+        this.showResult(res);
+      }, err=>{
+        console.log(err);
+      });
+    }, 120000)
+   
   }
 
   requestWeather(){
-    return this.http.get("http://api.openweathermap.org/data/2.5/weather?lon=73.99&lat=17.61&units=metric&lang=en&mode=json&APPID=53cc7e276a8de4552433ad3a2156592d")
-    // return this.http.get("http://api.openweathermap.org/data/2.5/weather?q=dubai&units=metric&lang=en&mode=json&APPID=53cc7e276a8de4552433ad3a2156592d")
+   return this.http.get("http://192.168.1.11:7700/Service.svc/GetWeatherData");
   }
 
   showResult(result){
-    this.temp = result.main.temp;
-    this.desc = result.weather[0].description;
-    this.humidity = result.main.humidity;
-    this.wind = result.wind.speed;
-    this.icon  =result.weather[0].icon;
+    let result_row = JSON.parse(result);
+    this.temp = result_row[0].AMB_TEMP_VALUE;
+    this.desc = result_row[0].WEATHER_DESC;
+    this.humidity = result_row[0].HUMIDITY_VALUE;
+    this.wind = result_row[0].WIND_SPEED;
+    this.icon  =result_row[0].ICON;
   }
 
   closeWindow(){

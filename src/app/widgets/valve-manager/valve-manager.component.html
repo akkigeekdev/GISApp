@@ -1,0 +1,21 @@
+<mat-expansion-panel>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+    Valve Management
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+
+  
+  <table>
+    <tr style="background-color: #6c6c6c; color: white;">
+      <th>Block</th>
+      <th>Name</th>
+      <th>Status</th>
+    </tr>
+    <tr  *ngFor="let valve of valves; let i = index">
+       <td>{{valve.plot}}</td>
+       <td>{{valve.name}}</td>
+       <td><mat-slide-toggle  id = "{{valve.name}}" checked = "{{valve.selected}}" (change) = "toggle_valve($event)" ></mat-slide-toggle></td>
+    </tr>
+  </table>
+  </mat-expansion-panel>
